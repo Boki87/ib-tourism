@@ -143,7 +143,11 @@ export default function Employees({
             />
             <InputRightElement children={<BsSearch />} />
           </InputGroup>
-          <Button onClick={addNewEmployee} fontSize="2rem">
+          <Button
+            onClick={addNewEmployee}
+            isLoading={addingNewEmp}
+            fontSize="2rem"
+          >
             <VscAdd />
           </Button>
         </HStack>
@@ -198,6 +202,20 @@ export default function Employees({
         venues={venues}
         employeeUpdated={employeesUpdatedHandler}
         onClose={() => setActiveEmployee("")}
+        onDelete={async (id: string) => {
+          console.log(id);
+          const r = window.confirm("Sure you want to delete this employee??");
+          if (!r) return;
+          const { error } = await supabase
+            .from("employees")
+            .delete()
+            .match({ id });
+          if (error) {
+            window.alert("Could not delete employee. Please try again.");
+            return;
+          }
+          employeesUpdatedHandler();
+        }}
       />
     </AdminLayout>
   );

@@ -1,5 +1,5 @@
 export type Link = {
-  id: string;
+  id?: string;
   venue_id?: string;
   url?: string;
   title?: string;

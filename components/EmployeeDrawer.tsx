@@ -30,12 +30,14 @@ const EmployeeDrawer = ({
   venues,
   isOpen,
   onClose,
+  onDelete,
   employeeUpdated,
 }: {
   activeEmployeeId: string;
   venues: Venue[];
   isOpen: boolean;
   onClose: () => void;
+  onDelete: (id: string) => void;
   employeeUpdated: () => void;
 }) => {
   const user = useUser();
@@ -111,7 +113,19 @@ const EmployeeDrawer = ({
       <DrawerOverlay />
       <DrawerContent borderLeftRadius="md">
         <DrawerCloseButton onClick={onClose} />
-        <DrawerBody p="10px" pb="60px" mt="30px" overflowY="auto">
+        <Button
+          onClick={() => {
+            onDelete(activeEmployeeId);
+          }}
+          position="absolute"
+          size="sm"
+          top="8px"
+          left="8px"
+          variant="ghost"
+        >
+          <BsTrash />
+        </Button>
+        <DrawerBody p="10px" pb="60px" mt="50px" overflowY="auto">
           {isLoading ? (
             <Center mt="30px">
               <Spinner size="xl" />
