@@ -22,7 +22,6 @@ import { Owner } from "../../types/Owner";
 import AdminLayout from "../../components/AdminLayout";
 import supabase from "../../libs/supabase-browser";
 import { useUserContext } from "../../context";
-import { compressImage } from "../../libs/utils";
 
 export default function Profile({ user }: { user: Owner }) {
   const toast = useToast();
@@ -50,11 +49,8 @@ export default function Profile({ user }: { user: Owner }) {
     try {
       setUpdating(true);
 
-      // let compressedAvatar = await compressImage(avatar);
-      // avatar = compressedAvatar;
-
       let ext = avatar.name.split(".").pop();
-      let fullPath = `logos/${user.id + +new Date()}.${ext}`;
+      let fullPath = `logos/${user?.id || "" + +new Date()}.${ext}`;
       const { data, error } = await supabase.storage
         .from("public")
         .upload(fullPath, avatar, {
@@ -145,88 +141,90 @@ export default function Profile({ user }: { user: Owner }) {
   return (
     <AdminLayout>
       {updating && <Progress size="xs" isIndeterminate w="full" />}
-      <Center mb="10px" bg={bgColor} py="20px">
-        <Stack>
-          <Avatar
-            size="xl"
-            src={userProfileData?.profile_picture}
-            border="2px solid white"
-            name={userProfileData?.full_name}
-            mx="auto"
-          />
-          <Box>
-            <Button
-              as="label"
-              htmlFor="avatar_file"
-              colorScheme="blue"
-              size="sm"
-              leftIcon={<BsUpload />}
-            >
-              Upload avatar
-            </Button>
-            <input
-              onChange={handleAvatarChange}
-              type="file"
-              id="avatar_file"
-              name="avatar_file"
-              style={{ display: "none" }}
+      <Box maxW="2xl" mx="auto">
+        <Center mb="10px" bg={bgColor} py="20px">
+          <Stack>
+            <Avatar
+              size="xl"
+              src={userProfileData?.profile_picture}
+              border="2px solid white"
+              name={userProfileData?.full_name}
+              mx="auto"
             />
-          </Box>
-        </Stack>
-      </Center>
-      <Box p="20px">
-        <FormLabel>Email:</FormLabel>
-        <Text fontSize="lg" color="gray.600" mb="10px" fontWeight="bold">
-          {userProfileData?.email}
-        </Text>
-        <hr />
-        <FormControl mb="20px" mt="20px">
-          <FormLabel htmlFor="name">Full Name</FormLabel>
-          <Input
-            placeholder="Full Name"
-            variant="filled"
-            name="full_name"
-            defaultValue={userProfileData?.full_name}
-            autoComplete="off"
-            onInput={userProfileDataPropChange}
-          />
-        </FormControl>
-        <FormControl mb="20px">
-          <FormLabel htmlFor="name">New Password</FormLabel>
-          <InputGroup>
-            <Input
-              placeholder="New Password"
-              variant="filled"
-              name="new_password"
-              type={showNewPassword ? "text" : "password"}
-              value={newPassword}
-              onInput={(e: SyntheticEvent) => {
-                const input = e.target as HTMLInputElement;
-                setNewPassword(input.value);
-              }}
-            />
-            <InputRightElement width="4.5rem">
+            <Box>
               <Button
-                h="1.75rem"
-                size="sm"
-                variant="outline"
+                as="label"
+                htmlFor="avatar_file"
                 colorScheme="blue"
-                onClick={handleNewPasswordShowClick}
+                size="sm"
+                leftIcon={<BsUpload />}
               >
-                {showNewPassword ? "Hide" : "Show"}
+                Upload avatar
               </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-        <Center>
-          <Button
-            onClick={updateProfile}
-            isLoading={updating}
-            colorScheme="blue"
-          >
-            Update
-          </Button>
+              <input
+                onChange={handleAvatarChange}
+                type="file"
+                id="avatar_file"
+                name="avatar_file"
+                style={{ display: "none" }}
+              />
+            </Box>
+          </Stack>
         </Center>
+        <Box p="20px">
+          <FormLabel>Email:</FormLabel>
+          <Text fontSize="lg" color="gray.600" mb="10px" fontWeight="bold">
+            {userProfileData?.email}
+          </Text>
+          <hr />
+          <FormControl mb="20px" mt="20px">
+            <FormLabel htmlFor="name">Full Name</FormLabel>
+            <Input
+              placeholder="Full Name"
+              variant="filled"
+              name="full_name"
+              defaultValue={userProfileData?.full_name}
+              autoComplete="off"
+              onInput={userProfileDataPropChange}
+            />
+          </FormControl>
+          <FormControl mb="20px">
+            <FormLabel htmlFor="name">New Password</FormLabel>
+            <InputGroup>
+              <Input
+                placeholder="New Password"
+                variant="filled"
+                name="new_password"
+                type={showNewPassword ? "text" : "password"}
+                value={newPassword}
+                onInput={(e: SyntheticEvent) => {
+                  const input = e.target as HTMLInputElement;
+                  setNewPassword(input.value);
+                }}
+              />
+              <InputRightElement width="4.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  variant="outline"
+                  colorScheme="blue"
+                  onClick={handleNewPasswordShowClick}
+                >
+                  {showNewPassword ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+          <Center>
+            <Button
+              onClick={updateProfile}
+              isLoading={updating}
+              colorScheme="blue"
+            >
+              Update
+            </Button>
+          </Center>
+        </Box>
       </Box>
     </AdminLayout>
   );

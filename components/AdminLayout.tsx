@@ -81,6 +81,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           h="full"
           overflow="auto"
           px="20px"
+          position="relative"
         >
           <Box maxW="5xl" mx="auto" display="block" mb="160px">
             {children}
