@@ -6,7 +6,7 @@ import { supabase } from "../../libs/supabase";
 export default withIronSessionApiRoute(collectClickRoute, sessionOptions);
 
 async function collectClickRoute(req: NextApiRequest, res: NextApiResponse) {
-  const { id, venueId } = req.body;
+  const { id, venueId, nfcId } = req.body;
 
   let timeToFinish = 30 * 60 * 1000;
 
@@ -14,7 +14,7 @@ async function collectClickRoute(req: NextApiRequest, res: NextApiResponse) {
     if (+new Date() - req.session.customer < timeToFinish) {
       //if a customer is for the first time on the front page
       //give the customer 30 mins to finish the reviews
-      await addEntryToDb(id, venueId, res);
+      await addEntryToDb(id, venueId, nfcId, res);
     } else {
       //after 30 mins dont collect any more data
       //preventing so multiple reviews by the same customer
@@ -26,24 +26,30 @@ async function collectClickRoute(req: NextApiRequest, res: NextApiResponse) {
   } else {
     //if there is no customer session
     //record the link click
-    await addEntryToDb(id, venueId, res);
+    await addEntryToDb(id, venueId, nfcId, res);
   }
 }
 
-async function addEntryToDb(id: string, venueId: string, res: NextApiResponse) {
+async function addEntryToDb(
+  id: string,
+  venueId: string,
+  nfcId: string,
+  res: NextApiResponse
+) {
   console.log("add to db");
 
   //get active_employee_id that is currently handling the nfc device
   const { data: nfc, error: nfcError } = await supabase
     .from("nfcs")
-    .select("active_employee_id")
-    .match({ id: venueId })
+    .select("id, active_employee_id")
+    .match({ id: nfcId })
     .single();
-
+  console.log("nfc", nfc);
   const activeEmployeeId = nfc?.active_employee_id;
 
   //insert record into the db that a link has been visited
   const { error } = await supabase.from("venue_links_clicks").insert({
+    nfc_id: nfc?.id,
     venue_id: venueId,
     venue_link_id: id,
     active_employee_id: activeEmployeeId,
@@ -51,6 +57,6 @@ async function addEntryToDb(id: string, venueId: string, res: NextApiResponse) {
 
   res.json({
     error: false,
-    message: "Visit is noted",
+    message: "Link click is collected",
   });
 }

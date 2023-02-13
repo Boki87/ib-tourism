@@ -152,7 +152,7 @@ function prepareDeviceChartData(
 ) {
   //prepare labels for given timespan
   const { labels, labelsFormated } = generateLabels(from, to);
-  console.log(data);
+  // console.log(data);
 
   // {
   //   labels: labelsFormated,

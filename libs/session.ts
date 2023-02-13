@@ -5,7 +5,8 @@ export const sessionOptions: IronSessionOptions = {
   cookieName: "tapapp-session",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
-    maxAge: +new Date() + 60 * 1000 * 60 * 24,
+    // maxAge: 60 * 1000 * 60 * 24,
+    maxAge: 60 * 1000,
   },
 };
 

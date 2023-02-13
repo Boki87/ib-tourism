@@ -5,7 +5,7 @@ import LinkButton from "../LinkButton";
 import { useUser } from "@supabase/auth-helpers-react";
 
 export default function VenueLinks() {
-  const { links } = useVenueData();
+  const { links, nfcId } = useVenueData();
   const [goingToReview, setGoingToReview] = useState(false);
   const user = useUser();
 
@@ -20,23 +20,27 @@ export default function VenueLinks() {
       //only send request if not an admin user / owner previewing the page
       //collect the request here
       setGoingToReview(true);
-      console.log("collect data to stats");
+      console.log("collect data to stats", {
+        id: link.id,
+        venueId: link.venue_id,
+      });
       fetch(`/api/collect-link-click`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ id: link.id, venueId: link.venue_id }),
+        body: JSON.stringify({ id: link.id, venueId: link.venue_id, nfcId }),
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          console.log("link click", data);
           if (data.error) {
             //customer already gave a review
           } else {
             //customer gave a review
           }
-        });
+        })
+        .catch((error) => console.log(error));
     }
 
     //then go to the url

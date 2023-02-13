@@ -43,7 +43,7 @@ export default function VenueFrontPage({
 
   return (
     <Box w="full" h="full">
-      <VenueLanding venueData={venueData} links={links} />
+      <VenueLanding venueData={venueData} links={links} nfcId={nfcData.id} />
     </Box>
   );
 }

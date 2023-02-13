@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../libs/session";
+import { BsCheckLg } from "react-icons/bs";
 
 export default withIronSessionApiRoute(setSessionRoute, sessionOptions);
 

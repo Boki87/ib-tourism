@@ -10,6 +10,7 @@ interface IVenueLanding {
   venueData: Venue | null;
   links: Link[];
   inPreviewMode?: boolean;
+  nfcId?: string;
 }
 
 const VenueLandingContext = createContext<IVenueLanding>({
@@ -24,6 +25,7 @@ export default function VenueLanding({
   venueData,
   links,
   inPreviewMode,
+  nfcId,
 }: IVenueLanding) {
   const { setColorMode } = useColorMode();
 
@@ -34,7 +36,7 @@ export default function VenueLanding({
   return (
     <Box w="full" h="full">
       <Box maxW="3xl" mx="auto">
-        <VenueLandingContext.Provider value={{ venueData, links }}>
+        <VenueLandingContext.Provider value={{ venueData, links, nfcId }}>
           <VenueHeader />
           <VenueLinks />
           <VenueContact />
