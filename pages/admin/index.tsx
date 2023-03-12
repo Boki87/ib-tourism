@@ -11,7 +11,7 @@ import { Venue } from "../../types/Venue";
 import { Box, Select, Text, Center, Stack } from "@chakra-ui/react";
 import { SyntheticEvent } from "react";
 import { useStatsData } from "../../hooks/useStatsData";
-import VenueChart from "../../components/VenueChart";
+import BarChart from "../../components/BarChart";
 import DeviceChart from "../../components/DeviceChart";
 
 export default function AdminHome({
@@ -29,7 +29,7 @@ export default function AdminHome({
     fromTimestamp: 0,
     toTimestamp: 0,
   });
-  const { venuesStats, deviceStats, isLoading } = useStatsData(
+  const { venuesStats, deviceStats, socialStats, isLoading } = useStatsData(
     selectedVenue,
     dateRange
   );
@@ -84,10 +84,21 @@ export default function AdminHome({
         </Select>
         <Box display="flex" flexWrap="wrap" w="full" justifyContent="center">
           {venuesStats && (
-            <VenueChart data={venuesStats} isLoading={isLoading} />
+            <BarChart
+              data={venuesStats}
+              title={venues?.find((venue) => venue.id === selectedVenue)?.title}
+              isLoading={isLoading}
+            />
           )}
           {deviceStats && (
             <DeviceChart data={deviceStats} isLoading={isLoading} />
+          )}
+          {socialStats && (
+            <BarChart
+              data={socialStats}
+              title="Links Clicks"
+              isLoading={isLoading}
+            />
           )}
         </Box>
       </Box>

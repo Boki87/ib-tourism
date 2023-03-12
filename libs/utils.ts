@@ -3,6 +3,7 @@
 import { count } from "console";
 import { calcLength } from "framer-motion";
 import { getDefaultFormatCodeSettings } from "typescript";
+import { LinkClickExpanded } from "../types/LinkClick";
 import { VenueTypeExpanded } from "../types/VenueVisit";
 
 const venue_links = [
@@ -146,38 +147,26 @@ function prepareVenueChartData(
 }
 
 function prepareDeviceChartData(
-  data: VenueTypeExpanded[],
+  data: LinkClickExpanded[],
   from: number | string,
-  to: number | string
+  to: number | string,
+  type: "title" | "social" = "title"
 ) {
   //prepare labels for given timespan
   const { labels, labelsFormated } = generateLabels(from, to);
-  // console.log(data);
-
-  // {
-  //   labels: labelsFormated,
-  //   datasets: [
-  //     {
-  //       label: "Card 1",
-  //       data: [1,2,33,0,3]
-  //     },
-  //     {
-  //       label: "Card 2",
-  //       data: [1,2,33,0,3]
-  //     }
-
-  //   ]
-  // }
 
   const datasetAcc: string[] = [];
   let datasets: { label: string; data: number[]; nfc_id?: string }[] = [];
 
   data.forEach((device) => {
-    if (!datasetAcc.includes(device?.nfcs?.title || "")) {
-      datasetAcc.push(device?.nfcs?.title || "");
+    let deviceData =
+      type === "title" ? device?.nfcs.title : device?.venue_links.type;
+
+    if (!datasetAcc.includes(deviceData || "")) {
+      datasetAcc.push(deviceData || "");
       datasets.push({
         nfc_id: device?.nfc_id,
-        label: device?.nfcs?.title || "",
+        label: deviceData || "",
         data: [],
       });
     }
@@ -190,8 +179,18 @@ function prepareDeviceChartData(
         let d = new Date(click.created_at || 0);
         let clickTimestamp =
           d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        if (labelTimestamp === clickTimestamp && nfc.nfc_id === click.nfc_id) {
-          acc[i] = acc[i] + 1;
+        if (labelTimestamp === clickTimestamp) {
+          //accumulator for different devices
+          if (type === "title") {
+            if (nfc.nfc_id === click.nfc_id) {
+              acc[i] = acc[i] + 1;
+            }
+          } else {
+            //accumulator for different links
+            if (nfc.label === click.venue_links.type) {
+              acc[i] = acc[i] + 1;
+            }
+          }
         }
       });
     });
@@ -207,6 +206,8 @@ function prepareDeviceChartData(
       },
     ];
   }
+
+  console.log(labelsFormated, datasets);
 
   return {
     labels: labelsFormated,

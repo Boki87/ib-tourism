@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, createRef } from "react";
 
 interface IVenueChart {
   isLoading?: boolean;
+  title?: string;
   data: {
     labels: string[];
     datasets: {
@@ -13,7 +14,7 @@ interface IVenueChart {
   };
 }
 
-export default function VenueChart({ isLoading, data }: IVenueChart) {
+export default function BarChart({ isLoading, data, title }: IVenueChart) {
   const canvasRef = createRef<HTMLCanvasElement>();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function VenueChart({ isLoading, data }: IVenueChart) {
         display: false,
       },
       type: "bar",
+      //@ts-ignore
       data: data,
     });
     return () => chartInstance.destroy();
@@ -52,7 +54,7 @@ export default function VenueChart({ isLoading, data }: IVenueChart) {
         borderTopRadius="inherit"
         textAlign="center"
       >
-        Venue Data
+        {title}
       </Box>
       {isLoading ? (
         <Box

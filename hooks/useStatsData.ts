@@ -13,6 +13,7 @@ export function useStatsData(
 ) {
   const [venuesStats, setVenuesStats] = useState<any>();
   const [deviceStats, setDeviceStats] = useState<any>();
+  const [socialStats, setSocialStats] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
 
   async function fetchVenueStats() {
@@ -53,7 +54,15 @@ export function useStatsData(
       dateRange.to
     );
 
+    const socials = prepareDeviceChartData(
+      deviceData,
+      dateRange.from,
+      dateRange.to,
+      "social"
+    );
+
     setDeviceStats(stats);
+    setSocialStats(socials);
   }
 
   useEffect(() => {
@@ -69,6 +78,7 @@ export function useStatsData(
   return {
     venuesStats,
     deviceStats,
+    socialStats,
     isLoading,
   };
 }

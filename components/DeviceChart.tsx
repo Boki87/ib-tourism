@@ -23,6 +23,7 @@ export default function DeviceChart({ isLoading, data }: IDeviceChart) {
         display: false,
       },
       type: "line",
+      //@ts-ignore
       data: data,
     });
     return () => chartInstance.destroy();
@@ -52,7 +53,7 @@ export default function DeviceChart({ isLoading, data }: IDeviceChart) {
         borderTopRadius="inherit"
         textAlign="center"
       >
-        NFC Devices Data
+        Device Visits
       </Box>
       {isLoading ? (
         <Box
