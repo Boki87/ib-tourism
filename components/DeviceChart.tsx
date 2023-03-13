@@ -36,7 +36,7 @@ export default function DeviceChart({ isLoading, data }: IDeviceChart) {
   return (
     <Box
       m="10px"
-      minW="xs"
+      minW={["xs", "md"]}
       flex={1}
       maxW="lg"
       minH="200px"

@@ -37,7 +37,7 @@ export default function BarChart({ isLoading, data, title }: IVenueChart) {
   return (
     <Box
       m="10px"
-      minW="xs"
+      minW={["xs", "md"]}
       flex={1}
       maxW="lg"
       minH="200px"
