@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { VStack, Text, Stack } from "@chakra-ui/react";
 import { MdDashboard, MdCreditCard, MdStorefront } from "react-icons/md";
+import { TbChecklist } from "react-icons/tb";
 import { BsPeopleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 
@@ -20,6 +21,11 @@ export const navList = [
     title: "Devices",
     icon: <MdCreditCard />,
     href: "/admin/devices",
+  },
+  {
+    title: "Reviews",
+    icon: <TbChecklist />,
+    href: "/admin/reviews",
   },
   // {
   //   title: "Employees",

@@ -33,7 +33,6 @@ import EmployeeDrawer from "../../components/EmployeeDrawer";
 import { supabase } from "../../libs/supabase";
 import { BsSearch } from "react-icons/bs";
 import { VscAdd } from "react-icons/vsc";
-import { fetchVenuesForOwner } from "../../libs/api";
 
 type EmployeeExtra = {
   venues: {
