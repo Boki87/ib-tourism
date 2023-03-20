@@ -8,3 +8,20 @@ export type Nfc = {
   venue_id?: string;
   title?: string;
 };
+
+type NfcExtra = {
+  device_types?: {
+    image?: string;
+  };
+  venues?: {
+    id?: string;
+    logo?: string;
+    title?: string;
+  };
+  employees?: {
+    id?: string;
+    full_name?: string;
+  };
+};
+
+export type NfcExtended = Nfc & NfcExtra;

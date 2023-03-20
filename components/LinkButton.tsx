@@ -18,7 +18,7 @@ export default function LinkButton({
   const image = type && type.split(" ").join("-");
   const imageSrc = `/links/${image}.jpg`;
   function onClickHandler() {
-    if (!onClick) return;
+    if (!onClick || !id) return;
     onClick(id);
   }
   return (

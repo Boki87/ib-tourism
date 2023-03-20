@@ -1,8 +1,3 @@
-// import heic2any from "heic2any";
-
-import { count } from "console";
-import { calcLength } from "framer-motion";
-import { getDefaultFormatCodeSettings } from "typescript";
 import { LinkClickExpanded } from "../types/LinkClick";
 import { VenueTypeExpanded } from "../types/VenueVisit";
 
@@ -156,7 +151,12 @@ function prepareDeviceChartData(
   const { labels, labelsFormated } = generateLabels(from, to);
 
   const datasetAcc: string[] = [];
-  let datasets: { label: string; data: number[]; nfc_id?: string }[] = [];
+  let datasets: {
+    label: string;
+    data: number[];
+    nfc_id?: string;
+    total?: number;
+  }[] = [];
 
   data.forEach((device) => {
     let deviceData =
@@ -168,12 +168,14 @@ function prepareDeviceChartData(
         nfc_id: device?.nfc_id,
         label: deviceData || "",
         data: [],
+        total: 0,
       });
     }
   });
 
   datasets = datasets.map((nfc) => {
     let acc = Array(labels.length).fill(0);
+    let accTotal = 0;
     labels.forEach((labelTimestamp, i) => {
       data.forEach((click) => {
         let d = new Date(click.created_at || 0);
@@ -184,17 +186,20 @@ function prepareDeviceChartData(
           if (type === "title") {
             if (nfc.nfc_id === click.nfc_id) {
               acc[i] = acc[i] + 1;
+              accTotal += 1;
             }
           } else {
             //accumulator for different links
             if (nfc.label === click.venue_links.type) {
               acc[i] = acc[i] + 1;
+              accTotal += 1;
             }
           }
         }
       });
     });
     nfc.data = acc;
+    nfc.total = accTotal;
     return nfc;
   });
 
@@ -203,11 +208,12 @@ function prepareDeviceChartData(
       {
         label: "No Data",
         data: [],
+        total: 0,
       },
     ];
   }
 
-  console.log(labelsFormated, datasets);
+  // console.log(labelsFormated, datasets);
 
   return {
     labels: labelsFormated,
@@ -215,9 +221,12 @@ function prepareDeviceChartData(
   };
 }
 
+function prepareTableData() {}
+
 export {
   venue_links,
   prepareVenueChartData,
   prepareDeviceChartData as prepareLinkChartData,
+  prepareTableData,
   // compressImage
 };

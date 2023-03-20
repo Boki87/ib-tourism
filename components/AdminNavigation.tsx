@@ -21,11 +21,11 @@ export const navList = [
     icon: <MdCreditCard />,
     href: "/admin/devices",
   },
-  {
-    title: "Employees",
-    icon: <BsPeopleFill />,
-    href: "/admin/employees",
-  },
+  // {
+  //   title: "Employees",
+  //   icon: <BsPeopleFill />,
+  //   href: "/admin/employees",
+  // },
 ];
 
 export default function AdminNavigation({

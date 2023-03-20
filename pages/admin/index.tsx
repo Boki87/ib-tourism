@@ -13,6 +13,7 @@ import { SyntheticEvent } from "react";
 import { useStatsData } from "../../hooks/useStatsData";
 import BarChart from "../../components/BarChart";
 import DeviceChart from "../../components/DeviceChart";
+import { StatsTable } from "../../components/StatsTable";
 
 export default function AdminHome({
   user,
@@ -29,10 +30,10 @@ export default function AdminHome({
     fromTimestamp: 0,
     toTimestamp: 0,
   });
-  const { venuesStats, deviceStats, socialStats, isLoading } = useStatsData(
-    selectedVenue,
-    dateRange
-  );
+  const { venuesStats, deviceStats, socialStats, tableStats, isLoading } =
+    useStatsData(selectedVenue, dateRange);
+  // console.log(tableStats);
+  // console.log({ venuesStats, deviceStats, socialStats });
 
   if (!venues || venues.length === 0) {
     return (
@@ -82,7 +83,10 @@ export default function AdminHome({
             </option>
           ))}
         </Select>
-        <Box display="flex" flexWrap="wrap" w="full" justifyContent="center">
+        <Box>
+          <StatsTable data={tableStats} />
+        </Box>
+        {/* <Box display="flex" flexWrap="wrap" w="full" justifyContent="center">
           {venuesStats && (
             <BarChart
               data={venuesStats}
@@ -100,7 +104,7 @@ export default function AdminHome({
               isLoading={isLoading}
             />
           )}
-        </Box>
+        </Box> */}
       </Box>
     </AdminLayout>
   );

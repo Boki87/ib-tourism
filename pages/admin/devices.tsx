@@ -26,23 +26,7 @@ import { User } from "../../types/User";
 import { ImCheckboxUnchecked } from "react-icons/im";
 import { FiCheckSquare } from "react-icons/fi";
 import DeviceDrawer from "../../components/DeviceDrawer";
-
-type NfcExtra = {
-  device_types?: {
-    image?: string;
-  };
-  venues?: {
-    id?: string;
-    logo?: string;
-    title?: string;
-  };
-  employees?: {
-    id?: string;
-    full_name?: string;
-  };
-};
-
-type NfcL = Nfc & NfcExtra;
+import { NfcExtended } from "../../types/Nfc";
 
 /*
 TODO:
@@ -55,7 +39,7 @@ export default function Devices({
   venues,
 }: {
   user: Owner;
-  devices: NfcL[];
+  devices: NfcExtended[];
   venues: Venue[];
 }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,37 +53,41 @@ export default function Devices({
     setSelectedVenue(select.value);
   }
 
-  async function deviceUpdatedHandler() {
-    setIsLoading(true);
-    const { data: newDevices, error: devicesError } = await supabase
-      .from("nfcs")
-      .select(
-        "*, device_types(id, image), venues(id,title,logo), employees(id, full_name)"
-      )
-      .match({ owner_id: user.id })
-      .order("created_at");
-    if (devicesError) {
-      //show error toast
-      setIsLoading(false);
-      window.alert("Error fetching devices");
-      return;
-    }
-
-    setIsLoading(false);
-    setCachedDevices(newDevices);
-    setFilteredDevices(newDevices);
+  async function deviceUpdatedHandler(updatedDevice: NfcExtended) {
     setSelectedVenue("");
     setActiveDevice("");
+
+    setCachedDevices((old) => {
+      return old.map((d) => {
+        if (d.id === updatedDevice.id) {
+          return updatedDevice;
+        } else {
+          return d;
+        }
+      });
+    });
+    setFilteredDevices((old) => {
+      return old.map((d) => {
+        if (d.id === updatedDevice.id) {
+          return updatedDevice;
+        } else {
+          return d;
+        }
+      });
+    });
   }
 
   useEffect(() => {
     if (selectedVenue !== "") {
-      const newDevices = devices.filter((d) => d.venue_id === selectedVenue);
+      const newDevices = cachedDevices.filter(
+        (d) => d.venue_id === selectedVenue
+      );
       setFilteredDevices(newDevices);
+      // setCachedDevices(newDevices);
     } else {
-      setFilteredDevices(devices);
+      setFilteredDevices(cachedDevices);
     }
-  }, [selectedVenue, devices]);
+  }, [selectedVenue]);
 
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const hoverColor = useColorModeValue("gray.200", "gray.600");

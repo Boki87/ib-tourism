@@ -31,6 +31,7 @@ import { BsTrash } from "react-icons/bs";
 import { Nfc } from "../types/Nfc";
 import { Venue } from "../types/Venue";
 import { APP_URL } from "../libs/supabase";
+import { NfcExtended } from "../types/Nfc";
 
 const DeviceDrawer = ({
   activeDeviceId,
@@ -43,7 +44,7 @@ const DeviceDrawer = ({
   venues: Venue[];
   isOpen: boolean;
   onClose: () => void;
-  deviceUpdated: () => void;
+  deviceUpdated: (device: NfcExtended) => void;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -91,10 +92,12 @@ const DeviceDrawer = ({
           venue_id: deviceData.venue_id,
         })
         .match({ id: deviceData.id })
-        .select()
+        .select(
+          "*, device_types(id, image), venues(id,title,logo), employees(id, full_name)"
+        )
         .single();
       if (error) throw Error(error.message);
-      deviceUpdated();
+      deviceUpdated(data);
       setIsUpdating(false);
     } catch (e) {
       console.log(e);
