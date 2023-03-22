@@ -157,10 +157,11 @@ function prepareDeviceChartData(
     nfc_id?: string;
     total?: number;
   }[] = [];
-
   data.forEach((device) => {
-    let deviceData =
-      type === "title" ? device?.nfcs.title : device?.venue_links.type;
+    let deviceData = device.venue_links.type;
+    if (type === "title") {
+      deviceData = device.nfcs?.title || "";
+    }
 
     if (!datasetAcc.includes(deviceData || "")) {
       datasetAcc.push(deviceData || "");

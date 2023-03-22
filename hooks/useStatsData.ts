@@ -53,7 +53,8 @@ export function useStatsData(
     const stats = prepareDeviceChartData(
       deviceData,
       dateRange.from,
-      dateRange.to
+      dateRange.to,
+      "title"
     );
 
     const socials = prepareDeviceChartData(
