@@ -11,4 +11,8 @@ export type Venue = {
   created_at?: string;
   phone?: string;
   email?: string;
+  cta_link?: string;
+  cta_title?: string;
+  show_cta?: boolean;
+  show_review?: boolean;
 };

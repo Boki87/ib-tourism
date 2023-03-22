@@ -30,7 +30,7 @@ export const StatsTable = ({
   return (
     <Box border="1px" borderColor={borderColor} borderRadius="lg">
       <TableContainer>
-        <Table variant="simple">
+        <Table variant="simple" size={["sm", "md"]}>
           <TableCaption>
             <Box>Total venue visits to date: {data?.venue?.totalVisits}</Box>
             <Box>

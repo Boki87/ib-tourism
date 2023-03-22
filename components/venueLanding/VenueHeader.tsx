@@ -4,11 +4,14 @@ import {
   Center,
   HStack,
   Text,
-  Button,
+  Button as CButton,
   useColorMode,
 } from "@chakra-ui/react";
 import { useVenueData } from "./";
 import LogoButton from "../LogoButton";
+import Button from "../Button";
+import { BsLink45Deg } from "react-icons/bs";
+import { TbChecklist } from "react-icons/tb";
 
 export default function VenueHeader() {
   const { venueData } = useVenueData();
@@ -96,8 +99,24 @@ export default function VenueHeader() {
         </Center>
       )}
       {venueData?.description && venueData?.description !== "" && (
-        <Center mt="0px">
+        <Center mt="0px" mb="20px">
           <Text fontSize="xl">{venueData?.description}</Text>
+        </Center>
+      )}
+      {venueData?.show_cta && (
+        <Center>
+          <a href={`${venueData?.cta_link}`} target="_blank">
+            <Button size="lg" mx="auto" rightIcon={<BsLink45Deg size={25} />}>
+              {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
+            </Button>
+          </a>
+        </Center>
+      )}
+      {venueData?.show_review && (
+        <Center mt="15px">
+          <Button size="lg" rightIcon={<TbChecklist size={25} />}>
+            Take our survey
+          </Button>
         </Center>
       )}
     </Box>

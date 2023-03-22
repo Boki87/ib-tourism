@@ -84,6 +84,13 @@ export default function AdminHome({
           ))}
         </Select>
         <Box>
+          {venuesStats && (
+            <BarChart
+              data={venuesStats}
+              title={venues?.find((venue) => venue.id === selectedVenue)?.title}
+              isLoading={isLoading}
+            />
+          )}
           <StatsTable data={tableStats} />
         </Box>
         {/* <Box display="flex" flexWrap="wrap" w="full" justifyContent="center">

@@ -1,4 +1,10 @@
-import { useState, useEffect, useMemo, SyntheticEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
@@ -21,6 +27,7 @@ import {
   Textarea,
   Avatar,
   ButtonGroup,
+  Switch,
 } from "@chakra-ui/react";
 import LinkDrawer from "../../../components/LinkDrawer";
 import ChakraColorPicker from "../../../components/ChakraColorPicker";
@@ -31,6 +38,7 @@ import NewLinkButton from "../../../components/NewLinkButton";
 import LinkButton from "../../../components/LinkButton";
 import { Link } from "../../../types/Link";
 import { BsEye, BsArrowLeft } from "react-icons/bs";
+import { TbChecklist } from "react-icons/tb";
 
 export default function VenuePage({
   venue,
@@ -81,11 +89,11 @@ export default function VenuePage({
   }
 
   async function uploadLogo() {
-    if (!logoFile) return;
+    if (!logoFile || !venueData.id) return;
     try {
       setIsUploading(true);
       let ext = logoFile.name.split(".").pop();
-      let fullPath = `logos/${venueData.id + +new Date()}.${ext}`;
+      let fullPath = `logos/${venueData?.id + +new Date()}.${ext}`;
       const { data, error } = await supabase.storage
         .from("public")
         .upload(fullPath, logoFile, {
@@ -111,7 +119,7 @@ export default function VenuePage({
   }
 
   async function uploadBackground() {
-    if (!backgroundFile) return;
+    if (!backgroundFile || !venueData.id) return;
     try {
       setIsUploadingBg(true);
       let ext = backgroundFile.name.split(".").pop();
@@ -258,6 +266,7 @@ export default function VenuePage({
   }, [backgroundFile]);
 
   const borderColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
+  const bgColor = useColorModeValue("gray.50", "gray.700");
 
   return (
     <AdminLayout>
@@ -330,7 +339,7 @@ export default function VenuePage({
                 variant="filled"
               />
             </FormControl>
-            <FormControl mb={8}>
+            <FormControl mb={4}>
               <FormLabel>Email</FormLabel>
               <Input
                 name="email"
@@ -339,6 +348,65 @@ export default function VenuePage({
                 onInput={updateVenueData}
                 value={venueData.email || ""}
                 variant="filled"
+              />
+            </FormControl>
+            <FormControl
+              mb={4}
+              border="1px"
+              borderColor={borderColor}
+              bg={bgColor}
+              p={4}
+              rounded="lg"
+            >
+              <FormLabel>CTA (Call to action button)</FormLabel>
+              <Input
+                placeholder="CTA Title"
+                value={venueData.cta_title || ""}
+                onInput={updateVenueData}
+                variant="filled"
+                name="cta_title"
+                type="text"
+                mb="2"
+              />
+              <Input
+                placeholder="https://some-important-link.com"
+                value={venueData.cta_link || ""}
+                onInput={updateVenueData}
+                variant="filled"
+                name="cta_link"
+                type="text"
+              />
+              <br />
+              <HStack mt="10px">
+                <FormLabel htmlFor="show_cta" m="0px">
+                  Show CTA
+                </FormLabel>
+                <Switch
+                  name="show_cta"
+                  id="show_cta"
+                  isChecked={venueData.show_cta}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    let val = !!e.target.checked;
+                    setVenueData((old) => {
+                      return { ...old, show_cta: val };
+                    });
+                  }}
+                />
+              </HStack>
+            </FormControl>
+            <FormControl display="flex" alignItems="center" mb={8}>
+              <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
+                <TbChecklist size="25px" style={{ marginRight: "8px" }} />
+                Show Survey
+              </FormLabel>
+              <Switch
+                isChecked={venueData.show_review}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  let val = !!e.target.checked;
+                  setVenueData((old) => {
+                    return { ...old, show_review: val };
+                  });
+                }}
               />
             </FormControl>
             <HStack alignItems="center" mb={8} flexWrap="wrap" gap="10px">

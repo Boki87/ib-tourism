@@ -23,7 +23,7 @@ export const navList = [
     href: "/admin/devices",
   },
   {
-    title: "Reviews",
+    title: "Surveys",
     icon: <TbChecklist />,
     href: "/admin/reviews",
   },

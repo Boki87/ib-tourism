@@ -36,10 +36,9 @@ export default function BarChart({ isLoading, data, title }: IVenueChart) {
   const color = useColorModeValue("gray.600", "gray.200");
   return (
     <Box
-      m="10px"
-      minW={["xs", "md"]}
+      mb="20px"
+      w="full"
       flex={1}
-      maxW="lg"
       minH="200px"
       borderRadius="lg"
       border="1px"
