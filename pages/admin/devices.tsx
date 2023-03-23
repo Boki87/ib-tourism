@@ -112,8 +112,8 @@ export default function Devices({
               <Tr>
                 <Th></Th>
                 <Th>Title</Th>
-                <Th>Belongs to</Th>
-                <Th>Current employee</Th>
+                <Th>Venue</Th>
+                {/* <Th>Current employee</Th> */}
                 <Th>Is Active</Th>
               </Tr>
             </Thead>
@@ -131,16 +131,19 @@ export default function Devices({
                 >
                   <Td minW="100px">
                     {device.device_types?.image && (
-                      <Image src={device.device_types?.image} />
+                      <Image
+                        src={device.device_types?.image}
+                        style={{ height: "40px", width: "auto" }}
+                      />
                     )}
                   </Td>
                   <Td>{device.title}</Td>
                   <Td>{device.venues?.title}</Td>
-                  <Td>
+                  {/* <Td>
                     {device.employees?.full_name
                       ? device.employees?.full_name
                       : "No user"}
-                  </Td>
+                  </Td> */}
                   <Td>
                     <Center>
                       {device.is_active ? (

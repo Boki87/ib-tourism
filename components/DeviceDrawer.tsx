@@ -32,6 +32,7 @@ import { Nfc } from "../types/Nfc";
 import { Venue } from "../types/Venue";
 import { APP_URL } from "../libs/supabase";
 import { NfcExtended } from "../types/Nfc";
+import { FaLink } from "react-icons/fa";
 
 const DeviceDrawer = ({
   activeDeviceId,
@@ -164,14 +165,14 @@ const DeviceDrawer = ({
                 />
               </FormControl>
               <Box>
-                <CLink
-                  textDecor="underline"
-                  color="blue.500"
+                <Button
+                  as="a"
                   href={`${APP_URL}/d/${deviceData?.id}`}
                   target="_blank"
+                  rightIcon={<FaLink />}
                 >
                   VIEW URL
-                </CLink>
+                </Button>
               </Box>
               <Center>
                 <Button isLoading={isUpdating} colorScheme="blue" type="submit">
