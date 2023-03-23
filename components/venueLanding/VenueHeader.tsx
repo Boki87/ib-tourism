@@ -115,7 +115,9 @@ export default function VenueHeader() {
             href={`${venueData?.cta_link}`}
             target="_blank"
           >
-            {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
+            <span style={{ fontFamily: "Secular One" }}>
+              {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
+            </span>
           </Button>
         </Center>
       )}
@@ -128,7 +130,7 @@ export default function VenueHeader() {
             size="lg"
             rightIcon={<TbChecklist size={25} />}
           >
-            TAKE OUR SURVEY
+            <span style={{ fontFamily: "Secular One" }}>TAKE OUR SURVEY</span>
           </Button>
         </Center>
       )}

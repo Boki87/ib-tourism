@@ -43,7 +43,7 @@ export default function VenueContact() {
           textTransform="uppercase"
           rightIcon={<BsSave />}
         >
-          Save to contacts
+          <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
         </Button>
       </Center>
       {venueData?.email && venueData?.email !== "" && (
