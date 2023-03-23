@@ -104,7 +104,7 @@ export default function VenueHeader() {
         </Center>
       )}
       {venueData?.show_cta && (
-        <Center>
+        <Center px="20px">
           <Button
             as="a"
             w="full"
@@ -122,7 +122,7 @@ export default function VenueHeader() {
         </Center>
       )}
       {venueData?.show_review && (
-        <Center mt="15px">
+        <Center mt="15px" px="20px">
           <Button
             onClick={() => setIsReviewModalOpen(true)}
             w="full"
