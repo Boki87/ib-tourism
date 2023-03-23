@@ -157,6 +157,7 @@ function prepareDeviceChartData(
     nfc_id?: string;
     total?: number;
   }[] = [];
+
   data.forEach((device) => {
     let deviceData = device.venue_links.type;
     if (type === "title") {

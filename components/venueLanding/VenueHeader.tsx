@@ -14,7 +14,7 @@ import { BsLink45Deg } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
 
 export default function VenueHeader() {
-  const { venueData } = useVenueData();
+  const { venueData, setIsReviewModalOpen } = useVenueData();
   return (
     <Box>
       <Box
@@ -114,7 +114,11 @@ export default function VenueHeader() {
       )}
       {venueData?.show_review && (
         <Center mt="15px">
-          <Button size="lg" rightIcon={<TbChecklist size={25} />}>
+          <Button
+            onClick={() => setIsReviewModalOpen(true)}
+            size="lg"
+            rightIcon={<TbChecklist size={25} />}
+          >
             Take our survey
           </Button>
         </Center>
