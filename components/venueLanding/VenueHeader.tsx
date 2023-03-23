@@ -105,17 +105,26 @@ export default function VenueHeader() {
       )}
       {venueData?.show_cta && (
         <Center>
-          <a href={`${venueData?.cta_link}`} target="_blank">
-            <Button size="lg" mx="auto" rightIcon={<BsLink45Deg size={25} />}>
-              {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
-            </Button>
-          </a>
+          <Button
+            as="a"
+            w="full"
+            maxW="sm"
+            size="lg"
+            mx="auto"
+            rightIcon={<BsLink45Deg size={25} />}
+            href={`${venueData?.cta_link}`}
+            target="_blank"
+          >
+            {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
+          </Button>
         </Center>
       )}
       {venueData?.show_review && (
         <Center mt="15px">
           <Button
             onClick={() => setIsReviewModalOpen(true)}
+            w="full"
+            maxW="sm"
             size="lg"
             rightIcon={<TbChecklist size={25} />}
           >

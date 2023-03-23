@@ -38,6 +38,8 @@ export default function VenueContact() {
         <Button
           onClick={saveToContacts}
           size="lg"
+          w="full"
+          maxW="sm"
           textTransform="uppercase"
           rightIcon={<BsSave />}
         >
@@ -47,12 +49,12 @@ export default function VenueContact() {
       {venueData?.email && venueData?.email !== "" && (
         <HStack
           w="full"
+          maxW="sm"
           h="40px"
           bg="gray.200"
           borderRadius="md"
           pl="10px"
           mb="10px"
-          maxW="md"
           mx="auto"
         >
           <Text isTruncated color="gray.700">
@@ -69,11 +71,11 @@ export default function VenueContact() {
       {venueData?.phone && venueData?.phone !== "" && (
         <HStack
           w="full"
+          maxW="sm"
           h="40px"
           bg="gray.200"
           borderRadius="md"
           pl="10px"
-          maxW="md"
           mx="auto"
         >
           <Text isTruncated color="gray.700">
