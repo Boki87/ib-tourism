@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormHelperText,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useVenueData } from ".";
@@ -29,6 +30,7 @@ type ReviewTemplateWithVal = ReviewTemplate & { val: number };
 export function ReviewModal() {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
   const { isReviewModalOpen, setIsReviewModalOpen, venueData } = useVenueData();
 
@@ -38,14 +40,19 @@ export function ReviewModal() {
   const { user } = useUserContext();
 
   async function fetchQuestions() {
+    setIsFetching(true);
     const { data, error } = await supabase
       .from("review_templates")
       .select()
       .match({ venue_id: venueData?.id });
 
-    if (!data || error) return;
+    if (!data || error) {
+      setIsFetching(false);
+      return;
+    }
     //@ts-ignore
     setQuestions(data.map((d) => ({ ...d, val: 1 })));
+    setIsFetching(false);
   }
 
   async function updateRating(id: string, val: number) {
@@ -129,6 +136,7 @@ export function ReviewModal() {
       fetchQuestions();
     } else {
       setIsLoading(false);
+      setIsFetching(false);
     }
   }, [isReviewModalOpen]);
 
@@ -141,40 +149,50 @@ export function ReviewModal() {
       <ModalContent>
         <ModalHeader>Survey</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6} overflow="auto" px={3}>
-          {questions
-            .sort((a, b) => a.order_index - b.order_index)
-            .map((q) => {
-              if (q.is_active)
-                return (
-                  <Box key={q.id} mb="10px">
-                    <Text mb="5px">{q.question}</Text>
-                    <StarRating
-                      maxValue={q.rating_limit}
-                      value={q.val}
-                      onChange={(val: number) => updateRating(q.id || "", val)}
-                      showRatingNumber
-                    />
-                  </Box>
-                );
-            })}
-          <FormControl>
-            <FormLabel>Email (Optional)</FormLabel>
-            <Input
-              value={email}
-              onInput={(e: SyntheticEvent) => {
-                const input = e.target as HTMLInputElement;
-                setEmail(input.value);
-              }}
-              placeholder="youremail@emial.com"
-            />
-            <FormHelperText>
-              By providing your email in the form above you agree to our terms
-              and conditions
-            </FormHelperText>
-          </FormControl>
-        </ModalBody>
-
+        {!isFetching && (
+          <ModalBody pb={6} overflow="auto" px={3}>
+            {questions
+              .sort((a, b) => a.order_index - b.order_index)
+              .map((q) => {
+                if (q.is_active)
+                  return (
+                    <Box key={q.id} mb="10px">
+                      <Text mb="5px">{q.question}</Text>
+                      <StarRating
+                        maxValue={q.rating_limit}
+                        value={q.val}
+                        onChange={(val: number) =>
+                          updateRating(q.id || "", val)
+                        }
+                        showRatingNumber
+                      />
+                    </Box>
+                  );
+              })}
+            <FormControl>
+              <FormLabel>Email (Optional)</FormLabel>
+              <Input
+                value={email}
+                onInput={(e: SyntheticEvent) => {
+                  const input = e.target as HTMLInputElement;
+                  setEmail(input.value);
+                }}
+                placeholder="youremail@emial.com"
+              />
+              <FormHelperText>
+                By providing your email in the form above you agree to our terms
+                and conditions
+              </FormHelperText>
+            </FormControl>
+          </ModalBody>
+        )}
+        {isFetching && (
+          <ModalBody>
+            <Center>
+              <Spinner size="xl" />
+            </Center>
+          </ModalBody>
+        )}
         <ModalFooter>
           <Center w="full">
             <Button
