@@ -128,7 +128,7 @@ export default function VenueHeader() {
             size="lg"
             rightIcon={<TbChecklist size={25} />}
           >
-            Take our survey
+            TAKE OUR SURVEY
           </Button>
         </Center>
       )}
