@@ -11,8 +11,8 @@ async function collectVenueVisit(req: NextApiRequest, res: NextApiResponse) {
   if (!req.session.customer) {
     recordVenueVisit(nfcId, res);
   } else {
-    // const oneDayTimespan = 60 * 1000 * 60 * 24
-    const oneDayTimespan = 60 * 1000;
+    const oneDayTimespan = 60 * 1000 * 60 * 24;
+    // const oneDayTimespan = 60 * 1000;
 
     if (+new Date() - req.session.customer > oneDayTimespan) {
       req.session.destroy();

@@ -177,7 +177,7 @@ export function ReviewModal() {
                   const input = e.target as HTMLInputElement;
                   setEmail(input.value);
                 }}
-                placeholder="youremail@emial.com"
+                placeholder="youremail@email.com"
               />
               <FormHelperText>
                 By providing your email in the form above you agree to our terms
