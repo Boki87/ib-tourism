@@ -26,6 +26,12 @@ export default function BarChart({ isLoading, data, title }: IVenueChart) {
       type: "bar",
       //@ts-ignore
       data: data,
+      options: {
+        animation: {
+          // duration: 0,
+          delay: 500,
+        },
+      },
     });
     return () => chartInstance.destroy();
   }, [canvasRef]);

@@ -7,14 +7,15 @@ import {
 } from "react";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { Box, Button, Select } from "@chakra-ui/react";
+import { Box, Button, HStack, Select } from "@chakra-ui/react";
 import AdminLayout from "../../components/AdminLayout";
 import { Owner } from "../../types/Owner";
 import { Venue } from "../../types/Venue";
 import { ReviewTemplate } from "../../types/ReviewTemplate";
 import ReviewTemplatesList from "../../components/ReviewTemplatesList";
 import { supabase } from "../../libs/supabase";
-import { useUserContext } from "../../context";
+import { FaChartLine } from "react-icons/fa";
+import { ReviewsStatsModal } from "../../components/ReviewsStatsModal";
 
 const ReviewsContext = createContext<{
   reviewTemplates: ReviewTemplate[];
@@ -37,6 +38,7 @@ export default function Reviews({
   venues: Venue[];
   reviewTemplates: ReviewTemplate[];
 }) {
+  const [isReviewsStatsModalOpen, setIsReviewsStatsModalOpen] = useState(false);
   const [selectedVenue, setSelectedVenue] = useState(venues[0].id || "");
   const [reviewTemplates, setReviewTemplates] = useState(reviewTemplatesDb);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +57,7 @@ export default function Reviews({
       .order("order_index", { ascending: true });
     if (error) return;
     console.log(error, data);
+    //@ts-ignore
     setReviewTemplates(data);
   }
 
@@ -86,7 +89,7 @@ export default function Reviews({
       return;
     }
     console.log(data);
-    setReviewTemplates((old) => {
+    setReviewTemplates((old: any) => {
       return [...old, data].sort((a, b) => {
         return a.order_index - b.order_index;
       });
@@ -105,16 +108,16 @@ export default function Reviews({
 
     if (!data || error) return;
     console.log(data);
-    setReviewTemplates((old) => {
+    setReviewTemplates((old: any) => {
       return old
-        .map((r) => {
+        .map((r: any) => {
           if (r.id === data.id) {
             return data;
           } else {
             return r;
           }
         })
-        .sort((a, b) => {
+        .sort((a: any, b: any) => {
           return a.order_index - b.order_index;
         });
     });
@@ -160,15 +163,28 @@ export default function Reviews({
             ))}
           </Select>
           <ReviewTemplatesList />
-          <Button
-            onClick={newQuestionTemplateHandler}
-            colorScheme="blue"
-            w="full"
-          >
-            ADD NEW QUESTION
-          </Button>
+          <HStack>
+            <Button
+              onClick={newQuestionTemplateHandler}
+              colorScheme="blue"
+              w="full"
+            >
+              ADD NEW QUESTION
+            </Button>
+            <Button
+              onClick={() => setIsReviewsStatsModalOpen(true)}
+              rightIcon={<FaChartLine />}
+            >
+              Stats
+            </Button>
+          </HStack>
         </Box>
       </ReviewsContext.Provider>
+      <ReviewsStatsModal
+        isOpen={isReviewsStatsModalOpen}
+        venueId={selectedVenue}
+        onClose={() => setIsReviewsStatsModalOpen(false)}
+      />
     </AdminLayout>
   );
 }
@@ -224,6 +240,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         .match({ owner_id: data.session.user.id, venue_id: venues[0]?.id })
         .order("order_index", { ascending: true });
     if (!reviewTemplatesError && reviewTemplates) {
+      //@ts-ignore
       props.reviewTemplates = reviewTemplates;
     }
   }

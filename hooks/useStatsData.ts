@@ -7,6 +7,7 @@ import {
   prepareVenueChartData,
 } from "../libs/utils";
 import { venue_links } from "../libs/utils";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export function useStatsData(
   venueId?: string,
@@ -31,6 +32,7 @@ export function useStatsData(
     if (venueError) return;
 
     const stats = prepareVenueChartData(
+      //@ts-ignore
       venuesData,
       dateRange?.from,
       dateRange?.to
@@ -51,6 +53,7 @@ export function useStatsData(
     if (linkError) return;
 
     const stats = prepareDeviceChartData(
+      //@ts-ignore
       deviceData,
       dateRange.from,
       dateRange.to,
@@ -58,6 +61,7 @@ export function useStatsData(
     );
 
     const socials = prepareDeviceChartData(
+      //@ts-ignore
       deviceData,
       dateRange.from,
       dateRange.to,
