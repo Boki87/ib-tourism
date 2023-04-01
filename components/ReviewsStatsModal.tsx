@@ -114,7 +114,7 @@ export function ReviewsStatsModal({
                   <Text fontSize="xl">{review.title}</Text>
                   <Spacer />
                   <Text fontSize="xl" fontWeight="bold">
-                    {roundHalf(review.sum / review.count)}
+                    ({review.count}) {roundHalf(review.sum / review.count)}
                   </Text>
                   <FaStar color="orange" size="2rem" />
                 </HStack>
