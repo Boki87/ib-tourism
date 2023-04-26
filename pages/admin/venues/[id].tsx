@@ -241,11 +241,16 @@ export default function VenuePage({
     if (!r) return;
 
     try {
+      const { error: linksClickError } = await supabase
+        .from("venue_links_clicks")
+        .delete()
+        .match({ venue_link_id: id });
+      if (linksClickError) throw Error(linksClickError.message);
+
       const { error } = await supabase
         .from("venue_links")
         .delete()
         .match({ id });
-
       if (error) throw Error(error.message);
 
       const newLinks = links.filter((link) => link.id !== id);
