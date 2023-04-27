@@ -32,7 +32,9 @@ export default function VenueHeader() {
           h="50px"
           px="10px"
         >
-          <LogoButton />
+          <a href="https://tapapp-supabase.vercel.app/">
+            <LogoButton />
+          </a>
         </HStack>
 
         {venueData?.background_image && (
