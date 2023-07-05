@@ -1,3 +1,5 @@
+import { ExternalOffer } from "./ExternalOffer";
+
 export type Venue = {
   id?: string;
   owner_id?: string;
@@ -15,4 +17,5 @@ export type Venue = {
   cta_title?: string;
   show_cta?: boolean;
   show_review?: boolean;
+  externalOffers?: ExternalOffer[];
 };
