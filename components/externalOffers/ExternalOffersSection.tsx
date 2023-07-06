@@ -41,6 +41,12 @@ export default function ExternalOffersSection({
     }
   }
 
+  async function deleteOfferHandler(id: string) {
+    setOffers((prev) => {
+      return prev.filter((offer) => offer.id !== id);
+    });
+  }
+
   return (
     <Box w="full" my={3}>
       <HStack justifyContent="end">
@@ -53,15 +59,17 @@ export default function ExternalOffersSection({
         </Button>
       </HStack>
       <VStack my={3}>
-        {offers.length > 0 ? (
+        {offers.length > 0 && (
           <Text fontWeight="bold" fontSize="lg" color="gray.600">
             Your External Offers
           </Text>
-        ) : (
-          <Text>No Offers</Text>
         )}
         {offers.map((offer) => (
-          <ExternalOfferCard offerData={offer} key={offer.id} />
+          <ExternalOfferCard
+            offerData={offer}
+            onDelete={deleteOfferHandler}
+            key={offer.id}
+          />
         ))}
       </VStack>
     </Box>
