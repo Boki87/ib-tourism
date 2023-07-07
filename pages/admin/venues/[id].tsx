@@ -41,6 +41,7 @@ import { BsEye, BsArrowLeft } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
 import ExternalOffersSection from "../../../components/externalOffers/ExternalOffersSection";
 import { ExternalOffer } from "../../../types/ExternalOffer";
+import { FaClipboard } from "react-icons/fa";
 
 export default function VenuePage({
   venue,

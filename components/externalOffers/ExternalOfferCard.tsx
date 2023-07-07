@@ -9,9 +9,18 @@ import {
   Switch,
   Image,
   useColorModeValue,
+  Text,
+  Spacer,
 } from "@chakra-ui/react";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { FaSave, FaTrash, FaUpload } from "react-icons/fa";
+import {
+  FaChevronDown,
+  FaExpand,
+  FaSave,
+  FaTrash,
+  FaUpload,
+} from "react-icons/fa";
+import { FiMinimize2 } from "react-icons/fi";
 import supabase from "../../libs/supabase-browser";
 import { ExternalOffer } from "../../types/ExternalOffer";
 
@@ -26,6 +35,7 @@ export default function ExternalOfferCard({
   offerData,
   onDelete,
 }: ExternalOfferProps) {
+  const [isExpanded, setIsExpanded] = useState(true);
   const [offer, setOffer] = useState(() => offerData);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -64,7 +74,6 @@ export default function ExternalOfferCard({
     try {
       setIsUploading(true);
       await Promise.all(imageUploads);
-      console.log(newUploadedFiles);
       setOffer((prev) => {
         return {
           ...prev,
@@ -93,7 +102,6 @@ export default function ExternalOfferCard({
         .upload(fullPath, file, {
           upsert: true,
         });
-      console.log(data, error);
       const { data: readData } = await supabase.storage
         .from("public")
         .getPublicUrl(fullPath);
@@ -113,6 +121,7 @@ export default function ExternalOfferCard({
         ...offer,
         images: offer.images?.filter((img) => img !== image),
       };
+      console.log(111, data, deleteError);
       setOffer(newOffer);
       const { error } = await supabase
         .from("external_offers")
@@ -156,133 +165,168 @@ export default function ExternalOfferCard({
   }
 
   return (
-    <Box
-      w="full"
-      my={2}
-      bg={bg}
-      p={4}
-      border="1px"
-      borderColor={border}
-      rounded="md"
-    >
-      <Box>
-        {offer.images && offer.images.length > 0 && (
-          <HStack h="100px" w="full" overflowY="hidden" overflowX="auto" mb={3}>
-            <HStack h="full">
-              {offer.images?.map((image) => (
-                <Box
-                  key={image}
-                  w="177px"
-                  h="full"
-                  position="relative"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <Button
-                    rounded="full"
-                    size="sm"
-                    w="30px"
-                    h="30px"
-                    position="absolute"
-                    top="2px"
-                    right="2px"
-                    colorScheme="red"
-                    onClick={() => deleteImageHandler(image)}
-                  >
-                    <FaTrash />
-                  </Button>
-                  <Image
-                    src={image}
-                    objectFit="cover"
-                    minW="100%"
-                    minH="100%"
-                  />
-                </Box>
-              ))}
-            </HStack>
-          </HStack>
-        )}
-        <HStack justifyContent="flex-end">
-          <Button
-            as="label"
-            htmlFor={`image_upload_input-${offer.id}`}
-            rightIcon={<FaUpload />}
-            isLoading={isUploading}
-            isDisabled={offer.images?.length == MAX_IMAGES}
-          >
-            Upload images {offer.images?.length || 0} / {MAX_IMAGES}{" "}
-          </Button>
-        </HStack>
-        <input
-          onChange={imageSelectHandler}
-          type="file"
-          style={{ display: "none" }}
-          id={`image_upload_input-${offer.id}`}
-          multiple
-          accept="image/*"
-        />
-      </Box>
-
-      <FormControl mb={2}>
-        <FormLabel>Offer title</FormLabel>
-        <Input
-          variant="filled"
-          placeholder="i.e. Taxi Service"
-          value={offer.title}
-          required
-          name="title"
-          onInput={updateOfferStateHandler}
-        />
-      </FormControl>
-      <FormControl mb={2}>
-        <FormLabel>Website</FormLabel>
-        <Input
-          variant="filled"
-          placeholder="i.e. Taxi Services Website"
-          value={offer.url || ""}
-          name="url"
-          onInput={updateOfferStateHandler}
-        />
-      </FormControl>
-      <FormControl mb={2}>
-        <FormLabel>Phone</FormLabel>
-        <Input
-          variant="filled"
-          placeholder="i.e. Taxi Services Phone"
-          value={offer.phone || ""}
-          name="phone"
-          onInput={updateOfferStateHandler}
-        />
-      </FormControl>
-      <FormControl mb={2} display="flex" alignItems="center" gap={2}>
-        <FormLabel m={0}>Is live</FormLabel>
-        <Switch
-          isChecked={offer.is_live}
-          onChange={(e: SyntheticEvent) => {
-            const switchEl = e.target as HTMLInputElement;
-            setOffer((prev) => {
-              return {
-                ...prev,
-                is_live: switchEl.checked,
-              };
-            });
-          }}
-        />
-      </FormControl>
-      <Center>
-        <Button
-          onClick={saveChangesHandler}
-          type="submit"
-          rightIcon={<FaSave />}
-          isLoading={isUpdating}
+    <>
+      {isExpanded ? (
+        <Box
+          w="full"
+          my={2}
+          bg={bg}
+          p={4}
+          pt={14}
+          border="1px"
+          borderColor={border}
+          rounded="md"
+          position="relative"
         >
-          Save Changes
-        </Button>
-        <Button onClick={deleteOfferHandler} colorScheme="red" ml={2}>
-          <FaTrash />
-        </Button>
-      </Center>
-    </Box>
+          <Box>
+            {offer.images && offer.images.length > 0 && (
+              <HStack h="100px" w="full" overflowY="hidden" overflowX="auto">
+                <HStack h="full">
+                  {offer.images?.map((image) => (
+                    <Box
+                      key={image}
+                      w="177px"
+                      h="full"
+                      position="relative"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Button
+                        rounded="full"
+                        size="sm"
+                        w="30px"
+                        h="30px"
+                        position="absolute"
+                        top="2px"
+                        right="2px"
+                        colorScheme="red"
+                        onClick={() => deleteImageHandler(image)}
+                      >
+                        <FaTrash />
+                      </Button>
+                      <Image
+                        src={image}
+                        objectFit="cover"
+                        minW="100%"
+                        minH="100%"
+                      />
+                    </Box>
+                  ))}
+                </HStack>
+              </HStack>
+            )}
+            <HStack justifyContent="flex-end" mt={3}>
+              <Button
+                as="label"
+                htmlFor={`image_upload_input-${offer.id}`}
+                rightIcon={<FaUpload />}
+                isLoading={isUploading}
+                isDisabled={offer.images?.length == MAX_IMAGES}
+              >
+                Upload images {offer.images?.length || 0} / {MAX_IMAGES}{" "}
+              </Button>
+            </HStack>
+            <input
+              onChange={imageSelectHandler}
+              type="file"
+              style={{ display: "none" }}
+              id={`image_upload_input-${offer.id}`}
+              multiple
+              accept="image/*"
+            />
+          </Box>
+
+          <FormControl mb={2}>
+            <FormLabel>Offer title</FormLabel>
+            <Input
+              variant="filled"
+              placeholder="i.e. Taxi Service"
+              value={offer.title}
+              required
+              name="title"
+              onInput={updateOfferStateHandler}
+            />
+          </FormControl>
+          <FormControl mb={2}>
+            <FormLabel>Website</FormLabel>
+            <Input
+              variant="filled"
+              placeholder="i.e. Taxi Services Website"
+              value={offer.url || ""}
+              name="url"
+              onInput={updateOfferStateHandler}
+            />
+          </FormControl>
+          <FormControl mb={2}>
+            <FormLabel>Phone</FormLabel>
+            <Input
+              variant="filled"
+              placeholder="i.e. Taxi Services Phone"
+              value={offer.phone || ""}
+              name="phone"
+              onInput={updateOfferStateHandler}
+            />
+          </FormControl>
+          <FormControl mb={2} display="flex" alignItems="center" gap={2}>
+            <FormLabel m={0}>Is live</FormLabel>
+            <Switch
+              isChecked={offer.is_live}
+              onChange={(e: SyntheticEvent) => {
+                const switchEl = e.target as HTMLInputElement;
+                setOffer((prev) => {
+                  return {
+                    ...prev,
+                    is_live: switchEl.checked,
+                  };
+                });
+              }}
+            />
+          </FormControl>
+          <Center>
+            <Button
+              onClick={saveChangesHandler}
+              type="submit"
+              rightIcon={<FaSave />}
+              isLoading={isUpdating}
+            >
+              Save Changes
+            </Button>
+            <Button onClick={deleteOfferHandler} colorScheme="red" ml={2}>
+              <FaTrash />
+            </Button>
+          </Center>
+          <Button
+            onClick={() => setIsExpanded(false)}
+            position="absolute"
+            top={4}
+            right={4}
+          >
+            <FiMinimize2 />
+          </Button>
+        </Box>
+      ) : (
+        <HStack
+          w="full"
+          my={2}
+          bg={bg}
+          p={4}
+          border="1px"
+          borderColor={border}
+          rounded="md"
+        >
+          <Text fontWeight="bold">{offer.title}</Text>
+          <Spacer />
+          <HStack>
+            <Button onClick={deleteOfferHandler} colorScheme="red" ml={2}>
+              <FaTrash />
+            </Button>
+            <Button onClick={() => setIsExpanded(true)}>
+              <FaExpand />
+            </Button>
+          </HStack>
+        </HStack>
+      )}
+    </>
   );
 }

@@ -6,17 +6,20 @@ import VenueLanding from "../../components/venueLanding";
 import { Venue } from "../../types/Venue";
 import { Link } from "../../types/Link";
 import { Nfc } from "../../types/Nfc";
+import { ExternalOffer } from "../../types/ExternalOffer";
 
 interface IVenueLanding {
   venueData: Venue;
   nfcData: Nfc;
   links: Link[];
+  externalOffers: ExternalOffer[];
 }
 
 export default function VenueFrontPage({
   venueData,
   nfcData,
   links,
+  externalOffers,
 }: IVenueLanding) {
   if (!venueData) {
     return <Box>Error</Box>;
@@ -43,7 +46,12 @@ export default function VenueFrontPage({
 
   return (
     <Box w="full" h="full">
-      <VenueLanding venueData={venueData} links={links} nfcId={nfcData.id} />
+      <VenueLanding
+        venueData={venueData}
+        links={links}
+        externalOffers={externalOffers}
+        nfcId={nfcData.id}
+      />
     </Box>
   );
 }
@@ -52,12 +60,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx);
   const { id } = ctx.query;
 
-  const props: { venueData: Venue | null; nfcData: Nfc | null; links: Link[] } =
-    {
-      venueData: null,
-      nfcData: null,
-      links: [],
-    };
+  const props: {
+    venueData: Venue | null;
+    nfcData: Nfc | null;
+    links: Link[];
+    externalOffers: Partial<ExternalOffer>[];
+  } = {
+    venueData: null,
+    nfcData: null,
+    links: [],
+    externalOffers: [],
+  };
 
   const { data: nfcData, error: nfcError } = await supabase
     .from("nfcs")
@@ -65,7 +78,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .match({ id })
     .single();
 
-  const venueId = nfcData.venue_id;
+  const venueId = nfcData?.venue_id;
 
   if (!nfcError) {
     props.nfcData = nfcData;
@@ -92,6 +105,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     props.links = links;
   }
 
+  const { data: externalOffers, error: externalOffersError } = await supabase
+    .from("external_offers")
+    .select()
+    .order("order_index", { ascending: true })
+    .match({ venue_id: venueData?.id });
+
+  if (!externalOffersError) {
+    props.externalOffers = externalOffers;
+  }
   return {
     props,
   };

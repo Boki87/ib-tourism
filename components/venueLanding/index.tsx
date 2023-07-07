@@ -6,10 +6,13 @@ import VenueHeader from "./VenueHeader";
 import VenueLinks from "./VenueLinks";
 import VenueContact from "./VenueContact";
 import { ReviewModal } from "./ReviewModal";
+import { ExternalOffer } from "../../types/ExternalOffer";
+import VenueExternalOffers from "./VenueExternalOffers";
 
 interface IVenueLanding {
   venueData: Venue | null;
   links: Link[];
+  externalOffers: ExternalOffer[];
   inPreviewMode?: boolean;
   nfcId?: string;
 }
@@ -22,6 +25,7 @@ const VenueLandingContext = createContext<
 >({
   venueData: null,
   links: [],
+  externalOffers: [],
   inPreviewMode: false,
   isReviewModalOpen: false,
   setIsReviewModalOpen: () => {},
@@ -32,6 +36,7 @@ export const useVenueData = () => useContext(VenueLandingContext);
 export default function VenueLanding({
   venueData,
   links,
+  externalOffers,
   inPreviewMode,
   nfcId,
 }: IVenueLanding) {
@@ -52,10 +57,12 @@ export default function VenueLanding({
             links,
             nfcId,
             isReviewModalOpen,
+            externalOffers,
             setIsReviewModalOpen,
           }}
         >
           <VenueHeader />
+          <VenueExternalOffers />
           <VenueLinks />
           <VenueContact />
           <ReviewModal />
