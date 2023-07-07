@@ -39,13 +39,18 @@ import LinkButton from "../../../components/LinkButton";
 import { Link } from "../../../types/Link";
 import { BsEye, BsArrowLeft } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
+import ExternalOffersSection from "../../../components/externalOffers/ExternalOffersSection";
+import { ExternalOffer } from "../../../types/ExternalOffer";
+import { FaClipboard } from "react-icons/fa";
 
 export default function VenuePage({
   venue,
   links: serverLinks,
+  externalOffers,
 }: {
   venue: Venue;
   links: Link[];
+  externalOffers: ExternalOffer[];
 }) {
   const [links, setLinks] = useState(serverLinks);
   const [venueData, setVenueData] = useState(venue);
@@ -399,6 +404,10 @@ export default function VenuePage({
                 />
               </HStack>
             </FormControl>
+            <ExternalOffersSection
+              offers={externalOffers}
+              venueId={venue.id || "0"}
+            />
             <FormControl display="flex" alignItems="center" mb={8}>
               <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
                 <TbChecklist size="25px" style={{ marginRight: "8px" }} />
@@ -642,10 +651,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .order("order_index", { ascending: true })
     .match({ venue_id: venueData.id });
 
+  const { data: externalOffers, error: externalOffersError } = await supabase
+    .from("external_offers")
+    .select()
+    .order("order_index", { ascending: true })
+    .match({ venue_id: venueData.id });
+
   return {
     props: {
       venue: venueData,
       links,
+      externalOffers,
     },
   };
 };

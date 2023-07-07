@@ -1,5 +1,6 @@
 {
-    "editor.fontSize": 14,
-    "window.zoomLevel": 0.5,
-    "cmake.configureOnOpen": false
+  "editor.fontSize": 14,
+  "window.zoomLevel": 0.5,
+  "cmake.configureOnOpen": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
