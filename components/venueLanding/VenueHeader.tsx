@@ -101,8 +101,8 @@ export default function VenueHeader() {
         </Center>
       )}
       {venueData?.description && venueData?.description !== "" && (
-        <Center mt="0px" mb="20px">
-          <Text fontSize="xl" p={4}>
+        <Center mt="0px" mb="20px" textAlign="center">
+          <Text fontSize="xl" p={4} textAlign="center">
             {venueData?.description}
           </Text>
         </Center>
