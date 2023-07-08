@@ -102,7 +102,9 @@ export default function VenueHeader() {
       )}
       {venueData?.description && venueData?.description !== "" && (
         <Center mt="0px" mb="20px">
-          <Text fontSize="xl">{venueData?.description}</Text>
+          <Text fontSize="xl" p={4}>
+            {venueData?.description}
+          </Text>
         </Center>
       )}
       {venueData?.show_cta && (
