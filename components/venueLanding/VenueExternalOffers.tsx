@@ -41,6 +41,7 @@ export function VenueOfferCard({ offer }: { offer: ExternalOffer }) {
       bg={bgColor}
       p={4}
       my={4}
+      textAlign="center"
     >
       <Text textAlign="center" fontWeight="bold" fontSize="2xl">
         {offer.title}
