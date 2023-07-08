@@ -8,6 +8,7 @@ import {
   Link,
   Spacer,
   ButtonGroup,
+  Center,
 } from "@chakra-ui/react";
 import { FaLink, FaPhoneAlt, FaViber, FaWhatsapp } from "react-icons/fa";
 import { useVenueData } from ".";
@@ -44,7 +45,27 @@ export function VenueOfferCard({ offer }: { offer: ExternalOffer }) {
       <Text textAlign="center" fontWeight="bold" fontSize="2xl">
         {offer.title}
       </Text>
-      {offer.images && offer.images.length > 0 && (
+      {offer.images && offer.images.length === 1 && (
+        <Center my={4}>
+          <Box
+            w="265px"
+            h="full"
+            position="relative"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            scrollSnapAlign="center"
+          >
+            <Image
+              src={offer.images[0]}
+              objectFit="cover"
+              minW="100%"
+              minH="100%"
+            />
+          </Box>
+        </Center>
+      )}
+      {offer.images && offer.images.length > 1 && (
         <HStack
           h="150px"
           w="full"
