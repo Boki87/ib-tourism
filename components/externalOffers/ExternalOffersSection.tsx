@@ -19,7 +19,7 @@ export default function ExternalOffersSection({
   const [isAdding, setIsAdding] = useState(false);
 
   async function addExternalOffer() {
-    if (offers.length === 3) return;
+    if (offers.length === 6) return;
     try {
       setIsAdding(true);
       const { data, error } = await supabase
@@ -55,7 +55,7 @@ export default function ExternalOffersSection({
           onClick={addExternalOffer}
           rightIcon={<FaPlus />}
           isLoading={isAdding}
-          isDisabled={offers.length >= 3}
+          isDisabled={offers.length >= 6}
         >
           Add External Offer
         </Button>
