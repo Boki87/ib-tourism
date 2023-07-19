@@ -61,7 +61,7 @@ export default function VenueLinks() {
               return res.json();
             })
             .then((data) => {
-              console.log(data);
+              // console.log(data);
             });
         }
       } else if (visibility === "visible") {

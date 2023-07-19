@@ -62,11 +62,9 @@ export default function VenueContact() {
 
     if (venueData?.logo) {
       const imageBase64 = await getBase64FromImageUrl(venueData.logo);
-      // console.log(imageBase64);
-      myVCard.addPhoto(imageBase64, "JPEG");
-      // myVCard.addLogo(venueData.logo);
+      console.log(imageBase64);
+      myVCard.addPhoto(imageBase64.split("base64,")[1], "JPEG");
     }
-    // console.log(myVCard.toString());
     const blob = new Blob([myVCard.toString()], { type: "text/vcard" });
     const elem = window.document.createElement("a");
     elem.href = window.URL.createObjectURL(blob);
