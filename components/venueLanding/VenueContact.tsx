@@ -174,7 +174,7 @@ export default function VenueContact() {
           </HStack>
         </>
       )}
-      <FooterSocials />
+      {/* <FooterSocials /> */}
     </Box>
   );
 }
