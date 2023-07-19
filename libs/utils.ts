@@ -26,6 +26,10 @@ const venue_links = [
     name: "yelp",
     icon: "/links/yelp.jpg",
   },
+  {
+    name: "custom",
+    icon: "/links/custom.jpg",
+  },
 ];
 
 // function compressImage(imageData: File): Promise<File> {

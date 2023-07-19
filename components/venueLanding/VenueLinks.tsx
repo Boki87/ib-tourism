@@ -88,6 +88,7 @@ export default function VenueLinks() {
               type={link.type}
               isActive={!!link?.is_active}
               key={link.id}
+              title={link.title}
               buttonSize={120}
               m="8px"
             />
