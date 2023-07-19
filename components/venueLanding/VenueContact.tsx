@@ -11,7 +11,7 @@ import { useVenueData } from "./";
 import { BsEnvelope, BsSave, BsTelephone } from "react-icons/bs";
 import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
-import { FaViber, FaWhatsapp } from "react-icons/fa";
+import { FaLink, FaViber, FaWhatsapp } from "react-icons/fa";
 
 export default function VenueContact() {
   const { venueData, links, nfcId } = useVenueData();
@@ -29,6 +29,10 @@ export default function VenueContact() {
     }
 
     myVCard.addJobtitle(venueData?.description ?? "");
+
+    if (venueData?.website) {
+      myVCard.addSocial(venueData?.website, "website");
+    }
 
     const cardLink =
       process.env.NODE_ENV === "development"
@@ -65,6 +69,7 @@ export default function VenueContact() {
       console.log(imageBase64);
       myVCard.addPhoto(imageBase64.split("base64,")[1], "JPEG");
     }
+
     const blob = new Blob([myVCard.toString()], { type: "text/vcard" });
     const elem = window.document.createElement("a");
     elem.href = window.URL.createObjectURL(blob);
@@ -88,6 +93,35 @@ export default function VenueContact() {
           <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
         </Button>
       </Center>
+      {venueData?.website && venueData?.website !== "" && (
+        <HStack
+          w="full"
+          maxW="sm"
+          h="40px"
+          bg="gray.200"
+          borderRadius="md"
+          pl="10px"
+          mb={3}
+          mx="auto"
+        >
+          <Text isTruncated color="gray.700">
+            {venueData?.website}
+          </Text>
+          <Spacer />
+          <a
+            href={`${
+              venueData?.website.startsWith("http")
+                ? venueData?.website
+                : "https://" + venueData?.website
+            }`}
+            target="_blank"
+          >
+            <CButton colorScheme="blackAlpha">
+              <FaLink />
+            </CButton>
+          </a>
+        </HStack>
+      )}
       {venueData?.email && venueData?.email !== "" && (
         <HStack
           w="full"
