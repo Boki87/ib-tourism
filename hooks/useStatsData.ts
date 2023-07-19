@@ -7,7 +7,6 @@ import {
   prepareVenueChartData,
 } from "../libs/utils";
 import { venue_links } from "../libs/utils";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export function useStatsData(
   venueId?: string,

@@ -32,8 +32,7 @@ export default function AdminHome({
   });
   const { venuesStats, deviceStats, socialStats, tableStats, isLoading } =
     useStatsData(selectedVenue, dateRange);
-  // console.log(tableStats);
-  // console.log({ venuesStats, deviceStats, socialStats });
+  // console.log({ venuesStats });
 
   if (!venues || venues.length === 0) {
     return (
