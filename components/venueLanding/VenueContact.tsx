@@ -13,8 +13,8 @@ import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
 import { FaLink, FaViber, FaWhatsapp } from "react-icons/fa";
 
-export default function VenueContact() {
-  const { venueData, links, nfcId } = useVenueData();
+export default function VenueContact({ nfcId }: { nfcId: string }) {
+  const { venueData, links } = useVenueData();
 
   async function saveToContacts() {
     const myVCard = new VCard();
@@ -34,10 +34,18 @@ export default function VenueContact() {
       myVCard.addSocial(venueData?.website, "website");
     }
 
-    const cardLink =
+    let cardLink =
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/d/${nfcId}`
-        : `${process.env.NEXT_PUBLIC_VERCEL_URL}/d/${nfcId}`;
+        : `https://tapapp-supabase.vercel.app/d/${nfcId}`;
+
+    if (!nfcId) {
+      cardLink =
+        process.env.NODE_ENV === "development"
+          ? `http://localhost:3000/venue/${venueData?.id}`
+          : `https://tapapp-supabase.vercel.app/venue/${venueData?.id}`;
+    }
+
     myVCard.addURL(cardLink);
 
     links.forEach((link) => {

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Box } from "@chakra-ui/react";

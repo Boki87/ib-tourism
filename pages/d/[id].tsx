@@ -21,7 +21,7 @@ export default function VenueFrontPage({
   links,
   externalOffers,
 }: IVenueLanding) {
-  if (!venueData) {
+  if (!venueData || !nfcData) {
     return <Box>Error</Box>;
   }
 

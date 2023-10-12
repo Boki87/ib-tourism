@@ -43,7 +43,6 @@ export default function VenueLanding({
   const { setColorMode } = useColorMode();
 
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-
   useEffect(() => {
     if (!venueData?.default_theme) return;
     setColorMode(venueData?.default_theme);
@@ -64,7 +63,7 @@ export default function VenueLanding({
           <VenueHeader />
           <VenueExternalOffers />
           <VenueLinks />
-          <VenueContact />
+          <VenueContact nfcId={nfcId || ""} />
           <ReviewModal />
         </VenueLandingContext.Provider>
       </Box>
