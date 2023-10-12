@@ -27,6 +27,10 @@ const venue_links = [
     icon: "/links/yelp.jpg",
   },
   {
+    name: "youtube",
+    icon: "/links/youtube.jpg",
+  },
+  {
     name: "custom",
     icon: "/links/custom.jpg",
   },

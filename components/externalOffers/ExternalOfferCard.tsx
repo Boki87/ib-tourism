@@ -121,7 +121,6 @@ export default function ExternalOfferCard({
         ...offer,
         images: offer.images?.filter((img) => img !== image),
       };
-      console.log(111, data, deleteError);
       setOffer(newOffer);
       const { error } = await supabase
         .from("external_offers")

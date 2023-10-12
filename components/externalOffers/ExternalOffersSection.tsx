@@ -31,7 +31,6 @@ export default function ExternalOffersSection({
         .select()
         .single();
       if (error) throw Error(error.message);
-      console.log(data);
       //@ts-ignore
       const newOffers: ExternalOffer[] = [...offers, data];
       setOffers(newOffers);

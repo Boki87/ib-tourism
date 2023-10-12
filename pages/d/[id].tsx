@@ -79,7 +79,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .single();
 
   const venueId = nfcData?.venue_id;
-
   if (!nfcError) {
     props.nfcData = nfcData;
   } else {

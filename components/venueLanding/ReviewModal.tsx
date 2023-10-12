@@ -95,7 +95,6 @@ export function ReviewModal() {
         body: JSON.stringify(reqBody),
       });
       res = await res.json();
-      console.log(reqBody, res);
       //@ts-ignore
       if (res.error) {
         //@ts-ignore

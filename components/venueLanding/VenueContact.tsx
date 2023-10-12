@@ -66,7 +66,6 @@ export default function VenueContact() {
 
     if (venueData?.logo) {
       const imageBase64 = await getBase64FromImageUrl(venueData.logo);
-      console.log(imageBase64);
       myVCard.addPhoto(imageBase64.split("base64,")[1], "JPEG");
     }
 
