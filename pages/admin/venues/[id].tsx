@@ -28,6 +28,7 @@ import {
   Avatar,
   ButtonGroup,
   Switch,
+  border,
 } from "@chakra-ui/react";
 import LinkDrawer from "../../../components/LinkDrawer";
 import ChakraColorPicker from "../../../components/ChakraColorPicker";
@@ -42,6 +43,7 @@ import { TbChecklist } from "react-icons/tb";
 import ExternalOffersSection from "../../../components/externalOffers/ExternalOffersSection";
 import { ExternalOffer } from "../../../types/ExternalOffer";
 import { FaClipboard } from "react-icons/fa";
+import ServicesSection from "../../../components/services/ServicesSection";
 
 export default function VenuePage({
   venue,
@@ -305,124 +307,10 @@ export default function VenuePage({
         gap="10px"
       >
         <Stack flex="1" minW="200px">
+          <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={5}>
+            Main Info
+          </Text>
           <form onSubmit={venueDataSubmitHandler}>
-            <FormControl isRequired mb={4}>
-              <FormLabel>Title</FormLabel>
-              <Input
-                name="title"
-                type="text"
-                placeholder="My Venue Title"
-                onInput={updateVenueData}
-                value={venueData.title || ""}
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl mb={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                name="description"
-                placeholder=""
-                value={venueData.description || ""}
-                onChange={updateVenueData}
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl mb={4}>
-              <FormLabel>Phone</FormLabel>
-              <Input
-                name="phone"
-                type="text"
-                placeholder="000 000 000"
-                onInput={updateVenueData}
-                value={venueData.phone || ""}
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl mb={4}>
-              <FormLabel>Website</FormLabel>
-              <Input
-                name="website"
-                type="text"
-                placeholder="www.venuewebsite.com"
-                onInput={updateVenueData}
-                value={venueData.website || ""}
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl mb={4}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                name="email"
-                type="text"
-                placeholder="venue@email.com"
-                onInput={updateVenueData}
-                value={venueData.email || ""}
-                variant="filled"
-              />
-            </FormControl>
-            <FormControl
-              mb={4}
-              border="1px"
-              borderColor={borderColor}
-              bg={bgColor}
-              p={4}
-              rounded="lg"
-            >
-              <FormLabel>CTA (Call to action button)</FormLabel>
-              <Input
-                placeholder="CTA Title"
-                value={venueData.cta_title || ""}
-                onInput={updateVenueData}
-                variant="filled"
-                name="cta_title"
-                type="text"
-                mb="2"
-              />
-              <Input
-                placeholder="https://some-important-link.com"
-                value={venueData.cta_link || ""}
-                onInput={updateVenueData}
-                variant="filled"
-                name="cta_link"
-                type="text"
-              />
-              <br />
-              <HStack mt="10px">
-                <FormLabel htmlFor="show_cta" m="0px">
-                  Show CTA
-                </FormLabel>
-                <Switch
-                  name="show_cta"
-                  id="show_cta"
-                  isChecked={venueData.show_cta}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    let val = !!e.target.checked;
-                    setVenueData((old) => {
-                      return { ...old, show_cta: val };
-                    });
-                  }}
-                />
-              </HStack>
-            </FormControl>
-            <ExternalOffersSection
-              offers={externalOffers}
-              venueId={venue.id || "0"}
-            />
-            <FormControl display="flex" alignItems="center" mb={8}>
-              <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
-                <TbChecklist size="25px" style={{ marginRight: "8px" }} />
-                Show Survey
-              </FormLabel>
-              <Switch
-                isChecked={venueData.show_review}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  let val = !!e.target.checked;
-                  setVenueData((old) => {
-                    return { ...old, show_review: val };
-                  });
-                }}
-              />
-            </FormControl>
             <HStack alignItems="center" mb={8} flexWrap="wrap" gap="10px">
               <Stack minW="200px" flex={1} alignItems="center">
                 <Avatar src={logoImage} name={venue.title} size="2xl" />
@@ -541,6 +429,119 @@ export default function VenuePage({
                 </HStack>
               </VStack>
             </HStack>
+            <FormControl isRequired mb={4}>
+              <FormLabel>Title</FormLabel>
+              <Input
+                name="title"
+                type="text"
+                placeholder="My Venue Title"
+                onInput={updateVenueData}
+                value={venueData.title || ""}
+                variant="filled"
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                name="description"
+                placeholder=""
+                value={venueData.description || ""}
+                onChange={updateVenueData}
+                variant="filled"
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Phone</FormLabel>
+              <Input
+                name="phone"
+                type="text"
+                placeholder="000 000 000"
+                onInput={updateVenueData}
+                value={venueData.phone || ""}
+                variant="filled"
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Website</FormLabel>
+              <Input
+                name="website"
+                type="text"
+                placeholder="www.venuewebsite.com"
+                onInput={updateVenueData}
+                value={venueData.website || ""}
+                variant="filled"
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                name="email"
+                type="text"
+                placeholder="venue@email.com"
+                onInput={updateVenueData}
+                value={venueData.email || ""}
+                variant="filled"
+              />
+            </FormControl>
+            <FormControl
+              mb={4}
+              border="1px"
+              borderColor={borderColor}
+              bg={bgColor}
+              p={4}
+              rounded="lg"
+            >
+              <FormLabel>CTA (Call to action button)</FormLabel>
+              <Input
+                placeholder="CTA Title"
+                value={venueData.cta_title || ""}
+                onInput={updateVenueData}
+                variant="filled"
+                name="cta_title"
+                type="text"
+                mb="2"
+              />
+              <Input
+                placeholder="https://some-important-link.com"
+                value={venueData.cta_link || ""}
+                onInput={updateVenueData}
+                variant="filled"
+                name="cta_link"
+                type="text"
+              />
+              <br />
+              <HStack mt="10px">
+                <FormLabel htmlFor="show_cta" m="0px">
+                  Show CTA
+                </FormLabel>
+                <Switch
+                  name="show_cta"
+                  id="show_cta"
+                  isChecked={venueData.show_cta}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    let val = !!e.target.checked;
+                    setVenueData((old) => {
+                      return { ...old, show_cta: val };
+                    });
+                  }}
+                />
+              </HStack>
+            </FormControl>
+            <FormControl display="flex" alignItems="center" mb={8}>
+              <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
+                <TbChecklist size="25px" style={{ marginRight: "8px" }} />
+                Show Survey
+              </FormLabel>
+              <Switch
+                isChecked={venueData.show_review}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  let val = !!e.target.checked;
+                  setVenueData((old) => {
+                    return { ...old, show_review: val };
+                  });
+                }}
+              />
+            </FormControl>
             <Box textAlign="center">
               <ButtonGroup isAttached>
                 <Button
@@ -557,32 +558,43 @@ export default function VenuePage({
                     router.push(`/venue/${venueData.id}`);
                   }}
                 >
-                  <BsEye />
+                  Preview
+                  <BsEye style={{ marginLeft: "10px" }} />
                 </Button>
               </ButtonGroup>
             </Box>
           </form>
         </Stack>
       </Stack>
-      <Text as="h2" fontSize="xl" fontWeight="bold">
-        Your links for {venueData.title}
-      </Text>
-      <Text fontSize="sm" mb="20px">
-        Click on one below to edit its content
-      </Text>
-      <Box display="flex" flexWrap="wrap" gap="8px">
-        {links.map((link: any) => {
-          return (
-            <LinkButton
-              onClick={openLinkHandler}
-              isActive={link.is_active}
-              id={link.id}
-              type={link.type}
-              key={link.id}
-            />
-          );
-        })}
-        <NewLinkButton onSelect={addLink} />
+
+      <ServicesSection venueId={venueData.id || "0"} />
+
+      <Box
+        borderColor={borderColor}
+        borderWidth={1}
+        padding={4}
+        borderRadius="md"
+      >
+        <Text as="h2" fontSize="xl" fontWeight="bold">
+          Your links for {venueData.title}
+        </Text>
+        <Text fontSize="sm" mb="20px">
+          Click on one below to edit its content
+        </Text>
+        <Box display="flex" flexWrap="wrap" gap="8px">
+          {links.map((link: any) => {
+            return (
+              <LinkButton
+                onClick={openLinkHandler}
+                isActive={link.is_active}
+                id={link.id}
+                type={link.type}
+                key={link.id}
+              />
+            );
+          })}
+          <NewLinkButton onSelect={addLink} />
+        </Box>
       </Box>
       <LinkDrawer
         activeLinkId={activeLinkId}

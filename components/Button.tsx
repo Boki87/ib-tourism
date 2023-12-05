@@ -9,11 +9,10 @@ interface IButton {
 export default function Button({ children, ...rest }: IButton) {
   return (
     <ChakraButton
-      bgGradient="linear(to-r, teal.400, green.500)"
-      _hover={{ bgGradient: "linear(to-l, teal.400, green.500)" }}
+      bg="#176FF2"
+      _hover={{ filter: "brightness(90%)" }}
       _active={{
-        bgGradient: "linear(to-l, teal.400, green.500)",
-        filter: "brightness(90%)",
+        filter: "brightness(85%)",
       }}
       color="white"
       {...rest}

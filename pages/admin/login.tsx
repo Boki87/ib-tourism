@@ -17,6 +17,7 @@ import {
 import Button from "../../components/Button";
 import LogoLgDark from "../../public/images/logo-lg-dark.png";
 import LogoLgLight from "../../public/images/logo-lg-light.png";
+import Logo from "../../public/images/logo.svg";
 import Image from "next/image";
 import { useUserContext } from "../../context";
 
@@ -91,8 +92,8 @@ export default function AdminLogin() {
 
   const bgCard = useColorModeValue("white", "gray.700");
   const bg = useColorModeValue("gray.100", "gray.900");
-  const logo = useColorModeValue(LogoLgDark, LogoLgLight);
-
+  // const logo = useColorModeValue(LogoLgDark, LogoLgLight);
+  const logo = Logo;
   return (
     <Box
       w="full"
@@ -103,8 +104,8 @@ export default function AdminLogin() {
       bg={bg}
     >
       <Box w="400px" p={5} shadow="xs" bg={bgCard} borderRadius="md">
-        <Box>
-          <Image src={logo} alt="brand logo" />
+        <Box textAlign="center" display="flex" justifyContent="center">
+          <Image src={logo} width={150} height={logo.height} alt="brand logo" />
         </Box>
         <form onSubmit={submitHandler}>
           <FormControl isRequired mb={4}>
