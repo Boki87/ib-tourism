@@ -52,12 +52,12 @@ export default function Profile({ user }: { user: Owner }) {
       let ext = avatar.name.split(".").pop();
       let fullPath = `logos/${user?.id || "" + +new Date()}.${ext}`;
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .upload(fullPath, avatar, {
           upsert: true,
         });
       const { data: readData } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .getPublicUrl(fullPath);
 
       if (readData) {

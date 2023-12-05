@@ -100,12 +100,12 @@ export default function VenuePage({
       let ext = logoFile.name.split(".").pop();
       let fullPath = `logos/${venueData?.id + +new Date()}.${ext}`;
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .upload(fullPath, logoFile, {
           upsert: true,
         });
       const { data: readData } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .getPublicUrl(fullPath);
       if (readData) {
         setLogoUrl(readData.publicUrl);
@@ -130,12 +130,12 @@ export default function VenuePage({
       let ext = backgroundFile.name.split(".").pop();
       let fullPath = `backgrounds/${venueData.id + +new Date()}.${ext}`;
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .upload(fullPath, backgroundFile, {
           upsert: true,
         });
       const { data: readData } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .getPublicUrl(fullPath);
       if (readData) {
         setBackgroundUrl(readData.publicUrl);
@@ -157,7 +157,7 @@ export default function VenuePage({
     if (!venueData.logo) return;
     try {
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .remove([venueData.logo]);
       if (error) throw Error(error.message);
       const { data: updateData, error: updateError } = await supabase
@@ -175,7 +175,7 @@ export default function VenuePage({
     if (!venueData.background_image) return;
     try {
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .remove([venueData.background_image]);
       if (error) throw Error(error.message);
       const { data: updateData, error: updateError } = await supabase

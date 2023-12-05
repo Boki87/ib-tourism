@@ -98,12 +98,12 @@ export default function ExternalOfferCard({
       let name = offer.id + "-" + crypto.randomUUID();
       let fullPath = `offers_images/${name}.${ext}`;
       const { data, error } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .upload(fullPath, file, {
           upsert: true,
         });
       const { data: readData } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .getPublicUrl(fullPath);
       if (readData) {
         newUploadedFiles.push(readData.publicUrl);
@@ -114,7 +114,7 @@ export default function ExternalOfferCard({
   async function deleteImageHandler(image: string) {
     try {
       const { data, error: deleteError } = await supabase.storage
-        .from("public")
+        .from("ib-turism")
         .remove([image]);
       if (deleteError) throw Error(deleteError.message);
       const newOffer = {
