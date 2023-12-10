@@ -8,6 +8,7 @@ import VenueContact from "./VenueContact";
 import { ReviewModal } from "./ReviewModal";
 import { ExternalOffer } from "../../types/ExternalOffer";
 import VenueExternalOffers from "./VenueExternalOffers";
+import FrontPageServices from "../services/FrontPageServices";
 
 interface IVenueLanding {
   venueData: Venue | null;
@@ -61,7 +62,7 @@ export default function VenueLanding({
           }}
         >
           <VenueHeader />
-          <VenueExternalOffers />
+          <FrontPageServices venueId={venueData?.id || ""} />
           <VenueLinks />
           <VenueContact nfcId={nfcId || ""} />
           <ReviewModal />
