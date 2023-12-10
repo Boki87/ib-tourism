@@ -31,15 +31,26 @@ export default function FrontPageServicesDrawer({
     deleteService,
   } = useServices(activeServiceType, venueId);
 
+  const liveServices = services.filter((s) => s.is_live);
+
   let content = (
     <Box>
-      {services.map((s) => (
+      <ul>
+        {liveServices
+          .filter((s) => s.title && s.title !== "")
+          .map((s) => (
+            <li key={s.id}>
+              <a href={`#${s.id}`}>{s.title}</a>
+            </li>
+          ))}
+      </ul>
+      {liveServices.map((s) => (
         <FrontPageService service={s} key={s.id} />
       ))}
     </Box>
   );
 
-  if (services.length === 0) {
+  if (liveServices.length === 0) {
     content = <Box>No services</Box>;
   }
 
