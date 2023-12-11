@@ -25,8 +25,8 @@ export default function AdminLogin() {
   const router = useRouter();
   const toast = useToast();
   const [formState, setFormState] = useState({
-    email: "test@email.com",
-    password: "1234567",
+    email: "",
+    password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
