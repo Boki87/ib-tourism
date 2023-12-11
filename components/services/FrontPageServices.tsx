@@ -36,7 +36,6 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
   );
   const uniqueServices: { key: string; label: string; image: any }[] =
     services.filter((s) => uniqueTypes.includes(s.key));
-  console.log(uniqueServices);
   return (
     <>
       <HStack

@@ -19,7 +19,6 @@ export function useServices(activeServiceType: string | null, venueId: string) {
       setLoadingAll(false);
       return;
     }
-    console.log(111, data);
     setAllServices(data as Service[]);
     setLoadingAll(false);
   }

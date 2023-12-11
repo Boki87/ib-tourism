@@ -7,7 +7,6 @@ export default withIronSessionApiRoute(collectVenueVisit, sessionOptions);
 
 async function collectVenueVisit(req: NextApiRequest, res: NextApiResponse) {
   const { id: nfcId } = req.body;
-  console.log("venue visit", req.session.customer);
   if (!req.session.customer) {
     recordVenueVisit(nfcId, res);
   } else {
@@ -52,13 +51,11 @@ async function recordVenueVisit(id: string, res: NextApiResponse) {
       message: "Venue not found",
     });
   }
-
   const { error } = await supabase.from("venue_visits").insert({
     venue_id: venueData.id,
     active_employee_id: nfcData.active_employee_id,
     nfc_id: nfcData.id,
   });
-
   if (error) {
     return res.status(500).json({
       error: true,

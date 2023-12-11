@@ -7,6 +7,8 @@ import {
   Box,
   Center,
   Spinner,
+  Text,
+  DrawerHeader,
 } from "@chakra-ui/react";
 import { useServices } from "../../hooks/useServices";
 import FrontPageService from "./FrontPageService";
@@ -35,15 +37,29 @@ export default function FrontPageServicesDrawer({
 
   let content = (
     <Box>
-      <ul>
-        {liveServices
-          .filter((s) => s.title && s.title !== "")
-          .map((s) => (
-            <li key={s.id}>
-              <a href={`#${s.id}`}>{s.title}</a>
-            </li>
-          ))}
-      </ul>
+      <Box borderRadius="lg" bg="gray.100" shadow="sm" p={3} mb={10}>
+        <Text fontWeight="bold" fontSize="xl" color="gray.800">
+          Available services:
+        </Text>
+        <ul style={{ marginLeft: "20px" }}>
+          {liveServices
+            .filter((s) => s.title && s.title !== "")
+            .map((s) => (
+              <li key={s.id}>
+                <a href={`#${s.id}`}>
+                  <Text
+                    fontWeight="bold"
+                    fontSize="lg"
+                    color="blue.700"
+                    _hover={{ textDecoration: "underline" }}
+                  >
+                    {s.title}
+                  </Text>
+                </a>
+              </li>
+            ))}
+        </ul>
+      </Box>
       {liveServices.map((s) => (
         <FrontPageService service={s} key={s.id} />
       ))}
@@ -70,10 +86,17 @@ export default function FrontPageServicesDrawer({
       size="full"
     >
       <DrawerOverlay />
-      <DrawerContent borderLeftRadius="md">
-        <DrawerCloseButton onClick={onClose} />
-        <DrawerBody p="10px" pb="60px" mt="50px" overflowY="auto">
-          {content}
+      <DrawerContent>
+        <DrawerHeader>
+          <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
+            {activeServiceType}
+          </Text>
+          <DrawerCloseButton onClick={onClose} />
+        </DrawerHeader>
+        <DrawerBody overflowY="auto" scrollBehavior="smooth">
+          <Box maxW="lg" mx="auto">
+            {content}
+          </Box>
         </DrawerBody>
       </DrawerContent>
     </Drawer>
