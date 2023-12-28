@@ -88,18 +88,6 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
 
   return (
     <Box px="20px" pb="40px">
-      <Center mb="30px">
-        <Button
-          onClick={saveToContacts}
-          size="lg"
-          w="full"
-          maxW="sm"
-          textTransform="uppercase"
-          rightIcon={<BsSave />}
-        >
-          <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
-        </Button>
-      </Center>
       {venueData?.website && venueData?.website !== "" && (
         <HStack
           w="full"
@@ -215,6 +203,18 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
           </HStack>
         </>
       )}
+      <Center mt="30px">
+        <Button
+          onClick={saveToContacts}
+          size="lg"
+          w="full"
+          maxW="sm"
+          textTransform="uppercase"
+          rightIcon={<BsSave />}
+        >
+          <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
+        </Button>
+      </Center>
       {/* <FooterSocials /> */}
     </Box>
   );

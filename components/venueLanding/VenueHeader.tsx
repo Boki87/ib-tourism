@@ -30,11 +30,17 @@ export default function VenueHeader() {
           left="0px"
           w="full"
           h="50px"
-          px="10px"
+          px="7px"
         >
-          <a href="https://tapapp-supabase.vercel.app/">
+          <Box
+            as="a"
+            href="https://tapapp-supabase.vercel.app/"
+            rounded="lg"
+            bg="black"
+            p={1}
+          >
             <LogoButton />
-          </a>
+          </Box>
         </HStack>
 
         {venueData?.background_image && (
@@ -82,9 +88,9 @@ export default function VenueHeader() {
             >
               <img
                 style={{
-                  minWidth: "100%",
-                  minHeight: "100%",
-                  objectFit: "cover",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
                 }}
                 src={venueData?.logo}
                 alt="vanue logo"

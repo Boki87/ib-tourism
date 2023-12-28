@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { useVenueData } from "./";
 import LinkButton from "../LinkButton";
 import { useUser } from "@supabase/auth-helpers-react";
+import LinkIcon from "../LinkIcon";
 
 export default function VenueLinks() {
   const { links, nfcId } = useVenueData();
@@ -72,17 +73,18 @@ export default function VenueLinks() {
 
   return (
     <Box
-      display="flex"
-      maxW={{ base: "sm", lg: "md" }}
-      flexWrap="wrap"
-      my="40px"
+      display="grid"
+      gridTemplateColumns="1fr 1fr"
+      gap={3}
+      maxW="md"
       mx="auto"
       justifyContent="center"
+      p={5}
     >
       {links.map((link) => {
         if (link.is_active) {
           return (
-            <LinkButton
+            <LinkIcon
               onClick={gotoUrl}
               id={link.id}
               type={link.type}
