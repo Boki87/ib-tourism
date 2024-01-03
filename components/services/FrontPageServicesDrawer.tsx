@@ -82,14 +82,14 @@ export default function FrontPageServicesDrawer({
     <Drawer
       isOpen={!!activeServiceType}
       onClose={onClose}
-      placement={"bottom"}
-      size="full"
+      placement={"right"}
+      size={["full", "md"]}
     >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
           <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
-            {activeServiceType}
+            {activeServiceType.replaceAll("_", " ")}
           </Text>
           <DrawerCloseButton onClick={onClose} />
         </DrawerHeader>

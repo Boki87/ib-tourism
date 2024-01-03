@@ -88,6 +88,18 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
 
   return (
     <Box px="20px" pb="40px">
+      <Center mb="30px">
+        <Button
+          onClick={saveToContacts}
+          size="lg"
+          w="full"
+          maxW="sm"
+          textTransform="uppercase"
+          rightIcon={<BsSave />}
+        >
+          <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
+        </Button>
+      </Center>
       {venueData?.website && venueData?.website !== "" && (
         <HStack
           w="full"
@@ -150,6 +162,7 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
             pl="10px"
             mx="auto"
             mb={3}
+            gap={0}
           >
             <Text isTruncated color="gray.700">
               {venueData?.phone}
@@ -160,61 +173,25 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
                 <BsTelephone />
               </Button>
             </a>
-          </HStack>
-          <HStack
-            w="full"
-            maxW="sm"
-            h="40px"
-            bg="gray.200"
-            borderRadius="md"
-            pl="10px"
-            mx="auto"
-            mb={3}
-          >
-            <Text isTruncated color="gray.700">
-              {venueData?.phone}
-            </Text>
-            <Spacer />
-            <a href={`viber://call?number=${venueData?.phone}`}>
-              <CButton colorScheme="purple">
-                <FaViber />
-              </CButton>
-            </a>
-          </HStack>
-          <HStack
-            w="full"
-            maxW="sm"
-            h="40px"
-            bg="gray.200"
-            borderRadius="md"
-            pl="10px"
-            mx="auto"
-            mb={3}
-          >
-            <Text isTruncated color="gray.700">
-              {venueData?.phone}
-            </Text>
-            <Spacer />
-            <a href={`https://api.whatsapp.com/send?phone=${venueData?.phone}`}>
-              <CButton colorScheme="green">
-                <FaWhatsapp />
-              </CButton>
-            </a>
+            {venueData?.has_viber && (
+              <a href={`viber://call?number=${venueData?.phone}`}>
+                <CButton colorScheme="purple">
+                  <FaViber />
+                </CButton>
+              </a>
+            )}
+            {venueData?.has_whatsapp && (
+              <a
+                href={`https://api.whatsapp.com/send?phone=${venueData?.phone}`}
+              >
+                <CButton colorScheme="green">
+                  <FaWhatsapp />
+                </CButton>
+              </a>
+            )}
           </HStack>
         </>
       )}
-      <Center mt="30px">
-        <Button
-          onClick={saveToContacts}
-          size="lg"
-          w="full"
-          maxW="sm"
-          textTransform="uppercase"
-          rightIcon={<BsSave />}
-        >
-          <span style={{ fontFamily: "Secular One" }}>Save to contacts</span>
-        </Button>
-      </Center>
       {/* <FooterSocials /> */}
     </Box>
   );

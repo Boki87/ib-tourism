@@ -58,16 +58,16 @@ export default function LinkIcon({
   return (
     <Box
       onClick={() => onClick?.(id || "")}
-      w="full"
-      h="125px"
       rounded="lg"
-      bgGradient={IconsMap[type || ""]?.bg}
-      color="white"
-      fontSize="5xl"
+      color="gray.500"
+      _hover={{ color: "gray.900" }}
+      fontSize="lg"
       display="flex"
       alignItems="center"
       justifyContent="center"
-      shadow="md"
+      p="3px"
+      cursor="pointer"
+      transition="all .3s ease-in-out"
     >
       {IconsMap[type || ""]?.icon}
     </Box>

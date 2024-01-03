@@ -1,4 +1,4 @@
-import { Box, Center, HStack, Image, Text } from "@chakra-ui/react";
+import { Box, Center, HStack, Image, Link, Text } from "@chakra-ui/react";
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -36,17 +36,19 @@ export default function FrontPageServices({ service }: { service: Service }) {
       {service.address && (
         <>
           <Text>Address:</Text>
-          <HStack mb={3}>
-            <Text>{service.address}</Text>
-            <a
-              href={`https://maps.google.com/maps?q=${service.address}`}
-              target="_blank"
-            >
-              <Center w="50px" h="50px" borderRadius="md" bg="gray.100">
-                <FaMapMarked />
-              </Center>
-            </a>
-          </HStack>
+          <Link
+            href={`https://maps.google.com/maps?q=${service.address}`}
+            target="_blank"
+            textDecoration="underline"
+            display="flex"
+            alignItems="center"
+            color="blue.500"
+            _hover={{ color: "blue.300" }}
+            gap={1}
+            mb={3}
+          >
+            {service.address} <FaMapMarked />
+          </Link>
         </>
       )}
 
@@ -54,22 +56,47 @@ export default function FrontPageServices({ service }: { service: Service }) {
         {service.phone && (
           <>
             <a href={`tel:${service.phone}`}>
-              <Center w="50px" h="50px" borderRadius="md" bg="gray.100">
+              <Center
+                w="50px"
+                h="50px"
+                borderRadius="md"
+                bg="#176FF2"
+                color="white"
+              >
                 <FaPhone />
               </Center>
             </a>
-            <a
-              href={`viber://chat?number=${service.phone?.replace("+", "%2B")}`}
-            >
-              <Center w="50px" h="50px" borderRadius="md" bg="gray.100">
-                <FaViber />
-              </Center>
-            </a>
-            <a href={`https://wa.me/${service.phone}`}>
-              <Center w="50px" h="50px" borderRadius="md" bg="gray.100">
-                <FaWhatsapp />
-              </Center>
-            </a>
+            {service.has_viber && (
+              <a
+                href={`viber://chat?number=${service.phone?.replace(
+                  "+",
+                  "%2B",
+                )}`}
+              >
+                <Center
+                  w="50px"
+                  h="50px"
+                  borderRadius="md"
+                  bg="purple.500"
+                  color="white"
+                >
+                  <FaViber />
+                </Center>
+              </a>
+            )}
+            {service.has_whatsapp && (
+              <a href={`https://wa.me/${service.phone}`}>
+                <Center
+                  w="50px"
+                  h="50px"
+                  borderRadius="md"
+                  bg="green.500"
+                  color="white"
+                >
+                  <FaWhatsapp />
+                </Center>
+              </a>
+            )}
           </>
         )}
         {service.url && (
@@ -103,7 +130,7 @@ function ImageSlider({ images }: ImageSliderProps) {
     },
     [
       // add plugins here
-    ]
+    ],
   );
 
   return (

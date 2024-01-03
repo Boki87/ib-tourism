@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useVenueData } from "./";
-import LinkButton from "../LinkButton";
 import { useUser } from "@supabase/auth-helpers-react";
 import LinkIcon from "../LinkIcon";
 
@@ -72,35 +71,29 @@ export default function VenueLinks() {
   }, [goingToReview]);
 
   return (
-    <>
-      <Text textAlign="center" mt={3}>
-        Follow us on:
-      </Text>
-      <Box
-        display="flex"
-        flexWrap="wrap"
-        gap={3}
-        maxW="md"
-        mx="auto"
-        justifyContent="center"
-        p={5}
-        mb={3}
-      >
-        {links.map((link) => {
-          if (link.is_active) {
-            return (
-              <LinkIcon
-                onClick={gotoUrl}
-                id={link.id}
-                type={link.type}
-                isActive={!!link?.is_active}
-                key={link.id}
-                title={link.title}
-              />
-            );
-          }
-        })}
-      </Box>
-    </>
+    <Box
+      display="flex"
+      gap={3}
+      maxW="md"
+      mx="auto"
+      justifyContent="center"
+      p={5}
+    >
+      {links.map((link) => {
+        if (link.is_active) {
+          return (
+            <LinkIcon
+              onClick={gotoUrl}
+              id={link.id}
+              type={link.type}
+              isActive={!!link?.is_active}
+              key={link.id}
+              title={link.title}
+              m="8px"
+            />
+          );
+        }
+      })}
+    </Box>
   );
 }

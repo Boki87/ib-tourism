@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import ThemeToggleButton from "./ThemeToggleButton";
+// import ThemeToggleButton from "./ThemeToggleButton";
 import LogoButton from "./LogoButton";
 import Link from "next/link";
 import { useUserContext } from "../context";
@@ -38,7 +38,7 @@ export default function AdminTopBar() {
     >
       <LogoButton onClick={() => router.push("/")} />
       <Spacer />
-      <ThemeToggleButton />
+      {/* <ThemeToggleButton /> */}
       <Menu>
         <MenuButton
           as={Avatar}

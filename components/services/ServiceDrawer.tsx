@@ -28,7 +28,14 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaSave, FaTimes, FaTrash, FaUpload } from "react-icons/fa";
+import {
+  FaSave,
+  FaTimes,
+  FaTrash,
+  FaUpload,
+  FaViber,
+  FaWhatsapp,
+} from "react-icons/fa";
 import useService from "../../hooks/useService";
 import { supabase } from "../../libs/supabase";
 
@@ -50,7 +57,7 @@ export default function ServiceDrawer({
     useService(activeService);
 
   function changeHandler(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const name = e.target.name;
     const value = e.target.value;
@@ -67,7 +74,7 @@ export default function ServiceDrawer({
     const uploadedFiles = service.images?.length || 0;
     if (files.length > MAX_IMAGES - uploadedFiles) {
       window.alert(
-        "You can only select " + (MAX_IMAGES - uploadedFiles) + " images"
+        "You can only select " + (MAX_IMAGES - uploadedFiles) + " images",
       );
       return;
     }
@@ -272,6 +279,36 @@ export default function ServiceDrawer({
                 onChange={changeHandler}
               />
             </FormControl>
+            <Box mb={4}>
+              <HStack flexWrap="wrap">
+                <HStack>
+                  <FormLabel display="flex" alignItems="center" gap={2}>
+                    Has whatsapp <FaWhatsapp />
+                    <Switch
+                      isChecked={service?.has_whatsapp}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const val = e.target.checked;
+                        // @ts-expect-error
+                        setService((prev) => ({ ...prev, has_whatsapp: val }));
+                      }}
+                    />
+                  </FormLabel>
+                </HStack>
+                <HStack>
+                  <FormLabel display="flex" alignItems="center" gap={2}>
+                    Has viber <FaViber />
+                    <Switch
+                      isChecked={service?.has_viber}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const val = e.target.checked;
+                        // @ts-expect-error
+                        setService((prev) => ({ ...prev, has_viber: val }));
+                      }}
+                    />
+                  </FormLabel>
+                </HStack>
+              </HStack>
+            </Box>
             <FormControl mb={3}>
               <FormLabel>Address</FormLabel>
               <Input
@@ -309,12 +346,13 @@ export default function ServiceDrawer({
         {!loading && (
           <HStack
             justifyContent="flex-end"
-            h="50px"
+            h="60px"
             position="absolute"
             left="0px"
             bottom="0px"
             w="full"
             bg="white"
+            p={5}
           >
             <Button
               onClick={() => {

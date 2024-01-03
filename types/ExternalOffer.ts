@@ -3,6 +3,8 @@ export type ExternalOffer = {
   title: string;
   url?: string;
   phone?: string;
+  has_whatsapp?: boolean;
+  has_viber?: boolean;
   images?: string[];
   is_live: boolean;
 };

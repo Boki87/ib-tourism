@@ -42,7 +42,7 @@ import { BsEye, BsArrowLeft } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
 import ExternalOffersSection from "../../../components/externalOffers/ExternalOffersSection";
 import { ExternalOffer } from "../../../types/ExternalOffer";
-import { FaClipboard } from "react-icons/fa";
+import { FaClipboard, FaViber, FaWhatsapp } from "react-icons/fa";
 import ServicesSection from "../../../components/services/ServicesSection";
 
 export default function VenuePage({
@@ -72,7 +72,7 @@ export default function VenuePage({
   const router = useRouter();
 
   function updateVenueData(
-    e: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     let input = e.target as HTMLInputElement;
     setVenueData({ ...venueData, [input.name]: input.value });
@@ -243,7 +243,7 @@ export default function VenuePage({
 
   async function deleteLinkHandler(id: string) {
     const r = window.confirm(
-      "Sure you want to delete this link. By doing so all of your stats for this link will be LOST!"
+      "Sure you want to delete this link. By doing so all of your stats for this link will be LOST!",
     );
     if (!r) return;
 
@@ -401,32 +401,32 @@ export default function VenuePage({
                     }}
                   />
                 </HStack>
-                <HStack>
-                  <Text>Pick a default theme</Text>
-                  <ButtonGroup isAttached>
-                    <CButton
-                      onClick={() => {
-                        setVenueData({ ...venueData, default_theme: "light" });
-                      }}
-                      colorScheme={
-                        venueData.default_theme === "light" ? "twitter" : "gray"
-                      }
-                    >
-                      Light
-                    </CButton>
-                    <CButton
-                      onClick={() => {
-                        setVenueData({ ...venueData, default_theme: "dark" });
-                      }}
-                      colorScheme={
-                        venueData.default_theme === "dark" ? "twitter" : "gray"
-                      }
-                    >
-                      {" "}
-                      Dark
-                    </CButton>
-                  </ButtonGroup>
-                </HStack>
+                {/* <HStack> */}
+                {/*   <Text>Pick a default theme</Text> */}
+                {/*   <ButtonGroup isAttached> */}
+                {/*     <CButton */}
+                {/*       onClick={() => { */}
+                {/*         setVenueData({ ...venueData, default_theme: "light" }); */}
+                {/*       }} */}
+                {/*       colorScheme={ */}
+                {/*         venueData.default_theme === "light" ? "twitter" : "gray" */}
+                {/*       } */}
+                {/*     > */}
+                {/*       Light */}
+                {/*     </CButton> */}
+                {/*     <CButton */}
+                {/*       onClick={() => { */}
+                {/*         setVenueData({ ...venueData, default_theme: "dark" }); */}
+                {/*       }} */}
+                {/*       colorScheme={ */}
+                {/*         venueData.default_theme === "dark" ? "twitter" : "gray" */}
+                {/*       } */}
+                {/*     > */}
+                {/*       {" "} */}
+                {/*       Dark */}
+                {/*     </CButton> */}
+                {/*   </ButtonGroup> */}
+                {/* </HStack> */}
               </VStack>
             </HStack>
             <FormControl isRequired mb={4}>
@@ -461,6 +461,38 @@ export default function VenuePage({
                 variant="filled"
               />
             </FormControl>
+            <Box mb={4}>
+              <HStack flexWrap="wrap">
+                <HStack>
+                  <FormLabel display="flex" alignItems="center" gap={2}>
+                    Has whatsapp <FaWhatsapp />
+                    <Switch
+                      isChecked={venueData.has_whatsapp}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        let val = !!e.target.checked;
+                        setVenueData((old) => {
+                          return { ...old, has_whatsapp: val };
+                        });
+                      }}
+                    />
+                  </FormLabel>
+                </HStack>
+                <HStack>
+                  <FormLabel display="flex" alignItems="center" gap={2}>
+                    Has viber <FaViber />
+                    <Switch
+                      isChecked={venueData.has_viber}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        let val = !!e.target.checked;
+                        setVenueData((old) => {
+                          return { ...old, has_viber: val };
+                        });
+                      }}
+                    />
+                  </FormLabel>
+                </HStack>
+              </HStack>
+            </Box>
             <FormControl mb={4}>
               <FormLabel>Website</FormLabel>
               <Input
