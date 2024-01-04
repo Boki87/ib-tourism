@@ -267,6 +267,10 @@ export default function VenuePage({
     }
   }
 
+  function openPreview() {
+    window.open(location.origin + `/venue/${venueData.id}`);
+  }
+
   useEffect(() => {
     if (!logoFile) return;
     uploadLogo();
@@ -584,12 +588,7 @@ export default function VenuePage({
                 >
                   SAVE
                 </Button>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    router.push(`/venue/${venueData.id}`);
-                  }}
-                >
+                <Button type="button" onClick={openPreview}>
                   Preview
                   <BsEye style={{ marginLeft: "10px" }} />
                 </Button>

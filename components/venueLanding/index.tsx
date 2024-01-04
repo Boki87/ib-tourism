@@ -63,8 +63,8 @@ export default function VenueLanding({
         >
           <VenueHeader />
           <FrontPageServices venueId={venueData?.id || ""} />
-          <VenueLinks />
           <VenueContact nfcId={nfcId || ""} />
+          <VenueLinks />
           <ReviewModal />
         </VenueLandingContext.Provider>
       </Box>

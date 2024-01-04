@@ -60,10 +60,39 @@ export default function ServiceDrawer({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const name = e.target.name;
-    const value = e.target.value;
+    let value = e.target.value;
+
+    if (name === "video") {
+      value = sanitizeVideoUrl(value);
+    }
 
     // @ts-expect-error
     setService((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function sanitizeVideoUrl(url: string) {
+    // Check if the URL is a YouTube URL
+    const youtubeRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+    // Check if the URL is a Vimeo URL
+    const vimeoRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|video\/|))(\d+)(?:$|\/|\?)/;
+
+    let videoId;
+
+    const youtubeMatch = url.match(youtubeRegex);
+    if (youtubeMatch && youtubeMatch[1]) {
+      videoId = youtubeMatch[1];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    const vimeoMatch = url.match(vimeoRegex);
+    if (vimeoMatch && vimeoMatch[1]) {
+      videoId = vimeoMatch[1];
+      return `https://player.vimeo.com/video/${videoId}`;
+    }
+    return "";
   }
 
   // Image upload functions
@@ -309,6 +338,16 @@ export default function ServiceDrawer({
                 </HStack>
               </HStack>
             </Box>
+            <FormControl mb={3}>
+              <FormLabel>Video URL (youtbe or vimeo)</FormLabel>
+              <Input
+                type="text"
+                name="video"
+                placeholder="Paste your video link here"
+                value={service?.video || ""}
+                onChange={changeHandler}
+              />
+            </FormControl>
             <FormControl mb={3}>
               <FormLabel>Address</FormLabel>
               <Input

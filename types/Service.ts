@@ -3,6 +3,7 @@ export type Service = {
   title: string;
   url?: string;
   phone?: string;
+  video?: string;
   has_whatsapp?: boolean;
   has_viber?: boolean;
   images?: string[];

@@ -32,7 +32,7 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
   }, []);
 
   const uniqueTypes = Array.from(
-    new Set(allServices.filter((s) => s.is_live).map((obj) => obj.type))
+    new Set(allServices.filter((s) => s.is_live).map((obj) => obj.type)),
   );
   const uniqueServices: { key: string; label: string; image: any }[] =
     services.filter((s) => uniqueTypes.includes(s.key));
@@ -44,6 +44,7 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
         gap={3}
         maxW="md"
         mx="auto"
+        mb={5}
         justifyContent="center"
         p={5}
       >

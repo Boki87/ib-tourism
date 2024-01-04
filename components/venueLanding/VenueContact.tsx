@@ -174,7 +174,11 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
               </Button>
             </a>
             {venueData?.has_viber && (
-              <a href={`viber://call?number=${venueData?.phone}`}>
+              <a
+                href={`viber://call?number=${venueData?.phone
+                  .replace("+", "%2B")
+                  .replaceAll(" ", "")}`}
+              >
                 <CButton colorScheme="purple">
                   <FaViber />
                 </CButton>
@@ -182,7 +186,10 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
             )}
             {venueData?.has_whatsapp && (
               <a
-                href={`https://api.whatsapp.com/send?phone=${venueData?.phone}`}
+                href={`https://api.whatsapp.com/send?phone=${venueData?.phone.replaceAll(
+                  " ",
+                  "",
+                )}`}
               >
                 <CButton colorScheme="green">
                   <FaWhatsapp />

@@ -1,4 +1,12 @@
-import { Box, Center, HStack, Image, Link, Text } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Center,
+  HStack,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -22,6 +30,24 @@ export default function FrontPageServices({ service }: { service: Service }) {
           {service.title}
         </Text>
       )}
+
+      {service.video && (
+        <AspectRatio
+          maxW="100%"
+          ratio={16 / 9}
+          borderRadius="lg"
+          overflow="hidden"
+          mb={4}
+        >
+          <iframe
+            src={service.video}
+            style={{ width: "100%", height: "100%" }}
+            frameBorder="0"
+            allowFullScreen
+          />
+        </AspectRatio>
+      )}
+
       {service.images && (
         <Box mb={3}>
           <ImageSlider images={service.images} />
@@ -68,10 +94,9 @@ export default function FrontPageServices({ service }: { service: Service }) {
             </a>
             {service.has_viber && (
               <a
-                href={`viber://chat?number=${service.phone?.replace(
-                  "+",
-                  "%2B",
-                )}`}
+                href={`viber://chat?number=${service.phone
+                  ?.replace("+", "%2B")
+                  .replaceAll(" ", "")}`}
               >
                 <Center
                   w="50px"
