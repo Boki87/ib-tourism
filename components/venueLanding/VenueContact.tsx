@@ -38,13 +38,13 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
     let cardLink =
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/d/${nfcId}`
-        : `htts://ib-tourism.vercel.app/d/${nfcId}`;
+        : `https://ib-tourism.vercel.app/d/${nfcId}`;
 
     if (!nfcId) {
       cardLink =
         process.env.NODE_ENV === "development"
           ? `http://localhost:3000/venue/${venueData?.id}`
-          : `htts://ib-tourism.vercel.app/venue/${venueData?.id}`;
+          : `https://ib-tourism.vercel.app/venue/${venueData?.id}`;
     }
 
     myVCard.addURL(cardLink);
