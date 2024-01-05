@@ -37,29 +37,28 @@ export default function FrontPageServicesDrawer({
 
   let content = (
     <Box>
-      <Box borderRadius="lg" bg="gray.100" shadow="sm" p={3} mb={10}>
-        <Text fontWeight="bold" fontSize="xl" color="gray.800">
-          Available services:
-        </Text>
-        <ul style={{ marginLeft: "20px" }}>
-          {liveServices
-            .filter((s) => s.title && s.title !== "")
-            .map((s) => (
-              <li key={s.id}>
-                <a href={`#${s.id}`}>
-                  <Text
-                    fontWeight="bold"
-                    fontSize="lg"
-                    color="blue.700"
-                    _hover={{ textDecoration: "underline" }}
-                  >
-                    {s.title}
-                  </Text>
-                </a>
-              </li>
-            ))}
-        </ul>
-      </Box>
+      {liveServices.length > 1 && (
+        <Box borderRadius="lg" bg="gray.100" shadow="sm" px={3} py={4} mb={10}>
+          <ul style={{ marginLeft: "20px" }}>
+            {liveServices
+              .filter((s) => s.title && s.title !== "")
+              .map((s) => (
+                <li key={s.id}>
+                  <a href={`#${s.id}`}>
+                    <Text
+                      fontWeight="bold"
+                      fontSize="lg"
+                      color="blue.700"
+                      _hover={{ textDecoration: "underline" }}
+                    >
+                      {s.title}
+                    </Text>
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </Box>
+      )}
       {liveServices.map((s) => (
         <FrontPageService service={s} key={s.id} />
       ))}
