@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import Button from "../Button";
 import { useVenueData } from "./";
-import { BsEnvelope, BsSave, BsTelephone } from "react-icons/bs";
+import { BsEnvelope, BsLink45Deg, BsSave, BsTelephone } from "react-icons/bs";
 import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
 import { FaLink, FaViber, FaWhatsapp } from "react-icons/fa";
@@ -201,8 +201,28 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
         </>
       )}
       {/* <FooterSocials /> */}
+      {venueData?.show_cta && (
+        <Center>
+          <Button
+            as="a"
+            w="full"
+            maxW="sm"
+            size="lg"
+            mx="auto"
+            rightIcon={<BsLink45Deg size={25} />}
+            href={`${venueData?.cta_link}`}
+            target="_blank"
+            mt={5}
+            mb={4}
+          >
+            <span style={{ fontFamily: "Secular One" }}>
+              {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
+            </span>
+          </Button>
+        </Center>
+      )}
       {venueData?.show_review && (
-        <Center mt={10}>
+        <Center>
           <Button
             onClick={() => setIsReviewModalOpen(true)}
             w="full"

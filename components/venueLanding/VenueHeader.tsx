@@ -113,25 +113,6 @@ export default function VenueHeader() {
           </Text>
         </Center>
       )}
-      {venueData?.show_cta && (
-        <Center px="20px">
-          <Button
-            as="a"
-            w="full"
-            maxW="sm"
-            size="lg"
-            mx="auto"
-            rightIcon={<BsLink45Deg size={25} />}
-            href={`${venueData?.cta_link}`}
-            target="_blank"
-            mb={5}
-          >
-            <span style={{ fontFamily: "Secular One" }}>
-              {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
-            </span>
-          </Button>
-        </Center>
-      )}
     </Box>
   );
 }
