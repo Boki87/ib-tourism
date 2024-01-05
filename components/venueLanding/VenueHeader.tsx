@@ -14,7 +14,7 @@ import { BsLink45Deg } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
 
 export default function VenueHeader() {
-  const { venueData, setIsReviewModalOpen } = useVenueData();
+  const { venueData } = useVenueData();
   return (
     <Box>
       <Box
@@ -124,23 +124,11 @@ export default function VenueHeader() {
             rightIcon={<BsLink45Deg size={25} />}
             href={`${venueData?.cta_link}`}
             target="_blank"
+            mb={5}
           >
             <span style={{ fontFamily: "Secular One" }}>
               {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
             </span>
-          </Button>
-        </Center>
-      )}
-      {venueData?.show_review && (
-        <Center mt="15px" px="20px">
-          <Button
-            onClick={() => setIsReviewModalOpen(true)}
-            w="full"
-            maxW="sm"
-            size="lg"
-            rightIcon={<TbChecklist size={25} />}
-          >
-            <span style={{ fontFamily: "Secular One" }}>TAKE OUR SURVEY</span>
           </Button>
         </Center>
       )}

@@ -12,9 +12,10 @@ import { BsEnvelope, BsSave, BsTelephone } from "react-icons/bs";
 import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
 import { FaLink, FaViber, FaWhatsapp } from "react-icons/fa";
+import { TbChecklist } from "react-icons/tb";
 
 export default function VenueContact({ nfcId }: { nfcId: string }) {
-  const { venueData, links } = useVenueData();
+  const { venueData, links, setIsReviewModalOpen } = useVenueData();
 
   async function saveToContacts() {
     const myVCard = new VCard();
@@ -37,13 +38,13 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
     let cardLink =
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/d/${nfcId}`
-        : `https://tapapp-supabase.vercel.app/d/${nfcId}`;
+        : `htts://ib-tourism.vercel.app/d/${nfcId}`;
 
     if (!nfcId) {
       cardLink =
         process.env.NODE_ENV === "development"
           ? `http://localhost:3000/venue/${venueData?.id}`
-          : `https://tapapp-supabase.vercel.app/venue/${venueData?.id}`;
+          : `htts://ib-tourism.vercel.app/venue/${venueData?.id}`;
     }
 
     myVCard.addURL(cardLink);
@@ -200,6 +201,19 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
         </>
       )}
       {/* <FooterSocials /> */}
+      {venueData?.show_review && (
+        <Center mt={10}>
+          <Button
+            onClick={() => setIsReviewModalOpen(true)}
+            w="full"
+            maxW="sm"
+            size="lg"
+            rightIcon={<TbChecklist size={25} />}
+          >
+            <span style={{ fontFamily: "Secular One" }}>TAKE OUR SURVEY</span>
+          </Button>
+        </Center>
+      )}
     </Box>
   );
 }
