@@ -2,13 +2,15 @@ import { ReactElement } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { Text, Stack } from "@chakra-ui/react";
 import { MdDashboard, MdCreditCard, MdStorefront } from "react-icons/md";
+import { HiLink } from "react-icons/hi";
+import { IoStatsChartSharp } from "react-icons/io5";
 import { TbChecklist } from "react-icons/tb";
 import { useRouter } from "next/router";
 
 export const navList = [
   {
     title: "Analitics",
-    icon: <MdDashboard />,
+    icon: <IoStatsChartSharp />,
     href: "/admin",
   },
   {
@@ -18,7 +20,7 @@ export const navList = [
   },
   {
     title: "Venues",
-    icon: <MdCreditCard />,
+    icon: <HiLink />,
     href: "/admin/devices",
   },
   {
