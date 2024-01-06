@@ -11,7 +11,7 @@ import { useVenueData } from "./";
 import { BsEnvelope, BsLink45Deg, BsSave, BsTelephone } from "react-icons/bs";
 import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
-import { FaLink, FaViber, FaWhatsapp } from "react-icons/fa";
+import { FaLink, FaMapMarkerAlt, FaViber, FaWhatsapp } from "react-icons/fa";
 import { TbChecklist } from "react-icons/tb";
 
 export default function VenueContact({ nfcId }: { nfcId: string }) {
@@ -152,6 +152,31 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
           </a>
         </HStack>
       )}
+      {venueData?.address && venueData?.address !== "" && (
+        <HStack
+          w="full"
+          maxW="sm"
+          h="40px"
+          bg="gray.200"
+          borderRadius="md"
+          pl="10px"
+          mb={3}
+          mx="auto"
+        >
+          <Text isTruncated color="gray.700">
+            {venueData?.address}
+          </Text>
+          <Spacer />
+          <a
+            href={`https://maps.google.com/maps?q=${venueData?.address}`}
+            target="_blank"
+          >
+            <Button>
+              <FaMapMarkerAlt />
+            </Button>
+          </a>
+        </HStack>
+      )}
       {venueData?.phone && venueData?.phone !== "" && (
         <>
           <HStack
@@ -197,6 +222,30 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
                 </CButton>
               </a>
             )}
+            {/* {venueData?.address && venueData?.address !== "" && ( */}
+            {/*   <HStack */}
+            {/*     w="full" */}
+            {/*     maxW="sm" */}
+            {/*     h="40px" */}
+            {/*     bg="gray.200" */}
+            {/*     borderRadius="md" */}
+            {/*     pl="10px" */}
+            {/*     mb={3} */}
+            {/*     mx="auto" */}
+            {/*   > */}
+            {/*     <Text isTruncated color="gray.700"> */}
+            {/*       {venueData?.address} */}
+            {/*     </Text> */}
+            {/*     <Spacer /> */}
+            {/*     <a */}
+            {/*       href={`https://maps.google.com/maps?q=${venueData?.address}`} */}
+            {/*     > */}
+            {/*       <Button> */}
+            {/*         <BsEnvelope /> */}
+            {/*       </Button> */}
+            {/*     </a> */}
+            {/*   </HStack> */}
+            {/* )} */}
           </HStack>
         </>
       )}

@@ -71,6 +71,8 @@ export default function VenueLinks() {
     };
   }, [goingToReview]);
 
+  if (links.length === 0) return null;
+  if (links.filter((link) => link.is_active).length === 0) return null;
   return (
     <>
       <Text textAlign="center" mt={3}>

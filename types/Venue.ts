@@ -12,6 +12,7 @@ export type Venue = {
   default_theme?: string;
   created_at?: string;
   phone?: string;
+  address?: string;
   has_whatsapp?: boolean;
   has_viber?: boolean;
   email?: string;

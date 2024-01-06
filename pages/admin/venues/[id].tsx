@@ -519,6 +519,17 @@ export default function VenuePage({
                 variant="filled"
               />
             </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Address</FormLabel>
+              <Input
+                name="address"
+                type="text"
+                placeholder="Please provide your address here"
+                onInput={updateVenueData}
+                value={venueData.address || ""}
+                variant="filled"
+              />
+            </FormControl>
             <FormControl
               mb={4}
               border="1px"
