@@ -7,17 +7,17 @@ import { useRouter } from "next/router";
 
 export const navList = [
   {
-    title: "Dashboard",
+    title: "Analitics",
     icon: <MdDashboard />,
     href: "/admin",
   },
   {
-    title: "Venues",
+    title: "Main",
     icon: <MdStorefront />,
     href: "/admin/venues",
   },
   {
-    title: "Devices",
+    title: "Venues",
     icon: <MdCreditCard />,
     href: "/admin/devices",
   },
