@@ -38,7 +38,15 @@ export default function FrontPageServicesDrawer({
   let content = (
     <Box>
       {liveServices.length > 1 && (
-        <Box borderRadius="lg" bg="gray.100" shadow="sm" px={3} py={4} mb={10}>
+        <Box
+          borderRadius="lg"
+          bg="gray.100"
+          shadow="sm"
+          px={3}
+          py={4}
+          mb={10}
+          textAlign="left"
+        >
           <ul style={{ marginLeft: "20px" }}>
             {liveServices
               .filter((s) => s.title && s.title !== "")
@@ -87,13 +95,18 @@ export default function FrontPageServicesDrawer({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
+          <Text
+            textTransform="capitalize"
+            fontWeight="bold"
+            fontSize="2xl"
+            textAlign="center"
+          >
             {activeServiceType.replaceAll("_", " ")}
           </Text>
           <DrawerCloseButton onClick={onClose} />
         </DrawerHeader>
         <DrawerBody overflowY="auto" scrollBehavior="smooth">
-          <Box maxW="lg" mx="auto">
+          <Box maxW="lg" mx="auto" textAlign="center">
             {content}
           </Box>
         </DrawerBody>

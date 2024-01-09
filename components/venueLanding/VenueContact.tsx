@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Box,
   Center,
@@ -13,6 +14,7 @@ import FooterSocials from "./FooterSocials";
 import VCard from "vcard-creator";
 import { FaLink, FaMapMarkerAlt, FaViber, FaWhatsapp } from "react-icons/fa";
 import { TbChecklist } from "react-icons/tb";
+import googleMapsIcon from "./assets/google-maps-pin.png";
 
 export default function VenueContact({ nfcId }: { nfcId: string }) {
   const { venueData, links, setIsReviewModalOpen } = useVenueData();
@@ -152,31 +154,6 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
           </a>
         </HStack>
       )}
-      {venueData?.address && venueData?.address !== "" && (
-        <HStack
-          w="full"
-          maxW="sm"
-          h="40px"
-          bg="gray.200"
-          borderRadius="md"
-          pl="10px"
-          mb={3}
-          mx="auto"
-        >
-          <Text isTruncated color="gray.700">
-            {venueData?.address}
-          </Text>
-          <Spacer />
-          <a
-            href={`https://maps.google.com/maps?q=${venueData?.address}`}
-            target="_blank"
-          >
-            <Button>
-              <FaMapMarkerAlt />
-            </Button>
-          </a>
-        </HStack>
-      )}
       {venueData?.phone && venueData?.phone !== "" && (
         <>
           <HStack
@@ -248,6 +225,36 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
             {/* )} */}
           </HStack>
         </>
+      )}
+      {venueData?.address && venueData?.address !== "" && (
+        <HStack
+          w="full"
+          maxW="sm"
+          h="40px"
+          bg="gray.200"
+          borderRadius="md"
+          pl="10px"
+          mb={3}
+          mx="auto"
+        >
+          <Text isTruncated color="gray.700">
+            {venueData?.address}
+          </Text>
+          <Spacer />
+          <a
+            href={`https://maps.google.com/maps?q=${venueData?.address}`}
+            target="_blank"
+          >
+            <Button bg="white" shadow="xs" _hover={{ bg: "white" }}>
+              <Image
+                src={googleMapsIcon.src}
+                width={25}
+                height={25}
+                alt="google maps pin"
+              />
+            </Button>
+          </a>
+        </HStack>
       )}
       {/* <FooterSocials /> */}
       {venueData?.show_cta && (

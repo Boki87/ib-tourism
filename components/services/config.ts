@@ -8,6 +8,7 @@ import attractions from "./assets/attractions.svg";
 import offers from "./assets/offers.svg";
 import info from "./assets/info.svg";
 import info2 from "./assets/info2.svg";
+import menu from "./assets/menu.svg";
 
 export const services: { key: string; label: string; image: any }[] = [
   {
@@ -29,6 +30,11 @@ export const services: { key: string; label: string; image: any }[] = [
     key: "restaurants",
     label: "restaurants",
     image: restaurants,
+  },
+  {
+    key: "menu",
+    label: "menu",
+    image: menu,
   },
   {
     key: "tours",

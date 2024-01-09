@@ -15,6 +15,10 @@ const venue_links = [
     icon: "/links/instagram.jpg",
   },
   {
+    name: "twitter",
+    icon: "/links/twitter.jpg",
+  },
+  {
     name: "invino",
     icon: "/links/invino.jpg",
   },
@@ -111,7 +115,7 @@ function generateLabels(from: number | string, to: number | string) {
 function prepareVenueChartData(
   data: VenueTypeExpanded[],
   from: number | string,
-  to: number | string
+  to: number | string,
 ): {
   labels: string[];
   datasets: {
@@ -153,7 +157,7 @@ function prepareDeviceChartData(
   data: LinkClickExpanded[],
   from: number | string,
   to: number | string,
-  type: "title" | "social" = "title"
+  type: "title" | "social" = "title",
 ) {
   //prepare labels for given timespan
   const { labels, labelsFormated } = generateLabels(from, to);

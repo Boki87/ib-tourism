@@ -62,23 +62,25 @@ export default function FrontPageServices({ service }: { service: Service }) {
       {service.address && (
         <>
           <Text>Address:</Text>
-          <Link
-            href={`https://maps.google.com/maps?q=${service.address}`}
-            target="_blank"
-            textDecoration="underline"
-            display="flex"
-            alignItems="center"
-            color="blue.500"
-            _hover={{ color: "blue.300" }}
-            gap={1}
-            mb={3}
-          >
-            {service.address} <FaMapMarked />
-          </Link>
+          <Center>
+            <Link
+              href={`https://maps.google.com/maps?q=${service.address}`}
+              target="_blank"
+              textDecoration="underline"
+              display="flex"
+              alignItems="center"
+              color="blue.500"
+              _hover={{ color: "blue.300" }}
+              gap={1}
+              mb={3}
+            >
+              {service.address} <FaMapMarked />
+            </Link>
+          </Center>
         </>
       )}
 
-      <HStack>
+      <Center gap={1}>
         {service.phone && (
           <>
             <a href={`tel:${service.phone}`}>
@@ -131,7 +133,7 @@ export default function FrontPageServices({ service }: { service: Service }) {
             </Center>
           </a>
         )}
-      </HStack>
+      </Center>
     </Box>
   );
 }

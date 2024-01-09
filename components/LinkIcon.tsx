@@ -11,6 +11,7 @@ import {
   FaBook,
   FaWineBottle,
 } from "react-icons/fa";
+import { BsTwitterX } from "react-icons/bs";
 
 type TIconsMap = {
   [x: string]: {
@@ -28,6 +29,10 @@ const IconsMap: TIconsMap = {
   instagram: {
     icon: <FaInstagram />,
     bg: "linear(to-l, purple.400, pink.500, red.500)",
+  },
+  twitter: {
+    icon: <BsTwitterX />,
+    bg: "black",
   },
   invino: {
     icon: <FaWineBottle />,
