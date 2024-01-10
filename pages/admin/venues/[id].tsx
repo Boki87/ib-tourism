@@ -6,6 +6,7 @@ import {
   ChangeEvent,
 } from "react";
 import { GetServerSidePropsContext } from "next";
+import dynamic from "next/dynamic";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import AdminLayout from "../../../components/AdminLayout";
@@ -23,12 +24,10 @@ import {
   FormLabel,
   Input,
   useColorModeValue,
-  useToast,
   Textarea,
   Avatar,
   ButtonGroup,
   Switch,
-  border,
 } from "@chakra-ui/react";
 import LinkDrawer from "../../../components/LinkDrawer";
 import ChakraColorPicker from "../../../components/ChakraColorPicker";
@@ -40,19 +39,28 @@ import LinkButton from "../../../components/LinkButton";
 import { Link } from "../../../types/Link";
 import { BsEye, BsArrowLeft } from "react-icons/bs";
 import { TbChecklist } from "react-icons/tb";
-import ExternalOffersSection from "../../../components/externalOffers/ExternalOffersSection";
 import { ExternalOffer } from "../../../types/ExternalOffer";
-import { FaClipboard, FaViber, FaWhatsapp } from "react-icons/fa";
+import { FaViber, FaWhatsapp } from "react-icons/fa";
 import ServicesSection from "../../../components/services/ServicesSection";
+import { CallToAction } from "../../../types/CallToAction";
+
+const CallToActions = dynamic(
+  () => import("../../../components/CallToActions"),
+  {
+    ssr: false,
+  },
+);
 
 export default function VenuePage({
   venue,
   links: serverLinks,
   externalOffers,
+  callToActions,
 }: {
   venue: Venue;
   links: Link[];
   externalOffers: ExternalOffer[];
+  callToActions: CallToAction[];
 }) {
   const [links, setLinks] = useState(serverLinks);
   const [venueData, setVenueData] = useState(venue);
@@ -574,6 +582,10 @@ export default function VenuePage({
                 />
               </HStack>
             </FormControl>
+            <CallToActions
+              actions={callToActions || []}
+              venueId={venueData.id || ""}
+            />
             <FormControl display="flex" alignItems="center" mb={8}>
               <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
                 <TbChecklist size="25px" style={{ marginRight: "8px" }} />
@@ -711,11 +723,18 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .order("order_index", { ascending: true })
     .match({ venue_id: venueData.id });
 
+  const { data: callToActions, error: callToActionsError } = await supabase
+    .from("call_to_actions")
+    .select()
+    .match({ venue_id: venueData.id })
+    .order("created_at");
+
   return {
     props: {
       venue: venueData,
       links,
       externalOffers,
+      callToActions,
     },
   };
 };

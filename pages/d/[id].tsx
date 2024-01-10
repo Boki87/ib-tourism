@@ -7,12 +7,14 @@ import { Venue } from "../../types/Venue";
 import { Link } from "../../types/Link";
 import { Nfc } from "../../types/Nfc";
 import { ExternalOffer } from "../../types/ExternalOffer";
+import { CallToAction } from "../../types/CallToAction";
 
 interface IVenueLanding {
   venueData: Venue;
   nfcData: Nfc;
   links: Link[];
   externalOffers: ExternalOffer[];
+  callToActions: CallToAction[];
 }
 
 export default function VenueFrontPage({
@@ -20,6 +22,7 @@ export default function VenueFrontPage({
   nfcData,
   links,
   externalOffers,
+  callToActions,
 }: IVenueLanding) {
   if (!venueData || !nfcData) {
     return <Box>Error</Box>;
@@ -50,6 +53,7 @@ export default function VenueFrontPage({
         venueData={venueData}
         links={links}
         externalOffers={externalOffers}
+        callToActions={callToActions}
         nfcId={nfcData.id}
       />
     </Box>
@@ -65,11 +69,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     nfcData: Nfc | null;
     links: Link[];
     externalOffers: Partial<ExternalOffer>[];
+    callToActions: CallToAction[];
   } = {
     venueData: null,
     nfcData: null,
     links: [],
     externalOffers: [],
+    callToActions: [],
   };
 
   const { data: nfcData, error: nfcError } = await supabase
@@ -113,6 +119,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   if (!externalOffersError) {
     props.externalOffers = externalOffers;
   }
+
+  const { data: callToActions, error: callToActionsError } = await supabase
+    .from("call_to_actions")
+    .select()
+    .match({ venue_id: venueData?.id })
+    .order("created_at");
+
+  if (!callToActionsError) {
+    props.callToActions = callToActions as CallToAction[];
+  }
+
   return {
     props,
   };

@@ -17,7 +17,8 @@ import { TbChecklist } from "react-icons/tb";
 import googleMapsIcon from "./assets/google-maps-pin.png";
 
 export default function VenueContact({ nfcId }: { nfcId: string }) {
-  const { venueData, links, setIsReviewModalOpen } = useVenueData();
+  const { venueData, links, callToActions, setIsReviewModalOpen } =
+    useVenueData();
 
   async function saveToContacts() {
     const myVCard = new VCard();
@@ -268,8 +269,8 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
             rightIcon={<BsLink45Deg size={25} />}
             href={`${venueData?.cta_link}`}
             target="_blank"
-            mt={5}
-            mb={4}
+            mt={6}
+            mb={2}
           >
             <span style={{ fontFamily: "Secular One" }}>
               {venueData?.cta_title !== "" ? venueData?.cta_title : "OPEN LINK"}
@@ -277,8 +278,29 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
           </Button>
         </Center>
       )}
+      {callToActions
+        .filter((c) => c.is_live)
+        .map((cta) => (
+          <Center key={cta.id}>
+            <Button
+              as="a"
+              w="full"
+              maxW="sm"
+              size="lg"
+              mx="auto"
+              rightIcon={<BsLink45Deg size={25} />}
+              href={`${cta.url}`}
+              target="_blank"
+              my={2}
+            >
+              <span style={{ fontFamily: "Secular One" }}>
+                {cta.title !== "" ? cta.title : "OPEN LINK"}
+              </span>
+            </Button>
+          </Center>
+        ))}
       {venueData?.show_review && (
-        <Center>
+        <Center mt={2}>
           <Button
             onClick={() => setIsReviewModalOpen(true)}
             w="full"
