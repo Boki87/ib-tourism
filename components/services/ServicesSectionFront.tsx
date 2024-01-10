@@ -14,9 +14,11 @@ import {
   DrawerContent,
   DrawerBody,
   DrawerOverlay,
+  HStack,
+  Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { useServices } from "../../hooks/useServices";
 import ServiceDrawer from "./ServiceDrawer";
 
@@ -54,6 +56,16 @@ export default function ServicesSectionFront({
       <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={4}>
         Front Page Services
       </Text>
+      <HStack justifyContent="right">
+        <CButton onClick={addService} rightIcon={<FaPlus />}>
+          ADD
+        </CButton>
+      </HStack>
+      {services.length === 0 && (
+        <Center>
+          <Text>No front page services yet</Text>
+        </Center>
+      )}
 
       {services && services.length > 0 && (
         <TableContainer>
@@ -113,8 +125,13 @@ export default function ServicesSectionFront({
           <DrawerBody p="10px" pb="60px" mt="50px" overflowY="auto">
             <ServiceDrawer
               activeService={activeServiceId}
-              onClose={() => setActiveServiceId(null)}
-              onUpdate={() => fetchServices()}
+              onClose={() => {
+                setActiveServiceId(null);
+                fetchServices();
+              }}
+              onUpdate={() => {
+                fetchServices();
+              }}
             />
           </DrawerBody>
         </DrawerContent>

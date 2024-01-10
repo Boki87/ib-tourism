@@ -24,7 +24,7 @@ export function useServices(activeServiceType: string | null, venueId: string) {
   }
 
   async function fetchServices() {
-    // if (activeServiceType === "") return;
+    if (activeServiceType === "") return;
     setLoading(true);
     const { data, error: servicesError } = await supabase
       .from("external_offers")

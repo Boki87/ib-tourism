@@ -23,7 +23,7 @@ export default function ServicesSection({ venueId }: ServicesSectionProps) {
         p={4}
       >
         <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={4}>
-          Your services
+          Services
         </Text>
         <Box>
           <HStack flexWrap="wrap" justifyContent="center" gap={3}>

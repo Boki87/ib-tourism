@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Box, Center, useColorMode } from "@chakra-ui/react";
 import { Link } from "../../types/Link";
 import { Venue } from "../../types/Venue";
 import VenueHeader from "./VenueHeader";
@@ -10,6 +10,9 @@ import { ExternalOffer } from "../../types/ExternalOffer";
 import VenueExternalOffers from "./VenueExternalOffers";
 import FrontPageServices from "../services/FrontPageServices";
 import { CallToAction } from "../../types/CallToAction";
+import { useServices } from "../../hooks/useServices";
+import FrontPageService from "../services/FrontPageService";
+import { Service } from "../../types/Service";
 
 interface IVenueLanding {
   venueData: Venue | null;
@@ -67,12 +70,29 @@ export default function VenueLanding({
           }}
         >
           <VenueHeader />
+          <FrontPageServicesContainer venueId={venueData?.id || ""} />
           <FrontPageServices venueId={venueData?.id || ""} />
           <VenueContact nfcId={nfcId || ""} />
           <VenueLinks />
           <ReviewModal />
         </VenueLandingContext.Provider>
       </Box>
+    </Box>
+  );
+}
+
+function FrontPageServicesContainer({ venueId }: { venueId: string }) {
+  const { loading, services } = useServices("_", venueId);
+
+  const liveServices: Service[] = services.filter((s) => s.is_live);
+
+  return (
+    <Box mx="auto" maxW="md" textAlign="center">
+      {liveServices.map((s) => (
+        <Center p={4} w="full">
+          <FrontPageService service={s} key={s.id} />
+        </Center>
+      ))}
     </Box>
   );
 }

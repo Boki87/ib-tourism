@@ -24,7 +24,7 @@ import { useState } from "react";
 
 export default function FrontPageServices({ service }: { service: Service }) {
   return (
-    <Box id={service.id} mb={8}>
+    <Box id={service.id} mb={8} w="full">
       {service?.title !== "" && (
         <Text fontSize="lg" fontWeight="bold" color="gray.800" mb={3}>
           {service.title}
