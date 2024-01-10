@@ -43,6 +43,7 @@ import { ExternalOffer } from "../../../types/ExternalOffer";
 import { FaViber, FaWhatsapp } from "react-icons/fa";
 import ServicesSection from "../../../components/services/ServicesSection";
 import { CallToAction } from "../../../types/CallToAction";
+import ServicesSectionFront from "../../../components/services/ServicesSectionFront";
 
 const CallToActions = dynamic(
   () => import("../../../components/CallToActions"),
@@ -621,7 +622,9 @@ export default function VenuePage({
         </Stack>
       </Stack>
 
-      <ServicesSection venueId={venueData.id || "0"} />
+      <ServicesSectionFront venueId={venueData.id || ""} />
+
+      <ServicesSection venueId={venueData.id || ""} />
 
       <Box
         borderColor={borderColor}

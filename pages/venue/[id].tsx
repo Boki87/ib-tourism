@@ -1,25 +1,25 @@
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import VenueLanding from "../../components/venueLanding";
 import { Venue } from "../../types/Venue";
 import { Link } from "../../types/Link";
 import { ExternalOffer } from "../../types/ExternalOffer";
+import { CallToAction } from "../../types/CallToAction";
 
 interface IVenueLanding {
   venueData: Venue;
   links: Link[];
   externalOffers: ExternalOffer[];
+  callToActions: CallToAction[];
 }
 
 export default function VenueFrontPage({
   venueData,
   links,
   externalOffers,
+  callToActions,
 }: IVenueLanding) {
-  const router = useRouter();
-
   if (!venueData) {
     return <Box>Error</Box>;
   }
@@ -30,6 +30,7 @@ export default function VenueFrontPage({
         venueData={venueData}
         links={links}
         externalOffers={externalOffers}
+        callToActions={callToActions}
       />
     </Box>
   );
@@ -43,10 +44,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     venueData: Venue | null;
     links: Link[];
     externalOffers: Partial<ExternalOffer>[];
+    callToActions: CallToAction[];
   } = {
     venueData: null,
     links: [],
     externalOffers: [],
+    callToActions: [],
   };
 
   const { data: venueData, error: venueError } = await supabase
@@ -74,6 +77,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   if (!externalOffersError) {
     props.externalOffers = externalOffers;
+  }
+
+  const { data: callToActions, error: callToActionsError } = await supabase
+    .from("call_to_actions")
+    .select()
+    .match({ venue_id: venueData?.id })
+    .order("created_at");
+
+  if (!callToActionsError) {
+    props.callToActions = callToActions as CallToAction[];
   }
 
   return {

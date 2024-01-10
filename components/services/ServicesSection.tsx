@@ -10,8 +10,8 @@ interface ServicesSectionProps {
 
 export default function ServicesSection({ venueId }: ServicesSectionProps) {
   const [activeService, setActiveService] = useState<string | null>(null);
-  const borderColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
-  const bgColor = useColorModeValue("gray.50", "gray.700");
+  const borderColor = "gray.200";
+  const bgColor = "gray.50";
 
   return (
     <>

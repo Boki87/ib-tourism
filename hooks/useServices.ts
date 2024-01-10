@@ -24,13 +24,16 @@ export function useServices(activeServiceType: string | null, venueId: string) {
   }
 
   async function fetchServices() {
-    if (activeServiceType === "") return;
+    // if (activeServiceType === "") return;
     setLoading(true);
     const { data, error: servicesError } = await supabase
       .from("external_offers")
       .select("*")
       .match({ venue_id: venueId, type: activeServiceType })
       .order("created_at");
+
+    console.log(1111, venueId, activeServiceType, data, servicesError);
+
     if (servicesError) {
       setLoading(false);
       return;
