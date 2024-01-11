@@ -30,9 +30,7 @@ export function useServices(activeServiceType: string | null, venueId: string) {
       .from("external_offers")
       .select("*")
       .match({ venue_id: venueId, type: activeServiceType })
-      .order("created_at");
-
-    console.log(1111, venueId, activeServiceType, data, servicesError);
+      .order("order_index");
 
     if (servicesError) {
       setLoading(false);
@@ -72,6 +70,48 @@ export function useServices(activeServiceType: string | null, venueId: string) {
     setServices((prev) => prev.filter((s) => s.id !== serviceId));
   }
 
+  async function handleDragEnd({
+    active,
+    over,
+  }: {
+    active: { id: string };
+    over: { id: string } | null;
+  }) {
+    const activeService = services.filter((s) => s.id === active.id)[0];
+    const overService = over
+      ? services.filter((s) => s.id === over.id)[0]
+      : null;
+    if (!overService) return;
+    if (activeService.id === overService.id) return;
+
+    const targetIndex = services.findIndex((s) => s.id === overService.id);
+    const oldIndex = services.findIndex((s) => s.id === activeService.id);
+
+    let servicesClone = [...services];
+    servicesClone.splice(oldIndex, 1);
+    servicesClone.splice(targetIndex, 0, activeService);
+
+    servicesClone = servicesClone.map((service, index) => {
+      return { ...service, order_index: index };
+    });
+
+    setServices(servicesClone);
+
+    const updatePromises = servicesClone.map((service) => {
+      const { id, order_index } = service;
+      return supabase
+        .from("external_offers")
+        .update({ order_index })
+        .eq("id", id);
+    });
+
+    try {
+      await Promise.all(updatePromises);
+    } catch (e) {
+      console.log(`Error updating order: ${e}`);
+    }
+  }
+
   useEffect(() => {
     if (!!activeServiceType) {
       fetchServices();
@@ -90,5 +130,6 @@ export function useServices(activeServiceType: string | null, venueId: string) {
     loadingAll,
     fetchAllServices,
     allServices,
+    handleDragEnd,
   };
 }
