@@ -9,6 +9,8 @@ import {
   Spinner,
   Text,
   DrawerHeader,
+  DrawerFooter,
+  Button,
 } from "@chakra-ui/react";
 import { useServices } from "../../hooks/useServices";
 import FrontPageService from "./FrontPageService";
@@ -104,6 +106,9 @@ export default function FrontPageServicesDrawer({
             {content}
           </Box>
         </DrawerBody>
+        <DrawerFooter onClick={onClose} borderTop="1px" borderColor="gray.200">
+          <Button colorScheme="blue">Back</Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
