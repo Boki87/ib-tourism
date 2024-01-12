@@ -62,7 +62,7 @@ export default function FrontPageServices({ service }: { service: Service }) {
       {service.address && (
         <>
           <Text>Address:</Text>
-          <Center>
+          <HStack>
             <Link
               href={`https://maps.google.com/maps?q=${service.address}`}
               target="_blank"
@@ -76,11 +76,11 @@ export default function FrontPageServices({ service }: { service: Service }) {
             >
               {service.address} <FaMapMarked />
             </Link>
-          </Center>
+          </HStack>
         </>
       )}
 
-      <Center gap={1}>
+      <HStack gap={1}>
         {service.phone && (
           <>
             <a href={`tel:${service.phone}`}>
@@ -133,7 +133,7 @@ export default function FrontPageServices({ service }: { service: Service }) {
             </Center>
           </a>
         )}
-      </Center>
+      </HStack>
     </Box>
   );
 }

@@ -87,7 +87,7 @@ function FrontPageServicesContainer({ venueId }: { venueId: string }) {
   const liveServices: Service[] = services.filter((s) => s.is_live);
 
   return (
-    <Box mx="auto" maxW="md" textAlign="center">
+    <Box mx="auto" maxW="md">
       {liveServices.map((s) => (
         <Center p={4} w="full">
           <FrontPageService service={s} key={s.id} />

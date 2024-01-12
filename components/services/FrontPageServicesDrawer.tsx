@@ -95,18 +95,13 @@ export default function FrontPageServicesDrawer({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          <Text
-            textTransform="capitalize"
-            fontWeight="bold"
-            fontSize="2xl"
-            textAlign="center"
-          >
+          <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
             {activeServiceType.replaceAll("_", " ")}
           </Text>
           <DrawerCloseButton onClick={onClose} />
         </DrawerHeader>
         <DrawerBody overflowY="auto" scrollBehavior="smooth">
-          <Box maxW="lg" mx="auto" textAlign="center">
+          <Box maxW="lg" mx="auto">
             {content}
           </Box>
         </DrawerBody>
