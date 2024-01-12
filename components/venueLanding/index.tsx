@@ -82,7 +82,7 @@ export default function VenueLanding({
 }
 
 function FrontPageServicesContainer({ venueId }: { venueId: string }) {
-  const { loading, services } = useServices("_", venueId);
+  const { services } = useServices("_", venueId);
 
   const liveServices: Service[] = services.filter((s) => s.is_live);
 

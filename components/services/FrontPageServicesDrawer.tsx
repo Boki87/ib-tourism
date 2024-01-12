@@ -84,7 +84,6 @@ export default function FrontPageServicesDrawer({
       </Center>
     );
   }
-
   return (
     <Drawer
       isOpen={!!activeServiceType}
@@ -101,7 +100,7 @@ export default function FrontPageServicesDrawer({
           <DrawerCloseButton onClick={onClose} />
         </DrawerHeader>
         <DrawerBody overflowY="auto" scrollBehavior="smooth">
-          <Box maxW="lg" mx="auto">
+          <Box maxW="lg" mx="auto" pb="80px">
             {content}
           </Box>
         </DrawerBody>
