@@ -38,6 +38,7 @@ import {
 } from "react-icons/fa";
 import useService from "../../hooks/useService";
 import { supabase } from "../../libs/supabase";
+import ImageCrop from "../ImageCrop";
 
 interface ServiceModalProps {
   onClose: () => void;
@@ -278,6 +279,14 @@ export default function ServiceDrawer({
                 Upload images {service?.images?.length || 0} / {MAX_IMAGES}{" "}
               </Button>
             </HStack>
+            <Center>
+              <ImageCrop
+                id="services"
+                onSelectEnd={(image) => {
+                  console.log("crop end", image);
+                }}
+              />
+            </Center>
             <FormControl mb={3}>
               <FormLabel>Title</FormLabel>
               <Input
