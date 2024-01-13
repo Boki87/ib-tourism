@@ -178,7 +178,7 @@ export default function ImageCrop({
             <DrawerCloseButton />
           </DrawerHeader>
           <DrawerBody>
-            <Center mb={3}>
+            <Center mb={3} display="none">
               {!!completedCrop && (
                 <canvas
                   ref={previewCanvasRef}

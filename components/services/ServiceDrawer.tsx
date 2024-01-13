@@ -340,7 +340,7 @@ export default function ServiceDrawer({
                 id="services"
                 isLoading={isUploading}
                 disabled={MAX_IMAGES === service?.images?.length}
-                onSelectEnd={async (image) => {
+                onSelectEnd={async (image: Blob) => {
                   await onImageCropSelected(image);
                 }}
               />

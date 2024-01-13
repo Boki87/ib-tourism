@@ -163,24 +163,36 @@ function ImageSlider({ images }: ImageSliderProps) {
   return (
     <div ref={sliderRef} className="keen-slider">
       {images.map((image, index) => (
-        <div
-          className="keen-slider__slide"
-          style={{
-            height: "180px",
-            width: "100%",
-            background: "#efefef",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "10px",
-          }}
+        <AspectRatio
           key={image + "_" + index}
+          maxW="100%"
+          ratio={16 / 9}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
-          <img
-            src={image}
-            style={{ minWidth: "100%", minHeight: "100%", objectFit: "cover" }}
-          />
-        </div>
+          <div
+            className="keen-slider__slide"
+            style={{
+              height: "100%",
+              width: "100%",
+              background: "#efefef",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+            }}
+          >
+            <img
+              src={image}
+              style={{
+                minWidth: "100%",
+                minHeight: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+        </AspectRatio>
       ))}
       {images.length > 1 && loaded && instanceRef.current && (
         <>
