@@ -161,6 +161,57 @@ export default function ServiceDrawer({
     }
   }
 
+  async function onImageCropSelected(file: Blob) {
+    if (!service) return;
+    if (!file) return;
+    const uploadedFiles = service.images?.length || 0;
+    if (MAX_IMAGES === uploadedFiles) {
+      window.alert("You can only upload a maximum of 4 images");
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      // UPLOAD to supabase here
+      const newUplaodedFile = await doAsyncUpload(file);
+      // @ts-ignore
+      setService((prev) => {
+        return {
+          ...prev,
+          images: [...(prev?.images || []), newUplaodedFile],
+        };
+      });
+      const { error } = await supabase
+        .from("external_offers")
+        .update({
+          ...service,
+          images: [...(service?.images || []), newUplaodedFile],
+        })
+        .eq("id", service.id);
+      setIsUploading(false);
+    } catch (e) {
+      console.log(e);
+      setIsUploading(false);
+    }
+
+    async function doAsyncUpload(file: Blob) {
+      if (!service) return;
+      let ext = "jpg";
+      let name = service.id + "-" + crypto.randomUUID();
+      let fullPath = `offers_images/${name}.${ext}`;
+      const { data, error } = await supabase.storage
+        .from("ib-turism")
+        .upload(fullPath, file, {
+          upsert: true,
+        });
+      if (error) throw Error("Could not upload image");
+      const { data: readData } = await supabase.storage
+        .from("ib-turism")
+        .getPublicUrl(fullPath);
+      return readData.publicUrl;
+    }
+  }
+
   async function deleteImageHandler(image: string) {
     if (!service) return;
     try {
@@ -265,25 +316,32 @@ export default function ServiceDrawer({
               multiple
               accept="image/*"
             />
-            <HStack justifyContent="flex-end" mt={3}>
-              <Button
-                as="label"
-                htmlFor={`image_upload_input-${service?.id}`}
-                rightIcon={<FaUpload />}
-                isLoading={isUploading}
-                isDisabled={service?.images?.length === MAX_IMAGES}
-                pointerEvents={
-                  service?.images?.length === MAX_IMAGES ? "none" : "auto"
-                }
-              >
-                Upload images {service?.images?.length || 0} / {MAX_IMAGES}{" "}
-              </Button>
+            {/* <HStack justifyContent="flex-end" mt={3}> */}
+            {/*   <Button */}
+            {/*     as="label" */}
+            {/*     htmlFor={`image_upload_input-${service?.id}`} */}
+            {/*     rightIcon={<FaUpload />} */}
+            {/*     isLoading={isUploading} */}
+            {/*     isDisabled={service?.images?.length === MAX_IMAGES} */}
+            {/*     pointerEvents={ */}
+            {/*       service?.images?.length === MAX_IMAGES ? "none" : "auto" */}
+            {/*     } */}
+            {/*   > */}
+            {/*     Upload images {service?.images?.length || 0} / {MAX_IMAGES}{" "} */}
+            {/*   </Button> */}
+            {/* </HStack> */}
+            <HStack>
+              <Text>
+                Images {service?.images?.length} / {MAX_IMAGES}
+              </Text>
             </HStack>
             <Center>
               <ImageCrop
                 id="services"
-                onSelectEnd={(image) => {
-                  console.log("crop end", image);
+                isLoading={isUploading}
+                disabled={MAX_IMAGES === service?.images?.length}
+                onSelectEnd={async (image) => {
+                  await onImageCropSelected(image);
                 }}
               />
             </Center>

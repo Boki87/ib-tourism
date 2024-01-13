@@ -8,8 +8,10 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  Center,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
+import { FaSave, FaUpload } from "react-icons/fa";
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
@@ -43,10 +45,17 @@ function centerAspectCrop(
 
 interface ImageCropProps {
   id: string;
-  onSelectEnd(file: File): void;
+  onSelectEnd(file: Blob): void;
+  isLoading?: boolean;
+  disabled?: boolean;
 }
 
-export default function ImageCrop({ id, onSelectEnd }: ImageCropProps) {
+export default function ImageCrop({
+  id,
+  isLoading,
+  disabled,
+  onSelectEnd,
+}: ImageCropProps) {
   const [imgSrc, setImgSrc] = useState("");
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -69,6 +78,57 @@ export default function ImageCrop({ id, onSelectEnd }: ImageCropProps) {
     setCrop(centerAspectCrop(width, height, 16 / 9));
   }
 
+  function onDrawerClose() {
+    setImgSrc("");
+    setCompletedCrop(undefined);
+    setCrop(undefined);
+  }
+
+  async function onReadyToUplaod() {
+    const image = imgRef.current;
+    const previewCanvas = previewCanvasRef.current;
+    if (!image || !previewCanvas || !completedCrop) {
+      throw new Error("Crop canvas does not exist");
+    }
+
+    // This will size relative to the uploaded image
+    // size. If you want to size according to what they
+    // are looking at on screen, remove scaleX + scaleY
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+
+    const offscreen = new OffscreenCanvas(
+      completedCrop.width * scaleX,
+      completedCrop.height * scaleY,
+    );
+    const ctx = offscreen.getContext("2d");
+    if (!ctx) {
+      throw new Error("No 2d context");
+    }
+
+    ctx.drawImage(
+      previewCanvas,
+      0,
+      0,
+      previewCanvas.width,
+      previewCanvas.height,
+      0,
+      0,
+      offscreen.width,
+      offscreen.height,
+    );
+    // You might want { type: "image/jpeg", quality: <0 to 1> } to
+    // reduce image size
+    const blob = await offscreen.convertToBlob({
+      type: "image/jpeg",
+      quality: 0.5,
+    });
+
+    if (!blob) return;
+    await onSelectEnd(blob);
+    onDrawerClose();
+  }
+
   useDebounceEffect(
     async () => {
       if (
@@ -82,7 +142,7 @@ export default function ImageCrop({ id, onSelectEnd }: ImageCropProps) {
       }
     },
     100,
-    [completedCrop],
+    [completedCrop, imgSrc],
   );
 
   return (
@@ -94,40 +154,49 @@ export default function ImageCrop({ id, onSelectEnd }: ImageCropProps) {
         accept="image/*"
         onChange={onSelectFile}
       />
-      <Button as="label" htmlFor={`image-upload-${id}`}>
+      <Button
+        as="label"
+        htmlFor={`image-upload-${id}`}
+        isLoading={isLoading}
+        isDisabled={disabled}
+      >
         Select image to upload
       </Button>
 
       <Drawer
         isOpen={!!imgSrc}
-        onClose={() => setImgSrc("")}
+        onClose={onDrawerClose}
         placement="right"
         size="lg"
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
+          <DrawerHeader bg="white">
+            <Text fontSize={{ base: "sm", md: "md" }} textAlign="center">
+              Move/Resize frame to select what to uplaod
+            </Text>
+            <DrawerCloseButton />
+          </DrawerHeader>
           <DrawerBody>
-            <Text>Modify your image before upload</Text>
-            {!!completedCrop && (
-              <canvas
-                ref={previewCanvasRef}
-                style={{
-                  border: "1px solid black",
-                  objectFit: "contain",
-                  width: completedCrop.width,
-                  height: completedCrop.height,
-                }}
-              />
-            )}
+            <Center mb={3}>
+              {!!completedCrop && (
+                <canvas
+                  ref={previewCanvasRef}
+                  style={{
+                    border: "none",
+                    objectFit: "contain",
+                    width: completedCrop.width,
+                    height: completedCrop.height,
+                  }}
+                />
+              )}
+            </Center>
             {!!imgSrc && (
               <ReactCrop
                 crop={crop}
                 onChange={(_, percentCrop) => setCrop(percentCrop)}
                 onComplete={(c) => setCompletedCrop(c)}
                 aspect={16 / 9}
-                // minWidth={400}
-                minHeight={100}
                 // circularCrop
               >
                 <img
@@ -139,6 +208,19 @@ export default function ImageCrop({ id, onSelectEnd }: ImageCropProps) {
               </ReactCrop>
             )}
           </DrawerBody>
+          <DrawerFooter gap={2}>
+            <Button variant="outline" onClick={onDrawerClose}>
+              CANCEL
+            </Button>
+            <Button
+              onClick={onReadyToUplaod}
+              colorScheme="blue"
+              rightIcon={<FaUpload />}
+              isLoading={isLoading}
+            >
+              UPLOAD
+            </Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </div>
