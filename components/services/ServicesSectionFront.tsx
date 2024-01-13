@@ -101,7 +101,6 @@ export default function ServicesSectionFront({
                   <ServiceDndTableItem
                     service={service}
                     onSetActive={(id: string) => {
-                      console.log(id);
                       setActiveServiceId(id);
                     }}
                     onDelete={(id: string) => deleteService(id)}
@@ -229,7 +228,6 @@ function ServiceDndTableItem({
         <CButton
           mr={1}
           onClick={() => {
-            console.log(111, service.id);
             onSetActive(service.id || "");
           }}
         >
