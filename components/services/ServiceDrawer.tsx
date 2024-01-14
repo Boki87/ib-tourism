@@ -379,7 +379,7 @@ export default function ServiceDrawer({
               <HStack flexWrap="wrap">
                 <HStack>
                   <FormLabel display="flex" alignItems="center" gap={2}>
-                    Has whatsapp <FaWhatsapp />
+                    Whatsapp <FaWhatsapp />
                     <Switch
                       isChecked={service?.has_whatsapp}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -392,7 +392,7 @@ export default function ServiceDrawer({
                 </HStack>
                 <HStack>
                   <FormLabel display="flex" alignItems="center" gap={2}>
-                    Has viber <FaViber />
+                    Viber <FaViber />
                     <Switch
                       isChecked={service?.has_viber}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

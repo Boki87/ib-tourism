@@ -5,7 +5,7 @@ export default function Home() {
 export const getServerSideProps = async () => {
   return {
     redirect: {
-      destination: "/admin",
+      destination: "/admin/venues",
       parmanent: false,
     },
   };

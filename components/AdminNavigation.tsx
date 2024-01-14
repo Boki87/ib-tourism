@@ -9,11 +9,6 @@ import { useRouter } from "next/router";
 
 export const navList = [
   {
-    title: "Analitics",
-    icon: <IoStatsChartSharp />,
-    href: "/admin",
-  },
-  {
     title: "Main",
     icon: <MdStorefront />,
     href: "/admin/venues",
@@ -27,6 +22,11 @@ export const navList = [
     title: "Surveys",
     icon: <TbChecklist />,
     href: "/admin/reviews",
+  },
+  {
+    title: "Analitics",
+    icon: <IoStatsChartSharp />,
+    href: "/admin",
   },
   // {
   //   title: "Employees",

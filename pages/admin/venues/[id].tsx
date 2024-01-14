@@ -385,7 +385,7 @@ export default function VenuePage({
                         rightIcon={<BsUpload />}
                         maxW="md"
                       >
-                        Upload Bg
+                        Upload Cover Photo
                       </CButton>
                       <CButton onClick={deleteBackground}>
                         <MdDelete />
@@ -405,15 +405,15 @@ export default function VenuePage({
                   </Center>
                 </Stack>
 
-                <HStack>
-                  <Text>Pick a backround color:</Text>
-                  <ChakraColorPicker
-                    value={venueData.background_color || ""}
-                    onChange={(val) => {
-                      setVenueData({ ...venueData, background_color: val });
-                    }}
-                  />
-                </HStack>
+                {/* <HStack> */}
+                {/*   <Text>Pick a backround color:</Text> */}
+                {/*   <ChakraColorPicker */}
+                {/*     value={venueData.background_color || ""} */}
+                {/*     onChange={(val) => { */}
+                {/*       setVenueData({ ...venueData, background_color: val }); */}
+                {/*     }} */}
+                {/*   /> */}
+                {/* </HStack> */}
                 {/* <HStack> */}
                 {/*   <Text>Pick a default theme</Text> */}
                 {/*   <ButtonGroup isAttached> */}
@@ -478,7 +478,7 @@ export default function VenuePage({
               <HStack flexWrap="wrap">
                 <HStack>
                   <FormLabel display="flex" alignItems="center" gap={2}>
-                    Has whatsapp <FaWhatsapp />
+                    Whatsapp <FaWhatsapp />
                     <Switch
                       isChecked={venueData.has_whatsapp}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -492,7 +492,7 @@ export default function VenuePage({
                 </HStack>
                 <HStack>
                   <FormLabel display="flex" alignItems="center" gap={2}>
-                    Has viber <FaViber />
+                    Viber <FaViber />
                     <Switch
                       isChecked={venueData.has_viber}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {

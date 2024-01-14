@@ -76,7 +76,7 @@ export default function AdminLogin() {
 
       setUser(ownerData);
 
-      router.push("/admin");
+      router.push("/admin/venues");
       setIsLoading(false);
     } catch (e) {
       console.log(e);

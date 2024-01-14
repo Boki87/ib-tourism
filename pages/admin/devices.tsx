@@ -80,7 +80,7 @@ export default function Devices({
   useEffect(() => {
     if (selectedVenue !== "") {
       const newDevices = cachedDevices.filter(
-        (d) => d.venue_id === selectedVenue
+        (d) => d.venue_id === selectedVenue,
       );
       setFilteredDevices(newDevices);
       // setCachedDevices(newDevices);
@@ -110,7 +110,7 @@ export default function Devices({
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th></Th>
+                {/* <Th></Th> */}
                 <Th>Title</Th>
                 <Th>Venue</Th>
                 {/* <Th>Current employee</Th> */}
@@ -129,14 +129,14 @@ export default function Devices({
                   cursor="pointer"
                   _hover={{ bg: hoverColor }}
                 >
-                  <Td minW="100px">
-                    {device.device_types?.image && (
-                      <Image
-                        src={device.device_types?.image}
-                        style={{ height: "40px", width: "auto" }}
-                      />
-                    )}
-                  </Td>
+                  {/* <Td minW="100px"> */}
+                  {/*   {device.device_types?.image && ( */}
+                  {/*     <Image */}
+                  {/*       src={device.device_types?.image} */}
+                  {/*       style={{ height: "40px", width: "auto" }} */}
+                  {/*     /> */}
+                  {/*   )} */}
+                  {/* </Td> */}
                   <Td>{device.title}</Td>
                   <Td>{device.venues?.title}</Td>
                   {/* <Td>
@@ -205,7 +205,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { data: devices, error: devicesError } = await supabase
     .from("nfcs")
     .select(
-      "*, device_types(id, image), venues(id,title,logo), employees(id, full_name)"
+      "*, device_types(id, image), venues(id,title,logo), employees(id, full_name)",
     )
     .match({ owner_id: data.session.user.id })
     .order("created_at");
