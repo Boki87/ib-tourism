@@ -5,15 +5,16 @@ const styles = {
     html: {
       h: "100%",
       w: "100%",
-      scrollBehavior: "smooth",
     },
     body: {
-      h: "100%",
+      h: "100dvh",
       w: "100%",
     },
     "#__next": {
       h: "100%",
       w: "100%",
+      scrollBehavior: "smooth",
+      overflow: "auto",
     },
     "#nprogress .bar": {
       height: "5px",

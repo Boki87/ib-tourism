@@ -12,6 +12,7 @@ import {
   DrawerFooter,
   Button,
 } from "@chakra-ui/react";
+import { FaTimes } from "react-icons/fa";
 import { useServices } from "../../hooks/useServices";
 import FrontPageService from "./FrontPageService";
 
@@ -92,6 +93,7 @@ export default function FrontPageServicesDrawer({
       onClose={onClose}
       placement={"right"}
       size={["full", "md"]}
+      isFullHeight
     >
       <DrawerOverlay />
       <DrawerContent>
@@ -106,9 +108,26 @@ export default function FrontPageServicesDrawer({
             {content}
           </Box>
         </DrawerBody>
-        <DrawerFooter onClick={onClose} borderTop="1px" borderColor="gray.200">
-          <Button colorScheme="blue">Back</Button>
-        </DrawerFooter>
+        {/* <DrawerFooter onClick={onClose} borderTop="1px" borderColor="gray.200"> */}
+        {/*   <Button colorScheme="blue">Back</Button> */}
+        {/* </DrawerFooter> */}
+        <Button
+          onClick={onClose}
+          colorScheme="blue"
+          position="fixed"
+          bottom="85px"
+          right="0px"
+          w="50px"
+          h="50px"
+          borderTopLeftRadius="100%"
+          borderBottomLeftRadius="100%"
+          borderBottomRightRadius="0px"
+          borderTopRightRadius="0px"
+          zIndex="100"
+          shadow="lg"
+        >
+          <FaTimes />
+        </Button>
       </DrawerContent>
     </Drawer>
   );
