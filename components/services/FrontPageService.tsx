@@ -21,6 +21,7 @@ import { Service } from "../../types/Service";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { useState } from "react";
+import { TbWorldWww } from "react-icons/tb";
 
 export default function FrontPageServices({ service }: { service: Service }) {
   return (
@@ -129,7 +130,7 @@ export default function FrontPageServices({ service }: { service: Service }) {
         {service.url && (
           <a href={service.url} target="_blank">
             <Center w="50px" h="50px" borderRadius="md" bg="gray.100">
-              <FaLink />
+              <TbWorldWww size={30} />
             </Center>
           </a>
         )}

@@ -81,12 +81,11 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { data: nfcData, error: nfcError } = await supabase
     .from("nfcs")
     .select()
-    .match({ id })
+    .eq("id", id)
     .single();
-
-  const venueId = nfcData?.venue_id;
+  const venueId = (nfcData as Nfc)?.venue_id;
   if (!nfcError) {
-    props.nfcData = nfcData;
+    props.nfcData = nfcData as Nfc;
   } else {
     return {
       props,
@@ -96,38 +95,36 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { data: venueData, error: venueError } = await supabase
     .from("venues")
     .select()
-    .match({ id: venueId })
+    .eq("id", venueId)
     .single();
   if (!venueError) {
-    props.venueData = venueData;
-  }
-  const { data: links, error: linksError } = await supabase
-    .from("venue_links")
-    .select()
-    .match({ venue_id: venueId })
-    .order("order_index");
-  if (!linksError) {
-    props.links = links;
+    props.venueData = venueData as Venue;
   }
 
-  const { data: externalOffers, error: externalOffersError } = await supabase
-    .from("external_offers")
-    .select()
-    .order("order_index", { ascending: true })
-    .match({ venue_id: venueData?.id });
+  try {
+    const [links, externalOffers, callToActions] = await Promise.all([
+      supabase
+        .from("venue_links")
+        .select()
+        .match({ venue_id: venueId })
+        .order("order_index"),
+      supabase
+        .from("external_offers")
+        .select()
+        .order("order_index", { ascending: true })
+        .match({ venue_id: (venueData as Venue)?.id }),
+      supabase
+        .from("call_to_actions")
+        .select()
+        .match({ venue_id: (venueData as Venue)?.id })
+        .order("created_at"),
+    ]);
 
-  if (!externalOffersError) {
-    props.externalOffers = externalOffers;
-  }
-
-  const { data: callToActions, error: callToActionsError } = await supabase
-    .from("call_to_actions")
-    .select()
-    .match({ venue_id: venueData?.id })
-    .order("created_at");
-
-  if (!callToActionsError) {
-    props.callToActions = callToActions as CallToAction[];
+    props.links = links.data as Link[];
+    props.externalOffers = externalOffers.data as Partial<ExternalOffer>[];
+    props.callToActions = callToActions.data as CallToAction[];
+  } catch (e) {
+    console.error(e);
   }
 
   return {

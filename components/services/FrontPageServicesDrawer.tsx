@@ -117,16 +117,15 @@ export default function FrontPageServicesDrawer({
           position="fixed"
           bottom="85px"
           right="0px"
-          w="50px"
           h="50px"
-          borderTopLeftRadius="100%"
-          borderBottomLeftRadius="100%"
+          borderTopLeftRadius="25px"
+          borderBottomLeftRadius="25px"
           borderBottomRightRadius="0px"
           borderTopRightRadius="0px"
           zIndex="100"
           shadow="lg"
         >
-          <FaTimes />
+          Back
         </Button>
       </DrawerContent>
     </Drawer>

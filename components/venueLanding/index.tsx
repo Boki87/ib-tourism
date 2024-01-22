@@ -89,7 +89,7 @@ function FrontPageServicesContainer({ venueId }: { venueId: string }) {
   return (
     <Box mx="auto" maxW="md">
       {liveServices.map((s) => (
-        <Center p={4} w="full">
+        <Center p={4} w="full" key={s.id}>
           <FrontPageService service={s} key={s.id} />
         </Center>
       ))}
