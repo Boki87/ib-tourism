@@ -18,11 +18,11 @@ export const navList = [
     icon: <HiLink />,
     href: "/admin/devices",
   },
-  {
-    title: "Surveys",
-    icon: <TbChecklist />,
-    href: "/admin/reviews",
-  },
+  // {
+  //   title: "Surveys",
+  //   icon: <TbChecklist />,
+  //   href: "/admin/reviews",
+  // },
   {
     title: "Analitics",
     icon: <IoStatsChartSharp />,

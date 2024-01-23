@@ -1,5 +1,5 @@
 import { VStack, Box, Text } from "@chakra-ui/react";
-import { useReviewTemplates } from "../pages/admin/reviews";
+import { useReviewTemplates } from "../components/reviews/ReviewsComponent";
 import ReviewTemplate from "./ReviewTemplate";
 
 export default function ReviewTemplatesList() {

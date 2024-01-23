@@ -21,7 +21,7 @@ import {
 } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { ReviewTemplate as ReviewTemplateType } from "../types/ReviewTemplate";
-import { useReviewTemplates } from "../pages/admin/reviews";
+import { useReviewTemplates } from "../components/reviews/ReviewsComponent";
 
 interface IReviewTemplate {
   data: ReviewTemplateType;

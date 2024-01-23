@@ -28,6 +28,7 @@ import {
   Avatar,
   ButtonGroup,
   Switch,
+  Spacer,
 } from "@chakra-ui/react";
 import LinkDrawer from "../../../components/LinkDrawer";
 import ChakraColorPicker from "../../../components/ChakraColorPicker";
@@ -44,9 +45,17 @@ import { FaViber, FaWhatsapp } from "react-icons/fa";
 import ServicesSection from "../../../components/services/ServicesSection";
 import { CallToAction } from "../../../types/CallToAction";
 import ServicesSectionFront from "../../../components/services/ServicesSectionFront";
+import { ReviewTemplate } from "../../../types/ReviewTemplate";
 
 const CallToActions = dynamic(
   () => import("../../../components/CallToActions"),
+  {
+    ssr: false,
+  },
+);
+
+const ReviewsComponent = dynamic(
+  () => import("../../../components/reviews/ReviewsComponent"),
   {
     ssr: false,
   },
@@ -57,11 +66,13 @@ export default function VenuePage({
   links: serverLinks,
   externalOffers,
   callToActions,
+  reviewTemplates: reviewTemplatesDb,
 }: {
   venue: Venue;
   links: Link[];
   externalOffers: ExternalOffer[];
   callToActions: CallToAction[];
+  reviewTemplates: ReviewTemplate[];
 }) {
   const [links, setLinks] = useState(serverLinks);
   const [venueData, setVenueData] = useState(venue);
@@ -91,17 +102,21 @@ export default function VenuePage({
     e.preventDefault();
     try {
       setIsSaving(true);
-      const { id, background_image, logo, ...restData } = venueData;
-      const { error } = await supabase
-        .from("venues")
-        .update(restData)
-        .match({ id });
-      if (error) throw Error(error.message);
+      await saveVenueDataToDb();
       setIsSaving(false);
     } catch (e) {
       console.log(e);
       setIsSaving(false);
     }
+  }
+
+  async function saveVenueDataToDb(obj?: Venue) {
+    const { id, background_image, logo, ...restData } = venueData;
+    const { error } = await supabase
+      .from("venues")
+      .update(obj ? obj : restData)
+      .match({ id });
+    if (error) throw Error(error.message);
   }
 
   async function uploadLogo() {
@@ -587,21 +602,6 @@ export default function VenuePage({
               actions={callToActions || []}
               venueId={venueData.id || ""}
             />
-            <FormControl display="flex" alignItems="center" mb={8}>
-              <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
-                <TbChecklist size="25px" style={{ marginRight: "8px" }} />
-                Show Survey
-              </FormLabel>
-              <Switch
-                isChecked={venueData.show_review}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  let val = !!e.target.checked;
-                  setVenueData((old) => {
-                    return { ...old, show_review: val };
-                  });
-                }}
-              />
-            </FormControl>
             <Box textAlign="center">
               <ButtonGroup isAttached>
                 <Button
@@ -631,6 +631,7 @@ export default function VenuePage({
         borderWidth={1}
         padding={4}
         borderRadius="md"
+        mb={5}
       >
         <Text as="h2" fontSize="xl" fontWeight="bold">
           Your links for {venueData.title}
@@ -653,6 +654,46 @@ export default function VenuePage({
           <NewLinkButton onSelect={addLink} />
         </Box>
       </Box>
+
+      <Box
+        borderColor={borderColor}
+        borderWidth={1}
+        padding={4}
+        borderRadius="md"
+      >
+        <Box justifyContent="space-between" display="flex" w="100%">
+          <Text fontSize="xl" fontWeight="bold">
+            Survey
+          </Text>
+          <Spacer />
+          <Box>
+            <FormControl display="flex" alignItems="center">
+              <FormLabel m="0px" mr="10px" display="flex" alignItems="center">
+                <TbChecklist size="25px" style={{ marginRight: "8px" }} />
+                Show Survey
+              </FormLabel>
+              <Switch
+                isChecked={venueData.show_review}
+                onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                  let val = !!e.target.checked;
+                  let newData = { ...venueData, show_review: val };
+                  setVenueData(newData);
+                  try {
+                    await saveVenueDataToDb(newData);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
+              />
+            </FormControl>
+          </Box>
+        </Box>
+        <ReviewsComponent
+          userId={venueData.owner_id || ""}
+          venueId={venueData.id || ""}
+        />
+      </Box>
+
       <LinkDrawer
         activeLinkId={activeLinkId}
         isOpen={isDrawerOpen}
@@ -732,12 +773,19 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .match({ venue_id: venueData.id })
     .order("created_at");
 
+  const { data: reviewTemplates, error: reviewTemplatesError } = await supabase
+    .from("review_templates")
+    .select()
+    .match({ owner_id: data.session.user.id, venue_id: venueData.id })
+    .order("order_index", { ascending: true });
+
   return {
     props: {
       venue: venueData,
       links,
       externalOffers,
       callToActions,
+      reviewTemplates,
     },
   };
 };

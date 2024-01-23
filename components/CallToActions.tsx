@@ -45,7 +45,7 @@ export default function CallToActions({
   }
 
   return (
-    <Box>
+    <Box mb={3}>
       {callToActions.length > 0 && (
         <Text fontSize="lg" fontWeight="bold" mb={4} mt={7}>
           Additional CTA's
