@@ -9,32 +9,27 @@ import {
   Spinner,
   Text,
   DrawerHeader,
-  DrawerFooter,
   Button,
 } from "@chakra-ui/react";
-import { FaTimes } from "react-icons/fa";
 import { useServices } from "../../hooks/useServices";
+import { ServiceCategory } from "../../types/ServiceCategory";
 import FrontPageService from "./FrontPageService";
 
 interface FrontPageServicesDrawerProps {
-  activeServiceType: string;
+  activeServiceCategory: ServiceCategory | null;
   venueId: string;
   onClose: () => void;
 }
 
 export default function FrontPageServicesDrawer({
-  activeServiceType,
+  activeServiceCategory,
   venueId,
   onClose,
 }: FrontPageServicesDrawerProps) {
-  const {
-    fetchServices,
-    loading,
-    services,
-    setServices,
-    addService,
-    deleteService,
-  } = useServices(activeServiceType, venueId);
+  const { loading, services } = useServices(
+    activeServiceCategory?.id || "",
+    venueId,
+  );
 
   const liveServices = services.filter((s) => s.is_live);
 
@@ -89,7 +84,7 @@ export default function FrontPageServicesDrawer({
   }
   return (
     <Drawer
-      isOpen={!!activeServiceType}
+      isOpen={!!activeServiceCategory}
       onClose={onClose}
       placement={"right"}
       size={["full", "md"]}
@@ -99,7 +94,7 @@ export default function FrontPageServicesDrawer({
       <DrawerContent>
         <DrawerHeader>
           <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
-            {activeServiceType.replaceAll("_", " ")}
+            {activeServiceCategory?.title}
           </Text>
           <DrawerCloseButton onClick={onClose} />
         </DrawerHeader>
@@ -108,9 +103,6 @@ export default function FrontPageServicesDrawer({
             {content}
           </Box>
         </DrawerBody>
-        {/* <DrawerFooter onClick={onClose} borderTop="1px" borderColor="gray.200"> */}
-        {/*   <Button colorScheme="blue">Back</Button> */}
-        {/* </DrawerFooter> */}
         <Button
           onClick={onClose}
           colorScheme="blue"

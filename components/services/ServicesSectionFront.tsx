@@ -69,7 +69,7 @@ export default function ServicesSectionFront({
         Front Page Services
       </Text>
       <HStack justifyContent="right">
-        <CButton onClick={addService} rightIcon={<FaPlus />}>
+        <CButton onClick={() => addService(true)} rightIcon={<FaPlus />}>
           ADD
         </CButton>
       </HStack>

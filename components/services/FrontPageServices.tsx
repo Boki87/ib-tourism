@@ -1,41 +1,43 @@
-import {
-  Box,
-  useColorModeValue,
-  Text,
-  HStack,
-  Card,
-  Center,
-  Spinner,
-  Skeleton,
-} from "@chakra-ui/react";
-import Image from "next/image";
-import { services } from "./config";
+import { Box, Text, HStack, Card, Skeleton, Spacer } from "@chakra-ui/react";
+import * as Icon from "react-icons/fa";
 import { useEffect, useState } from "react";
 import FrontPageServicesDrawer from "./FrontPageServicesDrawer";
-import { useServices } from "../../hooks/useServices";
+import { supabase } from "../../libs/supabase";
+import { ServiceCategory } from "../../types/ServiceCategory";
 
 interface FrontPageServicesProps {
   venueId: string;
 }
 
 export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
-  const [activeService, setActiveService] = useState<string | null>(null);
+  const [activeService, setActiveService] = useState<ServiceCategory | null>(
+    null,
+  );
+  const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const {
-    allServices,
-    fetchAllServices,
-    loadingAll: loading,
-  } = useServices("", venueId);
+  async function fetchCategories() {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("service_categories")
+      .select()
+      .match({ venue_id: venueId })
+      .order("order_index");
+
+    if (error) {
+      setLoading(false);
+      return;
+    }
+    setCategories(data as ServiceCategory[]);
+    setLoading(false);
+  }
 
   useEffect(() => {
-    fetchAllServices();
-  }, []);
+    if (!venueId) return;
 
-  const uniqueTypes = Array.from(
-    new Set(allServices.filter((s) => s.is_live).map((obj) => obj.type)),
-  );
-  const uniqueServices: { key: string; label: string; image: any }[] =
-    services.filter((s) => uniqueTypes.includes(s.key));
+    fetchCategories();
+  }, [venueId]);
+
   return (
     <>
       <HStack
@@ -59,39 +61,41 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
           </>
         )}
         {!loading &&
-          uniqueServices.map((service) => (
-            <Card
-              onClick={() => setActiveService(service.key)}
-              w="100%"
-              h="100%"
-              ml={0}
-              style={{ marginLeft: "0px" }}
-              display="flex"
-              flexDir="column"
-              alignItems="center"
-              gap={2}
-              p={3}
-              cursor="pointer"
-              key={service.key}
-              borderRadius="lg"
-              bg="gray.100"
-            >
-              <Box display="flex" justifyContent="center">
-                <Image
-                  src={service.image}
-                  width={70}
-                  height={70}
-                  alt="service icon"
-                />
-              </Box>
-              <Text fontSize="sm" textTransform="capitalize">
-                {service.label}
-              </Text>
-            </Card>
-          ))}
+          categories.map((service) => {
+            const IconComponent = Icon[service.icon as keyof typeof Icon];
+
+            return (
+              <Card
+                onClick={() => setActiveService(service)}
+                w="100%"
+                h="auto"
+                ml={0}
+                style={{ marginLeft: "0px" }}
+                display="flex"
+                flexDir="column"
+                gap={2}
+                p={3}
+                cursor="pointer"
+                key={service.id}
+                borderRadius="lg"
+                bg="gray.100"
+                isTruncated
+              >
+                <Box display="flex" justifyContent="center">
+                  <IconComponent size={50} />
+                </Box>
+                <Spacer />
+                <Box textAlign="center">
+                  <Text fontSize="sm" textTransform="capitalize" isTruncated>
+                    {service.title}
+                  </Text>
+                </Box>
+              </Card>
+            );
+          })}
       </HStack>
       <FrontPageServicesDrawer
-        activeServiceType={activeService || ""}
+        activeServiceCategory={activeService}
         onClose={() => setActiveService(null)}
         venueId={venueId}
       />

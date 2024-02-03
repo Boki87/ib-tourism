@@ -38,7 +38,6 @@ export default function ReviewsComponent({
       .match({ owner_id: userId, venue_id: venueId })
       .order("order_index", { ascending: true });
     if (error) return;
-    console.log(error, data);
     //@ts-ignore
     setReviewTemplates(data);
   }

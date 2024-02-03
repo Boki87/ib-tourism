@@ -17,6 +17,9 @@ import {
   Thead,
   Tr,
   Box,
+  FormControl,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
 import Button from "../Button";
 import ServiceDrawer from "./ServiceDrawer";
@@ -34,22 +37,23 @@ import { Service } from "../../types/Service";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MdOutlineDragIndicator } from "react-icons/md";
+import { ServiceCategory } from "../../types/ServiceCategory";
+import IconSelector from "../IconSelector/IconSelector";
+import { supabase } from "../../libs/supabase";
 
 interface ServicesDrawerProps {
-  activeServiceType: string | null;
+  activeServiceCategory: ServiceCategory | null;
   onClose: () => void;
   venueId: string;
 }
 
 export default function ServicesDrawer({
-  activeServiceType,
+  activeServiceCategory,
   onClose,
   venueId,
 }: ServicesDrawerProps) {
-  const serviceTitle = servicesOptions.find((s) => s.key === activeServiceType)
-    ?.label;
-
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
+  const [category, setCategory] = useState<ServiceCategory | null>(null);
 
   const {
     fetchServices,
@@ -59,18 +63,62 @@ export default function ServicesDrawer({
     addService,
     deleteService,
     handleDragEnd,
-  } = useServices(activeServiceType, venueId);
+  } = useServices(activeServiceCategory?.id || "", venueId);
+
+  async function onCategoryChangeHandler(
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const { value, name } = e.target;
+    setCategory((prev) => ({
+      ...(prev as ServiceCategory),
+      [name]: value,
+    }));
+  }
+
+  async function iconChangeHandler(icon: string) {
+    console.log("Icons changed to ", icon);
+    setCategory((prev) => ({
+      ...(prev as ServiceCategory),
+      icon,
+    }));
+
+    if (!activeServiceCategory) return;
+    const { error } = await supabase
+      .from("service_categories")
+      .update({ icon })
+      .match({ id: activeServiceCategory.id });
+
+    if (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
-    if (!activeServiceType) {
+    setCategory(activeServiceCategory);
+    if (!activeServiceCategory) {
       setActiveServiceId(null);
     }
-  }, [activeServiceType]);
+  }, [activeServiceCategory]);
+
+  useEffect(() => {
+    let t = setTimeout(async () => {
+      if (!activeServiceCategory || !category?.title) return;
+      const { error } = await supabase
+        .from("service_categories")
+        .update({ title: category.title })
+        .match({ id: activeServiceCategory.id });
+
+      if (error) {
+        console.error(error);
+      }
+    }, 500);
+    return () => clearTimeout(t);
+  }, [category?.title]);
 
   return (
     <>
       <Drawer
-        isOpen={!!activeServiceType}
+        isOpen={!!activeServiceCategory}
         onClose={onClose}
         placement={"right"}
         size="lg"
@@ -79,15 +127,32 @@ export default function ServicesDrawer({
         <DrawerContent borderLeftRadius="md">
           <DrawerCloseButton onClick={onClose} />
           <DrawerBody p="10px" pb="60px" mt="50px" overflowY="auto">
-            <Text fontSize="2xl" textAlign="center">
-              Services for{" "}
-              <strong style={{ textTransform: "uppercase" }}>
-                {serviceTitle}
-              </strong>
+            <Text fontSize="xl" mb={5} textAlign="center">
+              <strong>Title:</strong> {category?.title}
             </Text>
+            <HStack alignItems="flex-start">
+              <Box>
+                <IconSelector
+                  icon={category?.icon || ""}
+                  onSelect={iconChangeHandler}
+                />
+              </Box>
+              <FormControl mb={4}>
+                <FormLabel>Service Category Title</FormLabel>
+                <Input
+                  name="title"
+                  type="text"
+                  placeholder="Please enter category title"
+                  onInput={onCategoryChangeHandler}
+                  value={category?.title || ""}
+                  variant="filled"
+                />
+              </FormControl>
+            </HStack>
+
             <HStack justifyContent="center" mt={3}>
               <Button
-                onClick={addService}
+                onClick={() => addService(false)}
                 leftIcon={<span style={{ fontSize: "20px" }}>+</span>}
               >
                 Add service

@@ -624,7 +624,10 @@ export default function VenuePage({
 
       <ServicesSectionFront venueId={venueData.id || ""} />
 
-      <ServicesSection venueId={venueData.id || ""} />
+      <ServicesSection
+        venueId={venueData.id || ""}
+        userId={venueData.owner_id || ""}
+      />
 
       <Box
         borderColor={borderColor}

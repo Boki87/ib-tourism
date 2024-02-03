@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "../libs/supabase";
 import { Service } from "../types/Service";
 
-export function useServices(activeServiceType: string | null, venueId: string) {
+export function useServices(
+  activeServiceCategory: string | null,
+  venueId: string,
+) {
   const [services, setServices] = useState<Service[]>([]);
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(false);
@@ -24,12 +27,27 @@ export function useServices(activeServiceType: string | null, venueId: string) {
   }
 
   async function fetchServices() {
-    if (activeServiceType === "") return;
+    if (activeServiceCategory === "") return;
+
+    let fetchQuery: { venue_id: string; category_id?: string; type?: string };
+
+    if (activeServiceCategory === "_") {
+      fetchQuery = {
+        venue_id: venueId,
+        type: "_",
+      };
+    } else {
+      fetchQuery = {
+        venue_id: venueId,
+        category_id: activeServiceCategory || "",
+      };
+    }
+
     setLoading(true);
     const { data, error: servicesError } = await supabase
       .from("external_offers")
       .select("*")
-      .match({ venue_id: venueId, type: activeServiceType })
+      .match(fetchQuery)
       .order("order_index");
 
     if (servicesError) {
@@ -41,16 +59,36 @@ export function useServices(activeServiceType: string | null, venueId: string) {
     setLoading(false);
   }
 
-  async function addService() {
+  async function addService(isForFront?: boolean) {
     setLoading(true);
-    const { error: servicesError } = await supabase
-      .from("external_offers")
-      .insert({
+
+    let insertObj: {
+      title: string;
+      description: string;
+      venue_id: string;
+      category_id?: string;
+      type?: string;
+    };
+
+    if (isForFront) {
+      insertObj = {
         title: "Change me",
         description: "Generic description",
         venue_id: venueId,
-        type: activeServiceType,
-      });
+        type: "_",
+      };
+    } else {
+      insertObj = {
+        title: "Change me",
+        description: "Generic description",
+        venue_id: venueId,
+        category_id: activeServiceCategory || "",
+      };
+    }
+
+    const { error: servicesError } = await supabase
+      .from("external_offers")
+      .insert(insertObj);
     if (servicesError) {
       setLoading(false);
       return;
@@ -113,12 +151,12 @@ export function useServices(activeServiceType: string | null, venueId: string) {
   }
 
   useEffect(() => {
-    if (!!activeServiceType) {
+    if (activeServiceCategory != "") {
       fetchServices();
     } else {
       setServices([]);
     }
-  }, [activeServiceType, venueId]);
+  }, [activeServiceCategory, venueId]);
 
   return {
     addService,
