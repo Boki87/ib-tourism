@@ -36,7 +36,9 @@ export default function ServicesSection({
       .from("service_categories")
       .select()
       .match({ venue_id: venueId })
-      .order("order_index");
+      .order("is_live", { ascending: false })
+      .order("order_index")
+      .order("created_at");
 
     if (error) return;
 
@@ -97,6 +99,7 @@ export default function ServicesSection({
                 onClick={() => setActiveServiceCategory(cat)}
                 title={cat.title}
                 icon={cat.icon}
+                isLive={!!cat.is_live}
                 key={cat.id || ""}
               />
             ))}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   Drawer,
   DrawerOverlay,
@@ -20,6 +20,8 @@ import {
   FormControl,
   FormLabel,
   Input,
+  VStack,
+  Switch,
 } from "@chakra-ui/react";
 import Button from "../Button";
 import ServiceDrawer from "./ServiceDrawer";
@@ -93,6 +95,17 @@ export default function ServicesDrawer({
     }
   }
 
+  async function onDelete() {
+    if (!activeServiceCategory) return;
+    const r = window.confirm("Sure you want to delete this Category?");
+    if (!r) return;
+    onClose();
+    const { error } = await supabase
+      .from("service_categories")
+      .delete()
+      .match({ id: activeServiceCategory.id });
+  }
+
   useEffect(() => {
     setCategory(activeServiceCategory);
     if (!activeServiceCategory) {
@@ -105,7 +118,7 @@ export default function ServicesDrawer({
       if (!activeServiceCategory || !category?.title) return;
       const { error } = await supabase
         .from("service_categories")
-        .update({ title: category.title })
+        .update({ title: category.title, is_live: category.is_live })
         .match({ id: activeServiceCategory.id });
 
       if (error) {
@@ -113,7 +126,7 @@ export default function ServicesDrawer({
       }
     }, 500);
     return () => clearTimeout(t);
-  }, [category?.title]);
+  }, [category?.title, category?.is_live]);
 
   return (
     <>
@@ -130,24 +143,52 @@ export default function ServicesDrawer({
             <Text fontSize="xl" mb={5} textAlign="center">
               <strong>Title:</strong> {category?.title}
             </Text>
-            <HStack alignItems="flex-start">
+            <HStack w="100%">
               <Box>
                 <IconSelector
                   icon={category?.icon || ""}
                   onSelect={iconChangeHandler}
                 />
               </Box>
-              <FormControl mb={4}>
-                <FormLabel>Service Category Title</FormLabel>
-                <Input
-                  name="title"
-                  type="text"
-                  placeholder="Please enter category title"
-                  onInput={onCategoryChangeHandler}
-                  value={category?.title || ""}
-                  variant="filled"
-                />
-              </FormControl>
+              <VStack w="100%">
+                <FormControl>
+                  <FormLabel>Service Category Title</FormLabel>
+                  <Input
+                    name="title"
+                    type="text"
+                    placeholder="Please enter category title"
+                    onInput={onCategoryChangeHandler}
+                    value={category?.title || ""}
+                    variant="filled"
+                  />
+                </FormControl>
+                <HStack alignItems="center" gap={4}>
+                  <Box>
+                    <CButton
+                      onClick={onDelete}
+                      colorScheme="red"
+                      leftIcon={<FaTrash />}
+                    >
+                      Delete
+                    </CButton>
+                  </Box>
+                  <FormControl display="flex" alignItems="center">
+                    <FormLabel m={0} mr={1}>
+                      Is Live
+                    </FormLabel>
+                    <Switch
+                      isChecked={category?.is_live}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        let val = !!e.target.checked;
+                        setCategory((prev) => ({
+                          ...(prev as ServiceCategory),
+                          is_live: val,
+                        }));
+                      }}
+                    />
+                  </FormControl>
+                </HStack>
+              </VStack>
             </HStack>
 
             <HStack justifyContent="center" mt={3}>

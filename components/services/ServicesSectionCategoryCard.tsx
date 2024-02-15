@@ -4,12 +4,14 @@ import * as Icon from "react-icons/fa";
 interface ServicesSectionCategoryCardProps {
   title: string;
   icon: string;
+  isLive: boolean;
   [x: string]: any;
 }
 
 export default function ServicesSectionCategoryCard({
   title,
   icon,
+  isLive,
   ...rest
 }: ServicesSectionCategoryCardProps) {
   const CatIcon = Icon[icon as keyof typeof Icon];
@@ -24,6 +26,7 @@ export default function ServicesSectionCategoryCard({
       p={3}
       cursor="pointer"
       bg="gray.100"
+      opacity={isLive ? 1 : 0.5}
       isTruncated
       {...rest}
     >

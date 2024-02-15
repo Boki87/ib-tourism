@@ -21,8 +21,9 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
     const { data, error } = await supabase
       .from("service_categories")
       .select()
-      .match({ venue_id: venueId })
-      .order("order_index");
+      .match({ venue_id: venueId, is_live: true })
+      .order("order_index")
+      .order("created_at");
 
     if (error) {
       setLoading(false);
