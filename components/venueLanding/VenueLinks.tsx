@@ -73,8 +73,7 @@ export default function VenueLinks() {
     };
   }, [goingToReview]);
 
-  if (links?.length === 0) return null;
-  if (links.filter((link) => link.is_active).length === 0) return null;
+  if (activeLinks.length === 0) return null;
   return (
     <>
       <Text textAlign="center" mt={3}>
@@ -85,8 +84,9 @@ export default function VenueLinks() {
         flexWrap="wrap"
         justifyContent="center"
         pb={12}
-        w={activeLinks.length == 2 ? "200px" : "100%"}
+        w={activeLinks.length < 4 ? `${activeLinks.length}00px` : "100%"}
         mx="auto"
+        maxW="md"
       >
         {activeLinks.map((link) => {
           return (
