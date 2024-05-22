@@ -100,8 +100,8 @@ export default function VenueHeader() {
         </motion.div>
       </Box>
       {venueData?.title && venueData?.title !== "" && (
-        <Center mt="40px" mb={6}>
-          <Text fontSize="3xl" fontWeight="bold">
+        <Center mt="40px" mb={6} p={3}>
+          <Text fontSize="3xl" fontWeight="bold" textAlign="center">
             {venueData?.title}
           </Text>
         </Center>

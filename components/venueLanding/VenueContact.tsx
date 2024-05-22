@@ -279,7 +279,7 @@ export default function VenueContact({ nfcId }: { nfcId: string }) {
         </Center>
       )}
       {callToActions
-        .filter((c) => c.is_live)
+        ?.filter((c) => c.is_live)
         .map((cta) => (
           <Center key={cta.id}>
             <Button

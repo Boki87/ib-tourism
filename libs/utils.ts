@@ -7,6 +7,10 @@ const venue_links = [
     icon: "/links/facebook.jpg",
   },
   {
+    name: "linkedin",
+    icon: "/links/linkedin.jpg",
+  },
+  {
     name: "google",
     icon: "/links/google.jpg",
   },

@@ -10,6 +10,7 @@ import {
   FaYoutube,
   FaBook,
   FaWineBottle,
+  FaLinkedin,
 } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 
@@ -22,29 +23,42 @@ type TIconsMap = {
 
 const IconsMap: TIconsMap = {
   facebook: {
-    icon: <FaFacebook />,
+    icon: <FaFacebook size={40} />,
     bg: "linear(to-l, blue.600, blue.400)",
   },
-  google: { icon: <FaGoogle />, bg: "linear(to-l, red.600, red.600)" },
+  linkedin: {
+    icon: <FaLinkedin size={40} />,
+    bg: "linear(to-l, blue.600, blue.400)",
+  },
+  google: {
+    icon: <FaGoogle size={40} />,
+    bg: "linear(to-l, red.600, red.600)",
+  },
   instagram: {
-    icon: <FaInstagram />,
+    icon: <FaInstagram size={40} />,
     bg: "linear(to-l, purple.400, pink.500, red.500)",
   },
   twitter: {
-    icon: <BsTwitterX />,
+    icon: <BsTwitterX size={40} />,
     bg: "black",
   },
   invino: {
-    icon: <FaWineBottle />,
+    icon: <FaWineBottle size={40} />,
     bg: "linear(to-l, orange.400, orange.300)",
   },
   "trip advisor": {
-    icon: <FaTripadvisor />,
+    icon: <FaTripadvisor size={40} />,
     bg: "linear(to-l, green.500, green.300)",
   },
-  yelp: { icon: <FaYelp />, bg: "linear(to-l, red.600, red.400)" },
-  youtube: { icon: <FaYoutube />, bg: "linear(to-l, red.400, red.400)" },
-  custom: { icon: <FaBook />, bg: "linear(to-l, teal.400, teal.300)" },
+  yelp: { icon: <FaYelp size={40} />, bg: "linear(to-l, red.600, red.400)" },
+  youtube: {
+    icon: <FaYoutube size={40} />,
+    bg: "linear(to-l, red.400, red.400)",
+  },
+  custom: {
+    icon: <FaBook size={40} />,
+    bg: "linear(to-l, teal.400, teal.300)",
+  },
 };
 
 export default function LinkIcon({

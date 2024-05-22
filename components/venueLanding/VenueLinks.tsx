@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Center, Grid, GridItem, Text } from "@chakra-ui/react";
 import { useVenueData } from "./";
 import LinkButton from "../LinkButton";
 import { useUser } from "@supabase/auth-helpers-react";
@@ -50,6 +50,8 @@ export default function VenueLinks() {
     }, 500);
   }
 
+  const activeLinks = links.filter((link) => link.is_active);
+
   useEffect(() => {
     document.onvisibilitychange = function () {
       let visibility = document.visibilityState;
@@ -71,7 +73,7 @@ export default function VenueLinks() {
     };
   }, [goingToReview]);
 
-  if (links.length === 0) return null;
+  if (links?.length === 0) return null;
   if (links.filter((link) => link.is_active).length === 0) return null;
   return (
     <>
@@ -81,16 +83,22 @@ export default function VenueLinks() {
       <Box
         display="flex"
         flexWrap="wrap"
-        gap={3}
-        maxW="md"
-        mx="auto"
         justifyContent="center"
-        p={5}
-        mb={3}
+        pb={12}
+        w={activeLinks.length == 2 ? "200px" : "100%"}
+        mx="auto"
       >
-        {links.map((link) => {
-          if (link.is_active) {
-            return (
+        {activeLinks.map((link) => {
+          return (
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              my={2}
+              minWidth={
+                activeLinks.length < 4 ? `${100 / activeLinks.length}%` : "25%"
+              }
+            >
               <LinkIcon
                 onClick={gotoUrl}
                 id={link.id}
@@ -99,8 +107,8 @@ export default function VenueLinks() {
                 key={link.id}
                 title={link.title}
               />
-            );
-          }
+            </Box>
+          );
         })}
       </Box>
     </>
