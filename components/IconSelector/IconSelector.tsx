@@ -125,6 +125,25 @@ export default function IconSelector({ icon, onSelect }: IconSelectorProps) {
               templateColumns={{ base: "repeat(3, 1fr)", md: "repeat(5, 1fr)" }}
               gap={2}
             >
+              <GridItem
+                borderRadius="lg"
+                className="custom-icons"
+                id={`cutom_icon-no_icon`}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                w="100%"
+                maxW="100%"
+                p={3}
+                _hover={{ bg: "gray.100" }}
+                bg="gray.50"
+                cursor="pointer"
+                onClick={() => onIconSelected("")}
+              >
+                <Text size="xs">No Icon</Text>
+              </GridItem>
+
               {iconsList}
             </Grid>
           </DrawerBody>

@@ -69,7 +69,7 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
               <Card
                 onClick={() => setActiveService(service)}
                 w="100%"
-                h="auto"
+                h="111px"
                 ml={0}
                 style={{ marginLeft: "0px" }}
                 display="flex"
@@ -82,11 +82,22 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
                 bg="gray.100"
                 isTruncated
               >
-                <Box display="flex" justifyContent="center">
-                  <IconComponent size={50} />
-                </Box>
-                <Spacer />
-                <Box textAlign="center">
+                {IconComponent && (
+                  <>
+                    <Box display="flex" justifyContent="center">
+                      <IconComponent size={50} />
+                    </Box>
+                    <Spacer />
+                  </>
+                )}
+
+                <Box
+                  textAlign="center"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  h={!IconComponent ? "100%" : "auto"}
+                >
                   <Text fontSize="sm" textTransform="capitalize" isTruncated>
                     {service.title}
                   </Text>

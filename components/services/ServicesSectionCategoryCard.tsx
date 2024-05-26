@@ -18,6 +18,7 @@ export default function ServicesSectionCategoryCard({
   return (
     <Card
       w="110px"
+      h={!CatIcon ? "88px" : "auto"}
       ml={0}
       style={{ marginLeft: "0px" }}
       display="flex"
@@ -30,10 +31,18 @@ export default function ServicesSectionCategoryCard({
       isTruncated
       {...rest}
     >
-      <Box display="flex" justifyContent="center">
-        {CatIcon && <CatIcon size={35} />}
-      </Box>
-      <Box textAlign="center">
+      {CatIcon && (
+        <Box display="flex" justifyContent="center">
+          <CatIcon size={35} />
+        </Box>
+      )}
+      <Box
+        textAlign="center"
+        h={!CatIcon ? "full" : "21px"}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Text fontSize="sm" textTransform="capitalize" isTruncated>
           {title}
         </Text>
