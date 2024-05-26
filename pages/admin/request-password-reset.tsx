@@ -1,5 +1,5 @@
 import { useState, SyntheticEvent } from "react";
-import { APP_URL } from "../../libs/supabase";
+import { APP_URL, supabase } from "../../libs/supabase";
 import {
   Text,
   Button as CButton,
@@ -15,7 +15,7 @@ import Button from "../../components/Button";
 import Logo from "../../public/images/logo.svg";
 import Image from "next/image";
 
-export default function AdminLogin() {
+export default function RequestPasswordReset() {
   const toast = useToast();
   const [formState, setFormState] = useState({
     email: "",
@@ -34,16 +34,18 @@ export default function AdminLogin() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const req = await fetch(`${APP_URL}/api/request-password-reset`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const localPort = process.env.PORT || 3001;
+      // TODO: improve this code, right now localUrl is hard coded
+      const localUrl = `http://localhost:3001/admin/reset-password`;
+      const productionUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/admin/reset-password`;
+      const { data, error } = await supabase.auth.resetPasswordForEmail(
+        formState.email,
+        {
+          redirectTo:
+            process.env.NODE_ENV === "development" ? localUrl : productionUrl,
         },
-        body: JSON.stringify(formState),
-      });
-      const res = await req.json();
-
-      if (!res.error) {
+      );
+      if (!error) {
         toast({
           status: "success",
           description:

@@ -11,6 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link as CLink,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -20,6 +21,7 @@ import LogoLgLight from "../../public/images/logo-lg-light.png";
 import Logo from "../../public/images/logo.svg";
 import Image from "next/image";
 import { useUserContext } from "../../context";
+import Link from "next/link";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -118,7 +120,7 @@ export default function AdminLogin() {
               value={formState.email}
             />
           </FormControl>
-          <FormControl isRequired mb={4}>
+          <FormControl isRequired mb={3}>
             <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
@@ -143,6 +145,13 @@ export default function AdminLogin() {
               </InputRightElement>
             </InputGroup>
           </FormControl>
+          <Box mb={4}>
+            <CLink>
+              <Link href="/admin/request-password-reset">
+                Forgot your password?
+              </Link>
+            </CLink>
+          </Box>
           <Center>
             <Button isLoading={isLoading} type="submit">
               LOGIN

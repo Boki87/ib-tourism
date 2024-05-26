@@ -30,7 +30,6 @@ export default function AdminLogin() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { setUser } = useUserContext();
 
   function onChangeHandler(e: SyntheticEvent) {
     const input = e.target as HTMLInputElement;
@@ -44,46 +43,19 @@ export default function AdminLogin() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const req = await fetch(`${APP_URL}/api/admin-login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formState),
+      const { data, error } = await supabase.auth.updateUser({
+        password: formState.password,
       });
-      const res = await req.json();
-
-      if (res.error && res.message === "no_user") {
-        toast({
-          status: "error",
-          description: "Invalid credentials",
-          isClosable: true,
-          duration: 3000,
-        });
+      console.log(data, error);
+      if (!error) {
+        router.push("/admin");
       }
-
-      //attempt login
-      const { data, error } = await supabase.auth.signInWithPassword(formState);
-      if (error) throw Error(error.message);
-
-      const { data: ownerData, error: ownerError } = await supabase
-        .from("owners")
-        .select()
-        .match({ id: data?.session?.user.id })
-        .single();
-
-      if (ownerError) throw Error(ownerError.message);
-
-      setUser(ownerData);
-
-      router.push("/admin/venues");
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
       setIsLoading(false);
       toast({
         status: "error",
-        description: "Invalid credentials",
+        description: "Something went wrong. Please try again.",
         isClosable: true,
         duration: 3000,
       });
@@ -92,7 +64,6 @@ export default function AdminLogin() {
 
   const bgCard = useColorModeValue("white", "gray.700");
   const bg = useColorModeValue("gray.100", "gray.900");
-  // const logo = useColorModeValue(LogoLgDark, LogoLgLight);
   const logo = Logo;
   return (
     <Box
@@ -108,16 +79,6 @@ export default function AdminLogin() {
           <Image src={logo} width={150} height={logo.height} alt="brand logo" />
         </Box>
         <form onSubmit={submitHandler}>
-          <FormControl isRequired mb={4}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              name="email"
-              type="email"
-              placeholder="john.doe@email.com"
-              onChange={onChangeHandler}
-              value={formState.email}
-            />
-          </FormControl>
           <FormControl isRequired mb={4}>
             <FormLabel>New Password</FormLabel>
             <InputGroup>
@@ -145,7 +106,7 @@ export default function AdminLogin() {
           </FormControl>
           <Center>
             <Button isLoading={isLoading} type="submit">
-              LOGIN
+              Reset Password
             </Button>
           </Center>
         </form>
