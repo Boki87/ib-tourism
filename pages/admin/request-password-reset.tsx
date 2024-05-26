@@ -37,7 +37,7 @@ export default function RequestPasswordReset() {
       const localPort = process.env.PORT || 3001;
       // TODO: improve this code, right now localUrl is hard coded
       const localUrl = `http://localhost:3001/admin/reset-password`;
-      const productionUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/admin/reset-password`;
+      const productionUrl = `https://ib-tourism.vercel.app/admin/reset-password`;
       const { data, error } = await supabase.auth.resetPasswordForEmail(
         formState.email,
         {
