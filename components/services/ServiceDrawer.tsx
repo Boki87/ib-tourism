@@ -83,7 +83,6 @@ export default function ServiceDrawer({
     let videoId;
 
     const youtubeMatch = url.match(youtubeRegex);
-    console.log("youtube match", youtubeMatch);
     if (youtubeMatch && youtubeMatch[1]) {
       videoId = youtubeMatch[1];
       return `https://www.youtube.com/embed/${videoId}`;
