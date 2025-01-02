@@ -24,24 +24,24 @@ export default function VenueHeader() {
         borderBottomRadius="3xl"
         position="relative"
       >
-        <HStack
-          position="absolute"
-          top="0px"
-          left="0px"
-          w="full"
-          h="50px"
-          px="7px"
-        >
-          <Box
-            as="a"
-            href="https://tapapp-supabase.vercel.app/"
-            rounded="lg"
-            bg="black"
-            p={1}
-          >
-            <LogoButton />
-          </Box>
-        </HStack>
+        {/* <HStack */}
+        {/*   position="absolute" */}
+        {/*   top="0px" */}
+        {/*   left="0px" */}
+        {/*   w="full" */}
+        {/*   h="50px" */}
+        {/*   px="7px" */}
+        {/* > */}
+        {/*   <Box */}
+        {/*     as="a" */}
+        {/*     href="" */}
+        {/*     rounded="lg" */}
+        {/*     bg="black" */}
+        {/*     p={1} */}
+        {/*   > */}
+        {/*     <LogoButton /> */}
+        {/*   </Box> */}
+        {/* </HStack> */}
 
         {venueData?.background_image && (
           <Box
@@ -99,7 +99,7 @@ export default function VenueHeader() {
           )}
         </motion.div>
       </Box>
-      {venueData?.title && venueData?.title !== "" && (
+      {venueData?.show_title && venueData?.title && venueData?.title !== "" && (
         <Center mt="40px" mb={6} p={3}>
           <Text fontSize="3xl" fontWeight="bold" textAlign="center">
             {venueData?.title}
@@ -107,7 +107,11 @@ export default function VenueHeader() {
         </Center>
       )}
       {venueData?.description && venueData?.description !== "" && (
-        <Center mt="0px" mb="20px" textAlign="center">
+        <Center
+          mt={!venueData.show_title ? "20px" : "0px"}
+          mb="20px"
+          textAlign="center"
+        >
           <Text fontSize="xl" p={4} textAlign="center">
             {venueData?.description}
           </Text>

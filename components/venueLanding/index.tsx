@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Box, Center, useColorMode } from "@chakra-ui/react";
+import { Box, Center, Text, useColorMode } from "@chakra-ui/react";
 import { Link } from "../../types/Link";
 import { Venue } from "../../types/Venue";
 import VenueHeader from "./VenueHeader";
@@ -74,6 +74,11 @@ export default function VenueLanding({
           <FrontPageServices venueId={venueData?.id || ""} />
           <VenueContact nfcId={nfcId || ""} />
           <VenueLinks />
+          <Text textAlign="center" pb={4} color="gray.500">
+            <a href="https://ibcompany.eu/" target="_blank">
+              Powered by <strong>IB company</strong>
+            </a>
+          </Text>
           <ReviewModal />
         </VenueLandingContext.Provider>
       </Box>

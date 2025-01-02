@@ -458,7 +458,18 @@ export default function VenuePage({
               </VStack>
             </HStack>
             <FormControl isRequired mb={4}>
-              <FormLabel>Title</FormLabel>
+              <FormLabel display="flex" alignItems="center" gap={2}>
+                Title
+                <Switch
+                  isChecked={venueData.show_title}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    let val = !!e.target.checked;
+                    setVenueData((old) => {
+                      return { ...old, show_title: val };
+                    });
+                  }}
+                />
+              </FormLabel>
               <Input
                 name="title"
                 type="text"

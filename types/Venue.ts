@@ -5,6 +5,7 @@ export type Venue = {
   owner_id?: string;
   website?: string;
   title?: string;
+  show_title?: boolean;
   description?: string;
   logo?: string;
   background_image?: string;
