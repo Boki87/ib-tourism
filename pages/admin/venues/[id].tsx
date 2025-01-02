@@ -457,7 +457,7 @@ export default function VenuePage({
                 {/* </HStack> */}
               </VStack>
             </HStack>
-            <FormControl isRequired mb={4}>
+            <FormControl mb={4}>
               <FormLabel display="flex" alignItems="center" gap={2}>
                 Title
                 <Switch
