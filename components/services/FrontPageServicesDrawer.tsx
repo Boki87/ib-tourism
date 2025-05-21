@@ -93,7 +93,7 @@ export default function FrontPageServicesDrawer({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          <Text textTransform="capitalize" fontWeight="bold" fontSize="2xl">
+          <Text fontWeight="bold" fontSize="2xl">
             {activeServiceCategory?.title}
           </Text>
           <DrawerCloseButton onClick={onClose} />
