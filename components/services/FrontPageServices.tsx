@@ -98,7 +98,7 @@ export default function FrontPageServices({ venueId }: FrontPageServicesProps) {
                   justifyContent="center"
                   h={!IconComponent ? "100%" : "auto"}
                 >
-                  <Text fontSize="sm" textTransform="capitalize" isTruncated>
+                  <Text fontSize="sm" isTruncated>
                     {service.title}
                   </Text>
                 </Box>
